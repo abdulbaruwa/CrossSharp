@@ -4,8 +4,8 @@ open System
 
 
 
-let board  = Array2D.create 15 15 "_"
-
+let emptyCell = "_"
+let board  = Array2D.create 15 15 emptyCell
 let words = [|"Adedayo" ;"Ademola"; "Aluko"; "Bamidele"; "Yetunde"|]
 
 let sortFunction (first:string) (second:string) = 
@@ -47,24 +47,24 @@ let MatchFirstLetterOfWord (word:string) (board:string[,]) =
     let hpos = GetLocationIfExists firstLetter board 15 0
     hpos
 
-let horNeighboursAreEmpty (board:string[,]) pos colpos = 
+let horNeighboursAreNotEmpty (board:string[,]) row colpos = 
     let leftcell = colpos-1
     let rightcell = colpos+1
-    if((board.[pos, leftcell].ToString() = String.Empty)
-                    && (board.[pos, rightcell].ToString() = String.Empty)) then 
+    if((board.[row, leftcell].ToString() = emptyCell)
+                    && (board.[row, rightcell].ToString() = emptyCell)) then 
         false
     else
         true     
 
-let rec MatchSecondToLastLettersVertically (wordchars:char[]) (board:string[,]) (colpos:int) (pos:int) = 
+let rec CanWordBeInsertedVertically(wordchars:char[]) (board:string[,]) (colpos:int) (pos:int) = 
     if(pos = wordchars.Length ) then 
         true
     else
-        if(wordchars.[pos].ToString() = board.[pos, colpos] ||  board.[pos, colpos] = String.Empty) then
-            let hasneighbours = horNeighboursAreEmpty board pos colpos 
+        if(wordchars.[pos].ToString() = board.[pos, colpos] ||  board.[pos, colpos] = emptyCell) then
+            let hasneighbours = horNeighboursAreNotEmpty board pos colpos 
             if(hasneighbours = false) then
                 let newPos = pos+1
-                MatchSecondToLastLettersVertically wordchars board colpos newPos     
+                CanWordBeInsertedVertically wordchars board colpos newPos     
             else
                 false
         else
@@ -105,20 +105,113 @@ let printboard (board:string[,])=
  // Any neighbours vert (up and below) of remaining letters i.e letters right and center of matching letter. 
  //No (if yes exit)
 
-let rec findHorizontalMatch (wordchars:char[]) (board:string[,]) startchar = 
+
+let hasbottomchar (board:string[,]) (row:int) (col:int) = 
+    let newrow = row + 1
+    let rowcount = Array2D.length1 board
+    match row with
+    | row when row = newrow -> false
+    | _ ->  board.[newrow, (col - 1)] <> emptyCell
+
+let hastopchar (board:string[,]) (row:int) (col:int) = 
+        match row with
+        | row when row < 1 -> false
+        | _ -> 
+                let rowabove = row - 1
+                board.[rowabove, (col - 1)] <> emptyCell
+
+type cell = {row:int; col:int ; character:string}
+
+
+let rec findHorizontalMatch (wordchars:char[]) (board:string[,]) startrow startcol letterindex (res:string[]) (result: (bool * cell[])) =
+    if (letterindex < wordchars.Length) then
+       if board.[startrow,startcol] = wordchars.[letterindex].ToString() then
+            //Match or emptry cell
+            //Does letter have any vertical neighbours ?
+            let noInvalidcharAbove = hastopchar board startrow startcol
+            let noInvalidcharBelow = hasbottomchar board startrow startcol
+            let noHorCharBeforeOrAfter = horNeighboursAreNotEmpty board startrow startcol
+            if(noInvalidcharAbove = false && noInvalidcharBelow = false && noHorCharBeforeOrAfter = false) then
+
+                let isfound = fst result 
+                let cells = snd result
+                let currentcell = {cell.row = startrow; cell.col = startcol; character = wordchars.[letterindex].ToString()}
+                cells.[letterindex] <- currentcell
+
+                let nextletter = letterindex + 1
+                let nextcol = startcol + 1
+                res.[letterindex] <- wordchars.[letterindex].ToString()
+                findHorizontalMatch wordchars board startrow (startcol + 1) (letterindex + 1) res (true, cells)
+            else
+                result
+        elif board.[startrow,startcol] = "_" then
+           findHorizontalMatch wordchars board startrow (startcol + 1) (letterindex + 1) res result
+        else
+            result
+    else
+        result
+
+let resultIsValid = Array.exists(fun x -> String.IsNullOrEmpty(x) = false) 
+
+let addword (wordchars:char[]) (board:string[,]) (position:(int * int)) = 
+    let col = snd position
+    let row = fst position
+    let cnt = wordchars.Length
+
+    for index in 0..wordchars.Length - 1 do
+        board.[row,col + index] <- wordchars.[index].ToString()
+let getStartPosFromRecordResult (result:cell[]) =
+   let matchingCharLocation = Array.findIndex(fun elem -> 
+                                                            match elem with
+                                                            |elem when elem.col = -1 -> false
+                                                            | _ -> true ) result
+
+   let col = result.[matchingCharLocation ].col - matchingCharLocation 
+   let row = result.[matchingCharLocation].row
+   (row , col)
+
+let rec loopboardrows (board:string[,]) (wordchars:char[]) row col  (result: (bool * cell[])) = 
+    let wordlen = wordchars.Length
+    let wordresPlaceholder = Array.zeroCreate(wordlen)
+    if((col + wordlen) < 15) then
+        let wordfound = findHorizontalMatch wordchars board row col 0 wordresPlaceholder result
+        if fst wordfound then
+            //Add the word to the board
+            let cells = snd result
+            getStartPosFromRecordResult cells |> addword wordchars board 
+        else
+            let newcol = col + 1
+            loopboardrows board wordchars row newcol result
+    else
+        //next row
+        let newrow = row + 1
+        if newrow < 15 then
+            loopboardrows board wordchars newrow 0 result
         
- 
+    
 AddFirstWord "Bamidele" board        
 
+//Attempt to add second word. (Basic static logic for adding the second word)
+let secondwordchars = "india".ToCharArray()
 let posOfFirst = MatchFirstLetterOfWord "india" board
-let wordchars = "india".ToCharArray()
-let wordInsertedVertically = MatchSecondToLastLettersVertically wordchars board posOfFirst 1
-AddWordVertically wordchars board posOfFirst 0          
+
+let AddSecondWord (board:string[,]) (wordChars:char[]) =  
+    if(CanWordBeInsertedVertically wordChars board posOfFirst 1) then
+        AddWordVertically wordChars board posOfFirst 0          
+        true
+    else
+        false
+let addedSecondword = AddSecondWord board secondwordchars
+let horizWordchars = "ade".ToCharArray()
+//let canAddHor = findHorizontalMatch horizWordchars board 3 2 0
+let resultTuple : (bool * cell[]) = 
+    let emptycell = {row = -1; col = -1; character = String.Empty}
+    let cells = Array.create(horizWordchars.Length) emptycell
+    (false, cells)
+
+
+let wordadded = loopboardrows board horizWordchars 0 0 resultTuple
 
 printboard board
 
 Console.ReadKey()
-
-
-
- 
