@@ -13,4 +13,7 @@
 bin/
 obj/
 _ReSharper.CrossSharp
+CrossSharp.1.2.dotCover
+CrossSharp/CrossSharp.1.2.dotCover
+CrossSharp/CrossSharp.suo
 CrossSharp.sln.DotSettings.user

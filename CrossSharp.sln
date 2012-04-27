@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "CrossSharp", "CrossSharp\CrossSharp.fsproj", "{B39FB699-02D8-47D7-8387-D6661BCB0353}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "CrossSharpConsole", "CrossSharp\CrossSharpConsole.fsproj", "{B803E3A6-83FF-4BC9-B657-F033D1A9EAC0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,10 +9,10 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B39FB699-02D8-47D7-8387-D6661BCB0353}.Debug|x86.ActiveCfg = Debug|x86
-		{B39FB699-02D8-47D7-8387-D6661BCB0353}.Debug|x86.Build.0 = Debug|x86
-		{B39FB699-02D8-47D7-8387-D6661BCB0353}.Release|x86.ActiveCfg = Release|x86
-		{B39FB699-02D8-47D7-8387-D6661BCB0353}.Release|x86.Build.0 = Release|x86
+		{B803E3A6-83FF-4BC9-B657-F033D1A9EAC0}.Debug|x86.ActiveCfg = Debug|x86
+		{B803E3A6-83FF-4BC9-B657-F033D1A9EAC0}.Debug|x86.Build.0 = Debug|x86
+		{B803E3A6-83FF-4BC9-B657-F033D1A9EAC0}.Release|x86.ActiveCfg = Release|x86
+		{B803E3A6-83FF-4BC9-B657-F033D1A9EAC0}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
