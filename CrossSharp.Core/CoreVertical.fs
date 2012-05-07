@@ -23,7 +23,9 @@ module CoreVertical =
     let verNeighboursAreNotEmpty (board:string[,]) rowpos col = 
         let topcell = rowpos-1
         let bottomcell = rowpos+1
-        if((board.[topcell, col].ToString() = emptyCell)
+        if (topcell < 0 || (bottomcell >= Array2D.length2 board)) then
+            false
+        elif((board.[topcell, col].ToString() = emptyCell)
                         && (board.[bottomcell, col].ToString() = emptyCell)) then 
             false
         else
@@ -125,25 +127,38 @@ module CoreVertical =
 
     let AddWordHorizontal (word:string) (board:string[,]) = 
         let wordchars = word.ToCharArray()
-        let vertresult = boardloop board 0 0 wordchars
+        let vertresult = boardloophoriz board 0 0 wordchars
         let cell = snd vertresult
         {resultCell.row = (fst cell); resultCell.col = snd cell; word = word; inserted = fst vertresult; orientation = Orientation.vertical}
 
     //Given remaining words (3rd onwards) loop through mapping a function to add to board and
     //return an array of (word, cell, orientation). If word is not added to board the start cell value should be set to (-1,-1)
-//    let rec AddThirdAndOtherwords (words:string[]) (board:string[,]) = 
-       //Attempt vertically
-       
-//
-//    let AddWords (words:string[]) (board:string[,]) =
-//        let sortedWords = SortWords words
-//        AddFirstWord words.[0]  board
-//        let wordsafterfirst = words.[1..]
-//        //Add second word, loop from second in list of words
-//        let secondwordindex = AttempToAddSecondWord board wordsafterfirst 0 
-//        if secondwordindex > -1 then
-//            let arrayaftersecond = wordsafterfirst.[secondwordindex..(secondindex + 1)]
 
+    let addWordVerticallyOrHorizontally (word:string) (board:string[,]) = 
+       let vertres = AddWordVertically word board
+       if vertres.inserted then
+            vertres
+       else
+            AddWordHorizontal word board     
+
+    let AddWords (words:string[]) (board:string[,]) =
+        let sortedWords = SortWords words
+        let board2 = AddFirstWord words.[0]  board
+        let wordsafterfirst = words.[1..]
+        //Add second word, loop from second in list of words
+        let secondwordindex = AttempToAddSecondWord board wordsafterfirst 0 
+        if secondwordindex > -1 then
+            let thirdwordonwards = [ for index in 0..(wordsafterfirst.Length - 1) do //builds sequence, filtering out the second word added on to the board.
+                                                if(index <> secondwordindex) then
+                                                    yield wordsafterfirst.[index]]
+            //for the remaining words, attempt to add them to board vertically or horizontally.
+            //Map a function to the sequence creating a new sequence of results (result is a record resultCell type). 
+            
+            let thirdwordonwardsreslt = thirdwordonwards |> List.map (fun seqword ->
+                                                                                    addWordVerticallyOrHorizontally seqword board2)
+            board2
+        else
+            board2
             //loop and add remaining words
             
 

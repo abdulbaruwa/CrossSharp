@@ -163,9 +163,16 @@ namespace CrossSharp.Tests
             words.Add("Bamidele");
             words.Add("station");
             words.Add("india");
-            words.Add("Adams");
+            words.Add("adams");
+            words.Add("fards");
+            words.Add("novemb");
+            words.Add("belt");
+            words.Add("train");
+            words.Add("adeola");
+
+            var board = CoreHorizontal.GetBoard(15,15);
             //var sortedwords = CoreHorizontal.sortWords(words.ToArray());
-            //CoreHorizontal.AddWords(words);
+            PrintBoard (CoreVertical.AddWords(words.ToArray(), board));
 
 
         }
