@@ -163,7 +163,7 @@ namespace CrossSharp.Tests
             words.Add("Bamidele");
             words.Add("station");
             words.Add("india");
-            words.Add("adams");
+            words.Add("Adams");
             words.Add("fards");
             words.Add("novemb");
             words.Add("belt");

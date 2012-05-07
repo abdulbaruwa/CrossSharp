@@ -119,7 +119,7 @@ module CoreHorizontal =
         let newrow = row + 1
         let rowcount = Array2D.length1 board
         match row with
-        | row when row = newrow -> false
+        | row when row = newrow || row = 0 -> false
         | _ ->  board.[newrow, (col- 1)] <> emptyCell
 
     //Given a board cell, check if cell vertically up is empty

@@ -33,7 +33,7 @@ module CoreVertical =
 
     let rec findVerticalMatch ( wordchars:char[]) (board:string[,]) startrow startcol letterindex (result: (bool * matchingCell[])) =
         if (letterindex < wordchars.Length &&  (startrow + wordchars.Length) < board.GetLength(1)) then 
-            if board.[startrow,startcol] = wordchars.[letterindex].ToString() then
+            if board.[startrow,startcol].Equals (wordchars.[letterindex].ToString(), StringComparison.OrdinalIgnoreCase) then
                 let noInvalidcharAbove = hastopchar board startrow startcol
                 let noInvalidcharBelow = hasbottomchar board startrow startcol
                 let noVerCharBeforeOrAfter = verNeighboursAreNotEmpty board startrow startcol
@@ -49,11 +49,26 @@ module CoreVertical =
                 result
         else
             result
-    let cellHasHorizontalNeighbours (board:string[,]) (acell:matchingCell) = 
-            let hasAbove = board.[(acell.row), (acell.col - 1)] = emptyCell
-            let hasBelow = board.[(acell.row), (acell.col + 1)] = emptyCell
-            hasAbove && hasBelow
 
+    let cellHasHorizontalNeighbours (board:string[,]) (acell:matchingCell) = 
+        match acell with
+        | x when x.col = 0 -> false
+        | x when x.col >= (Array2D.length2 board) -> false
+        | x -> (board.[(x.row), (x.col - 1)] = emptyCell) && (board.[(x.row), (x.col + 1)] = emptyCell)
+
+//        let hasAbove = 
+//                        if acell.col = 0 then 
+//                            false
+//                        else
+//                            board.[(acell.row), (acell.col - 1)] = emptyCell
+//        let hasBelow = match 
+//
+//                        if acell.col >= (Array2D.length2 board) then
+//                            false
+//                        else
+//                            board.[(acell.row), (acell.col + 1)] = emptyCell
+//        hasAbove && hasBelow
+//
 
     let rec NoVerticaCellsHaveHorizonalNeighbours (board:string[,]) (cells:matchingCell[]) index =
         if(cells.Length = (index + 1)) then
