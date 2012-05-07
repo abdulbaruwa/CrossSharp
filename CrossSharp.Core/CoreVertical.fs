@@ -30,7 +30,7 @@ module CoreVertical =
             true     
 
     let rec findVerticalMatch ( wordchars:char[]) (board:string[,]) startrow startcol letterindex (result: (bool * matchingCell[])) =
-        if (letterindex < wordchars.Length && startrow < 15 && startcol < 15) then
+        if (letterindex < wordchars.Length &&  (startrow + wordchars.Length) < board.GetLength(1)) then 
             if board.[startrow,startcol] = wordchars.[letterindex].ToString() then
                 let noInvalidcharAbove = hastopchar board startrow startcol
                 let noInvalidcharBelow = hasbottomchar board startrow startcol
@@ -91,30 +91,63 @@ module CoreVertical =
             else
                 false
 
-    let nextCell cell = 
-        match cell with
-        |(14, 14) -> (-1,-1)
-        |(row, col) & (_,14) -> ((row + 1), 0)
-        |(row, col) & (_,_) -> (row, (col + 1))
-
     let  rec boardloop (board:string[,]) row col (wordchars:char[]) = 
         let next = nextCell (row,col)
         let newrow = fst next
         let newcol = snd next
         if (newrow = -1) then
-            false
+            (false, (-1,-1))
         else
             let wordfound = resultTuple wordchars.Length |> findVerticalMatch wordchars board row col 0 
             if validForVertical wordfound wordchars board then 
                 //Add the word to the board
                 let cells = snd wordfound
-                getStartPosFromRecordResult cells Orientation.vertical |> addword wordchars board Orientation.vertical
-                true
+                let startPos = getStartPosFromRecordResult cells Orientation.vertical 
+                startPos|> addword wordchars board Orientation.vertical
+                (true, startPos)
             else
                 boardloop board newrow newcol wordchars
 
 
-
+    let rec AttempToAddSecondWord board (words:string[]) index = 
+        if index >= words.Length then
+            -1
+        elif AddSecondWord words.[index] board then
+            index
+        else
+            AttempToAddSecondWord board words (index + 1)
+    
     let AddWordVertically (word:string) (board:string[,]) = 
         let wordchars = word.ToCharArray()
-        boardloop board 0 0 wordchars
+        let vertresult = boardloop board 0 0 wordchars
+        let cell = snd vertresult
+        {resultCell.row = (fst cell); resultCell.col = snd cell; word = word; inserted = fst vertresult; orientation = Orientation.vertical}
+
+    let AddWordHorizontal (word:string) (board:string[,]) = 
+        let wordchars = word.ToCharArray()
+        let vertresult = boardloop board 0 0 wordchars
+        let cell = snd vertresult
+        {resultCell.row = (fst cell); resultCell.col = snd cell; word = word; inserted = fst vertresult; orientation = Orientation.vertical}
+
+    //Given remaining words (3rd onwards) loop through mapping a function to add to board and
+    //return an array of (word, cell, orientation). If word is not added to board the start cell value should be set to (-1,-1)
+//    let rec AddThirdAndOtherwords (words:string[]) (board:string[,]) = 
+       //Attempt vertically
+       
+//
+//    let AddWords (words:string[]) (board:string[,]) =
+//        let sortedWords = SortWords words
+//        AddFirstWord words.[0]  board
+//        let wordsafterfirst = words.[1..]
+//        //Add second word, loop from second in list of words
+//        let secondwordindex = AttempToAddSecondWord board wordsafterfirst 0 
+//        if secondwordindex > -1 then
+//            let arrayaftersecond = wordsafterfirst.[secondwordindex..(secondindex + 1)]
+
+            //loop and add remaining words
+            
+
+
+
+
+

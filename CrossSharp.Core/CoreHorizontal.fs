@@ -8,6 +8,17 @@ module CoreHorizontal =
 
     let emptyCell = "_"
 
+    type Orientation =
+        | vertical = 0
+        | horizontal = 1
+
+
+    //Cell record type
+    type matchingCell = {row:int; col:int; letterindex:int}
+    type resultCell = {row:int; col:int; word:string; inserted:bool; orientation:Orientation}
+
+    
+
     let  GetBoard  rows cols = Array2D.create rows cols emptyCell
 
     let sortFunction (first:string) (second:string) = 
@@ -19,7 +30,13 @@ module CoreHorizontal =
             String.Compare(first, second)
 
 
-    let sortWords words = Array.sortWith sortFunction words
+    let nextCell cell = 
+        match cell with
+        |(14, 14) -> (-1,-1)
+        |(row, col) & (_,14) -> ((row + 1), 0)
+        |(row, col) & (_,_) -> (row, (col + 1))
+
+    let SortWords words = Array.sortWith sortFunction words
 
 
     //Add the first word is added at the top left side of the board
@@ -77,7 +94,8 @@ module CoreHorizontal =
             let row = prevrow + i
             board.[row, col] <- wordChars.[i].ToString()
 
-    let AddSecondWord  (wordchars:char[]) (board:string[,]) =  
+    let AddSecondWord  (word:string) (board:string[,]) =  
+        let wordchars = word.ToCharArray()
         let positionOfFirst =  MatchFirstLetterOfWord wordchars board
 
         if(CanWordBeInsertedVertically wordchars board positionOfFirst 1) then
@@ -89,8 +107,6 @@ module CoreHorizontal =
 
     //Vertical Words
 
-    //Cell record type
-    type matchingCell = {row:int; col:int; letterindex:int}
 
     //Tuple of bool and cell Array passed into functions to record matching positions for new words. 
     let resultTuple length : (bool * matchingCell[]) = 
@@ -116,8 +132,8 @@ module CoreHorizontal =
 
     //Walk the board horizontally and return result in last param (matchingCell tuple). 
     //Validation is done only on matching chars, so a positive result may yet not be valid. 
-    let rec findHorizontalMatch (wordchars:char[]) (board:string[,]) startrow startcol letterindex (res:string[]) (result: (bool * matchingCell[])) =
-        if (letterindex < wordchars.Length) then
+    let rec findHorizontalMatch (wordchars:char[]) (board:string[,]) startrow startcol letterindex  (result: (bool * matchingCell[])) =
+        if (letterindex < wordchars.Length && (startcol + wordchars.Length) < board.GetLength(1)) then
            if board.[startrow,startcol] = wordchars.[letterindex].ToString() then
                 //Match or emptry cell
                 //Does letter have any vertical neighbours ?
@@ -133,16 +149,16 @@ module CoreHorizontal =
 
                     let nextletter = letterindex + 1
                     let nextcol = startcol + 1
-                    res.[letterindex] <- wordchars.[letterindex].ToString()
-                    findHorizontalMatch wordchars board startrow (startcol + 1) (letterindex + 1) res (true, cells)
+                    findHorizontalMatch wordchars board startrow (startcol + 1) (letterindex + 1) (true, cells)
                 else
                     result
             elif board.[startrow,startcol] = "_" then
-               findHorizontalMatch wordchars board startrow (startcol + 1) (letterindex + 1) res result
+               findHorizontalMatch wordchars board startrow (startcol + 1) (letterindex + 1) result
             else
                 result
         else
             result
+
 
     let cellHasVertNeighbours (board:string[,]) (acell:matchingCell) = 
             let hasAbove = board.[(acell.row - 1), (acell.col)] = emptyCell
@@ -184,10 +200,6 @@ module CoreHorizontal =
             HasNoHorizontalCellsHaveVertNeighbours board unmatchedCharsCells 0
 
 
-    type Orientation =
-        | vertical = 0
-        | horizontal = 1
-
     let getStartPosFromRecordResult (cells:matchingCell[]) direction =
         let firstcell = cells |> Array.find(fun x -> x.letterindex >= 0 )              
         if(direction = Orientation.horizontal) then
@@ -204,34 +216,50 @@ module CoreHorizontal =
             | Orientation.horizontal ->  board.[row,col + index] <- wordchars.[index].ToString()
             | _ -> board.[row + index, col ] <- wordchars.[index].ToString()
 
-    //Given a board with the first two base entries (Horizontal and vertical), loop to find next horizontal match for given word.
-    //Add for valid position on board is found.
-    let rec loopboardrows (board:string[,]) (wordchars:char[]) row col  (result: (bool * matchingCell[])) = 
-        let wordlen = wordchars.Length
-        let wordresPlaceholder = Array.zeroCreate(wordlen)
-        if((col + wordlen) < 15) then
-            let wordfound = findHorizontalMatch wordchars board row col 0 wordresPlaceholder result
-            if validForHorizontal wordfound wordchars board then
-                //Note: Better to do validation here and continue loop otherwise.
-                //Add the word to the board
-                let cells = snd result
-                getStartPosFromRecordResult cells Orientation.horizontal |> addword wordchars board Orientation.horizontal
-                true
-            else
-                let newcol = col + 1
-                loopboardrows board wordchars row newcol result
+//    //Given a board with the first two base entries (Horizontal and vertical), loop to find next horizontal match for given word.
+//    //Add for valid position on board is found.
+//    let rec loopboardrows (board:string[,]) (wordchars:char[]) row col  (result: (bool * matchingCell[])) = 
+//        let wordlen = wordchars.Length
+//        if((col + wordlen) < 15) then
+//            let wordfound = findHorizontalMatch wordchars board row col 0  result
+//            if validForHorizontal wordfound wordchars board then
+//                //Add the word to the board
+//                let cells = snd result
+//                let firstcellformatchingword = getStartPosFromRecordResult cells Orientation.horizontal 
+//                firstcellformatchingword |> addword wordchars board Orientation.horizontal
+//                (true,firstcellformatchingword)
+//            else
+//                let newcol = col + 1
+//                loopboardrows board wordchars row newcol result
+//        else
+//            //next row
+//            let newrow = row + 1
+//            if newrow < 15 then
+//                loopboardrows board wordchars newrow 0 result
+//            else
+//                (false,firstcellformatchingword)
+
+    let  rec boardloophoriz (board:string[,]) row col (wordchars:char[]) = 
+        let next = nextCell (row,col)
+        let newrow = fst next
+        let newcol = snd next
+        if (newrow = -1) then
+            (false, (-1,-1))
         else
-            //next row
-            let newrow = row + 1
-            if newrow < 15 then
-                loopboardrows board wordchars newrow 0 result
+            let wordfound = resultTuple wordchars.Length |> findHorizontalMatch wordchars board row col 0 
+            if validForHorizontal wordfound wordchars board then 
+                //Add the word to the board
+                let cells = snd wordfound
+                let startPos = getStartPosFromRecordResult cells Orientation.horizontal 
+                startPos|> addword wordchars board Orientation.horizontal
+                (true, startPos)
             else
-                false
+                boardloophoriz board newrow newcol wordchars
 
 
     let AddWordHorizontally (word:string) (board:string[,]) = 
         let wordchars = word.ToCharArray()
-        resultTuple wordchars.Length |> loopboardrows board wordchars 0 0
+        boardloophoriz board 0 0 wordchars
 
     let rec buildrowstring rowindex colindex (board:string[,]) str =
         let rlen = Array2D.length1 board

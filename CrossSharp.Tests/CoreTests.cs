@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using MS.Internal.Xml.XPath;
 using NUnit.Framework;
 using CrossSharp.Core;
 namespace CrossSharp.Tests
@@ -30,7 +32,7 @@ namespace CrossSharp.Tests
         private string[,] GetBoardWithFirstAndSecondWords(string wordOne, string wordTwo)
         {
             var board = GetBoardWithFirstWord(wordOne);
-            CoreHorizontal.AddSecondWord(wordTwo.ToCharArray(), board);
+            CoreHorizontal.AddSecondWord(wordTwo, board);
             return board;
         }
 
@@ -75,7 +77,7 @@ namespace CrossSharp.Tests
         public void Given_board_with_first_word_and_second_word_with_matching_first_letter_Should_add_word_to_board()
         {
             var board = GetBoardWithFirstWord("Bamidele");
-            var secondWordChars = "india".ToCharArray();
+            var secondWordChars = "india";
             var result = CoreHorizontal.AddSecondWord(secondWordChars, board);
             PrintBoard(board);
             Assert.AreEqual(true, result);
@@ -89,7 +91,7 @@ namespace CrossSharp.Tests
         public void Given_board_with_first_word_and_second_word_with_non_matching_first_letter_Should_fail_not_add_word_to_board()
         {
             var board = GetBoardWithFirstWord("Bamidele");
-            var secondWordChars = "nonexisting".ToCharArray();
+            var secondWordChars = "nonexisting";
             var result = CoreHorizontal.AddSecondWord(secondWordChars, board);
             Assert.AreEqual(false, result);
         }
@@ -121,11 +123,11 @@ namespace CrossSharp.Tests
             CoreHorizontal.AddWordHorizontally("adamsandler", board);
             board[6, 7] = "x";
             board[9, 5] = "x";
-
+            PrintBoard(board);
             var vertword = "station";
                       
             var result = CoreVertical.AddWordVertically(vertword, board);
-            Assert.IsFalse(result);
+            Assert.IsFalse(result.inserted);
             //Check from second char - first char exists via another word
             for (int i = 1; i < vertword.Length - 1; i++)
             {
@@ -145,7 +147,7 @@ namespace CrossSharp.Tests
             var vertword = "station";
 
             var result = CoreVertical.AddWordVertically(vertword, board);
-            Assert.IsFalse(result);
+            Assert.IsFalse(result.inserted);
             //Check from second char - first char exists via another word
             for (int i = 1; i < vertword.Length - 1; i++)
             {
@@ -154,6 +156,19 @@ namespace CrossSharp.Tests
             PrintBoard(board);
         }
 
+        [Test]
+        public void Given_a_set_words_should_iterate_and_apply_valid_words_start_from_the_largest()
+        {
+            var words = new List<string>();
+            words.Add("Bamidele");
+            words.Add("station");
+            words.Add("india");
+            words.Add("Adams");
+            //var sortedwords = CoreHorizontal.sortWords(words.ToArray());
+            //CoreHorizontal.AddWords(words);
+
+
+        }
 
         private static void PrintBoard(string[,] board)
         {
