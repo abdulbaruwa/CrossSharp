@@ -100,9 +100,9 @@ module CoreHorizontal =
 
         if(CanWordBeInsertedVertically wordchars board positionOfFirst 1) then
             AddWordVertically  wordchars board positionOfFirst 0          
-            true
+            (true, positionOfFirst)
         else
-            false
+            (false, -1)
 
 
     //Vertical Words

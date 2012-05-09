@@ -127,12 +127,16 @@ module CoreVertical =
 
 
     let rec AttempToAddSecondWord board (words:string[]) index = 
-        if index >= words.Length then
-            -1
-        elif AddSecondWord words.[index] board then
-            index
+        if index >= words.Length then 
+            (-1,-1)
         else
-            AttempToAddSecondWord board words (index + 1)
+            let resultofsecond = AddSecondWord words.[index] board
+            if fst resultofsecond then
+                let colforsecondword = snd resultofsecond
+                //result tuple = (col on board where word will be inserted vertically * index for word in word list)
+                (colforsecondword, index)         
+            else
+                AttempToAddSecondWord board words (index + 1)
     
     let AddWordVertically (word:string) (board:string[,]) = 
         let wordchars = word.ToCharArray()
@@ -159,23 +163,50 @@ module CoreVertical =
     let AddWords (words:string[]) (board:string[,]) =
         let sortedWords = SortWords words
         let board2 = AddFirstWord words.[0]  board
+        let firstwordresult = {resultCell.row = 0; resultCell.col = 0; word = words.[0]; inserted = true; orientation = Orientation.horizontal}
+
         let wordsafterfirst = words.[1..]
         //Add second word, loop from second in list of words
         let secondwordindex = AttempToAddSecondWord board wordsafterfirst 0 
-        if secondwordindex > -1 then
-            let thirdwordonwards = [ for index in 0..(wordsafterfirst.Length - 1) do //builds sequence, filtering out the second word added on to the board.
-                                                if(index <> secondwordindex) then
-                                                    yield wordsafterfirst.[index]]
+
+        let secondwordresult = if fst secondwordindex > -1 then
+                                    {resultCell.row = 0; resultCell.col = fst secondwordindex; word = wordsafterfirst.[snd secondwordindex] ; inserted = true; orientation = Orientation.vertical}
+                               else
+                                    {resultCell.row = 0; resultCell.col = 0; word = String.Empty; inserted = false; orientation = Orientation.vertical}
+
+        let resultsforfirst2items = [|firstwordresult ; secondwordresult |]
+
+        if fst secondwordindex > -1 then
+            let thirdwordonwards = [| for index in 0..(wordsafterfirst.Length - 1) do //builds sequence, filtering out the second word added on to the board.
+                                                if(not (wordsafterfirst.[index] = words.[snd secondwordindex])) then
+                                                    yield wordsafterfirst.[index]|]
             //for the remaining words, attempt to add them to board vertically or horizontally.
             //Map a function to the sequence creating a new sequence of results (result is a record resultCell type). 
-            
-            let thirdwordonwardsreslt = thirdwordonwards |> List.map (fun seqword ->
+            let thirdwordonwardsreslt = thirdwordonwards |> Array.map (fun seqword ->
                                                                                     addWordVerticallyOrHorizontally seqword board2)
-            board2
+                                                                                                    
+            (board2, (Array.append resultsforfirst2items thirdwordonwardsreslt))
         else
-            board2
-            //loop and add remaining words
-            
+            (board2, resultsforfirst2items)
+
+    let AddWordsAttempts (words:string[]) (board:string[,]) (attempts:int) = 
+        let firstAttempt = AddWords words board
+        //let firstresultArray = snd firstAttempt
+        let getUnenteredWords (resultsArray:resultCell[]) = [|for i in 0..(resultsArray.Length-1) do 
+                                                                    if resultsArray.[i].inserted = false then yield resultsArray.[i].word |]
+        
+        let secondAttempt = AddWords (getUnenteredWords (snd firstAttempt)) (fst firstAttempt)
+        let thirdAttempt = AddWords (getUnenteredWords (snd secondAttempt)) (fst secondAttempt)
+        let filterInserted input =  
+            input |> Array.filter(fun x ->  x.inserted = true)
+
+        let result1 = filterInserted (snd firstAttempt)
+        let result2 = filterInserted (snd secondAttempt)  
+        let result3 = filterInserted (snd thirdAttempt)
+        let finalResult =  Array.append result1 result2
+        finalResult
+
+
 
 
 

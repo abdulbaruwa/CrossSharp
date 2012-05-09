@@ -170,10 +170,11 @@ namespace CrossSharp.Tests
             words.Add("train");
             words.Add("adeola");
 
+
             var board = CoreHorizontal.GetBoard(15,15);
             //var sortedwords = CoreHorizontal.sortWords(words.ToArray());
-            PrintBoard (CoreVertical.AddWords(words.ToArray(), board));
-
+            var result = (CoreVertical.AddWords(words.ToArray(), board));
+            PrintBoard(result.Item1);
 
         }
 
