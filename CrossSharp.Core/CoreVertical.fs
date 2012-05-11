@@ -46,29 +46,17 @@ module CoreVertical =
             elif board.[startrow,startcol] = emptyCell then
                 findVerticalMatch wordchars board (startrow + 1) startcol (letterindex + 1) result
             else
-                result
+                (false, snd result)
         else
             result
 
+                
     let cellHasHorizontalNeighbours (board:string[,]) (acell:matchingCell) = 
         match acell with
         | x when x.col = 0 -> false
         | x when x.col >= (Array2D.length2 board) -> false
         | x -> (board.[(x.row), (x.col - 1)] = emptyCell) && (board.[(x.row), (x.col + 1)] = emptyCell)
 
-//        let hasAbove = 
-//                        if acell.col = 0 then 
-//                            false
-//                        else
-//                            board.[(acell.row), (acell.col - 1)] = emptyCell
-//        let hasBelow = match 
-//
-//                        if acell.col >= (Array2D.length2 board) then
-//                            false
-//                        else
-//                            board.[(acell.row), (acell.col + 1)] = emptyCell
-//        hasAbove && hasBelow
-//
 
     let rec NoVerticaCellsHaveHorizonalNeighbours (board:string[,]) (cells:matchingCell[]) index =
         if(cells.Length = (index + 1)) then
@@ -144,11 +132,7 @@ module CoreVertical =
         let cell = snd vertresult
         {resultCell.row = (fst cell); resultCell.col = snd cell; word = word; inserted = fst vertresult; orientation = Orientation.vertical}
 
-    let AddWordHorizontal (word:string) (board:string[,]) = 
-        let wordchars = word.ToCharArray()
-        let vertresult = boardloophoriz board 0 0 wordchars
-        let cell = snd vertresult
-        {resultCell.row = (fst cell); resultCell.col = snd cell; word = word; inserted = fst vertresult; orientation = Orientation.vertical}
+
 
     //Given remaining words (3rd onwards) loop through mapping a function to add to board and
     //return an array of (word, cell, orientation). If word is not added to board the start cell value should be set to (-1,-1)
@@ -158,7 +142,11 @@ module CoreVertical =
        if vertres.inserted then
             vertres
        else
-            AddWordHorizontal word board     
+            AddWordHorizontally word board     
+
+    let AddRemainingWords (words:string[]) (board:string[,]) = 
+            let thirdwordonwardsreslt = words |> Array.map (fun seqword -> addWordVerticallyOrHorizontally seqword board)
+            (board, thirdwordonwardsreslt)
 
     let AddWords (words:string[]) (board:string[,]) =
         let sortedWords = SortWords words
@@ -176,27 +164,27 @@ module CoreVertical =
 
         let resultsforfirst2items = [|firstwordresult ; secondwordresult |]
 
+
         if fst secondwordindex > -1 then
             let thirdwordonwards = [| for index in 0..(wordsafterfirst.Length - 1) do //builds sequence, filtering out the second word added on to the board.
-                                                if(not (wordsafterfirst.[index] = words.[snd secondwordindex])) then
+                                                if(not (wordsafterfirst.[index] = wordsafterfirst.[snd secondwordindex])) then
                                                     yield wordsafterfirst.[index]|]
             //for the remaining words, attempt to add them to board vertically or horizontally.
             //Map a function to the sequence creating a new sequence of results (result is a record resultCell type). 
-            let thirdwordonwardsreslt = thirdwordonwards |> Array.map (fun seqword ->
-                                                                                    addWordVerticallyOrHorizontally seqword board2)
+            let thirdwordonwardsreslt = AddRemainingWords thirdwordonwards board2
                                                                                                     
-            (board2, (Array.append resultsforfirst2items thirdwordonwardsreslt))
+            (board2, (Array.append resultsforfirst2items (snd thirdwordonwardsreslt)))
         else
             (board2, resultsforfirst2items)
 
-    let AddWordsAttempts (words:string[]) (board:string[,]) (attempts:int) = 
+    let AddWordsAttempts (words:string[]) (board:string[,]) = 
         let firstAttempt = AddWords words board
         //let firstresultArray = snd firstAttempt
         let getUnenteredWords (resultsArray:resultCell[]) = [|for i in 0..(resultsArray.Length-1) do 
                                                                     if resultsArray.[i].inserted = false then yield resultsArray.[i].word |]
         
-        let secondAttempt = AddWords (getUnenteredWords (snd firstAttempt)) (fst firstAttempt)
-        let thirdAttempt = AddWords (getUnenteredWords (snd secondAttempt)) (fst secondAttempt)
+        let secondAttempt = AddRemainingWords (getUnenteredWords (snd firstAttempt)) (fst firstAttempt)
+        let thirdAttempt = AddRemainingWords (getUnenteredWords (snd secondAttempt)) (fst secondAttempt)
         let filterInserted input =  
             input |> Array.filter(fun x ->  x.inserted = true)
 
@@ -204,7 +192,7 @@ module CoreVertical =
         let result2 = filterInserted (snd secondAttempt)  
         let result3 = filterInserted (snd thirdAttempt)
         let finalResult =  Array.append result1 result2
-        finalResult
+        (finalResult, fst thirdAttempt)
 
 
 

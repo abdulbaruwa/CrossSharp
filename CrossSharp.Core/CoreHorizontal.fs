@@ -89,7 +89,7 @@ module CoreHorizontal =
             else
                 false
 
-    let rec AddWordVertically (wordChars:char[]) (board:string[,]) col prevrow = 
+    let rec InsertWordVertically (wordChars:char[]) (board:string[,]) col prevrow = 
         for i in 1 .. wordChars.Length-1 do
             let row = prevrow + i
             board.[row, col] <- wordChars.[i].ToString()
@@ -99,7 +99,7 @@ module CoreHorizontal =
         let positionOfFirst =  MatchFirstLetterOfWord wordchars board
 
         if(CanWordBeInsertedVertically wordchars board positionOfFirst 1) then
-            AddWordVertically  wordchars board positionOfFirst 0          
+            InsertWordVertically  wordchars board positionOfFirst 0          
             (true, positionOfFirst)
         else
             (false, -1)
@@ -155,7 +155,7 @@ module CoreHorizontal =
             elif board.[startrow,startcol] = "_" then
                findHorizontalMatch wordchars board startrow (startcol + 1) (letterindex + 1) result
             else
-                result
+                (false, snd result)
         else
             result
 
@@ -230,7 +230,7 @@ module CoreHorizontal =
 //                (true,firstcellformatchingword)
 //            else
 //                let newcol = col + 1
-//                loopboardrows board wordchars row newcol result
+//                loopboardrows board wordchars row newcol result//
 //        else
 //            //next row
 //            let newrow = row + 1
@@ -259,7 +259,9 @@ module CoreHorizontal =
 
     let AddWordHorizontally (word:string) (board:string[,]) = 
         let wordchars = word.ToCharArray()
-        boardloophoriz board 0 0 wordchars
+        let vertresult = boardloophoriz board 0 0 wordchars
+        let cell = snd vertresult
+        {resultCell.row = (fst cell); resultCell.col = snd cell; word = word; inserted = fst vertresult; orientation = Orientation.vertical}
 
     let rec buildrowstring rowindex colindex (board:string[,]) str =
         let rlen = Array2D.length1 board

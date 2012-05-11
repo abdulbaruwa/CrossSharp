@@ -156,8 +156,74 @@ namespace CrossSharp.Tests
             PrintBoard(board);
         }
 
+
         [Test]
-        public void Given_a_set_words_should_iterate_and_apply_valid_words_start_from_the_largest()
+        public void Should_fail_to_insert_vertical_word_if_there_are_matching_chars_and_at_least_one_non_matching_char()
+        {
+            var board = GetBoardWithFirstAndSecondWords("Bamidele", "india");
+            board[4, 4] = "d";
+            board[4, 5] = "a";
+            board[4, 6] = "m";
+            board[4, 7] = "s";
+
+            board[6, 6] = "x";
+
+            //B a m i d e l e _ _ _ _ _ _ _ 
+            //_ _ _ n _ _ _ _ _ _ _ _ _ _ _ 
+            //_ _ _ d _ _ _ _ _ _ _ _ _ _ _ 
+            //_ _ _ i _ _ _ _ _ _ _ _ _ _ _ 
+            //_ _ _ a _ _ _ _ _ _ _ _ _ _ _ 
+            //_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+            //_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+            //_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+            //_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+            //_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+            //_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+            //_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+            //_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+            //_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+            //_ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+            PrintBoard(board);
+
+            var result = CoreVertical.AddWordVertically("tomes", board);
+            var result2 = CoreVertical.AddWordVertically("Bread", board);
+            PrintBoard(board);
+            Assert.IsFalse(result.inserted);
+            PrintBoard(board);
+
+        }
+
+
+        [Test]
+        public void Should_fail_to_insert_horizontal_word_if_there_are_matching_chars_and_at_least_one_non_matching_char()
+        {
+            var board = GetBoardWithFirstAndSecondWords("Bamidele", "india");
+
+            board[3, 5] = "x";
+            //B a m i d e l e _ _ _ _ _ _ _ 
+            //_ _ _ n _ _ _ _ _ _ _ _ _ _ _ 
+            //_ _ _ d _ _ _ _ _ _ _ _ _ _ _ 
+            //_ _ _ i _ x _ _ _ _ _ _ _ _ _ 
+            //_ _ _ a _ _ _ _ _ _ _ _ _ _ _ 
+            //_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+            //_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+            //_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+            //_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+            //_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+            //_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+            //_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+            //_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+            //_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+            //_ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+            var result = CoreHorizontal.AddWordHorizontally("fines", board);
+            PrintBoard(board);
+            Assert.IsFalse(result.inserted);
+            
+
+        }
+        [Test]
+        public void Given_a_set_words_should_iterate_and_apply_valid_words_starting_from_the_largest()
         {
             var words = new List<string>();
             words.Add("Bamidele");
@@ -172,10 +238,28 @@ namespace CrossSharp.Tests
 
 
             var board = CoreHorizontal.GetBoard(15,15);
-            //var sortedwords = CoreHorizontal.sortWords(words.ToArray());
-            var result = (CoreVertical.AddWords(words.ToArray(), board));
-            PrintBoard(result.Item1);
+            var result = (CoreVertical.AddWordsAttempts(words.ToArray(), board));
+            foreach (var s in result.Item1 )
+            {
+                Assert.IsTrue(s.inserted);
+            }
+            PrintBoard(result.Item2);
 
+            //B A m i d e l e _ _ _ _ _ _ _ 
+            //_ d _ n _ _ _ _ _ _ _ _ _ _ _ 
+            //f a r d s _ _ _ _ _ _ _ _ _ _ 
+            //_ m _ i _ _ n _ _ _ _ _ _ _ _ 
+            //_ s t a t i o n _ _ _ _ _ _ _ 
+            //_ _ _ _ _ _ v _ _ _ _ _ _ _ _ 
+            //_ _ _ _ _ b e l t _ _ _ _ _ _ 
+            //_ _ _ _ _ _ m _ r _ _ _ _ _ _ 
+            //_ _ _ _ _ _ b _ a d e o l a _ 
+            //_ _ _ _ _ _ _ _ i _ _ _ _ _ _ 
+            //_ _ _ _ _ _ _ _ n _ _ _ _ _ _ 
+            //_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+            //_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+            //_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+            //_ _ _ _ _ _ _ _ _ _ _ _ _ _ _
         }
 
         private static void PrintBoard(string[,] board)
