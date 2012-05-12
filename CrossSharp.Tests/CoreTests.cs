@@ -80,7 +80,7 @@ namespace CrossSharp.Tests
             var secondWordChars = "india";
             var result = CoreHorizontal.AddSecondWord(secondWordChars, board);
             PrintBoard(board);
-            Assert.AreEqual(true, result);
+            Assert.AreEqual(true, result.Item1);
             for (int i = 0; i < 14; i++)
             {
                 Assert.AreEqual(i < secondWordChars.Length ? secondWordChars[i].ToString() : "_", board[i, 3]);
@@ -93,7 +93,7 @@ namespace CrossSharp.Tests
             var board = GetBoardWithFirstWord("Bamidele");
             var secondWordChars = "nonexisting";
             var result = CoreHorizontal.AddSecondWord(secondWordChars, board);
-            Assert.AreEqual(false, result);
+            Assert.AreEqual(false, result.Item1);
         }
     
         //Vertical Tests
@@ -157,6 +157,39 @@ namespace CrossSharp.Tests
         }
 
 
+         [Test]
+        public void Should_fail_to_insert_vertical_word_if_last_char_of_word_has_a_horizontal_neighbour()
+         {
+             var board = GetBoardWithFirstAndSecondWords("Bamidele", "india");
+             board[4, 4] = "d";
+             board[4, 5] = "a";
+             board[4, 6] = "m";
+             board[4, 7] = "s";
+             board[6, 6] = "x";
+
+             //0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 
+             //0B a m i d e l e _ _ _ _ _ _ _ 
+             //1_ _ _ n _ _ _ _ _ _ _ _ _ _ _ 
+             //2_ _ _ d _ r _ _ _ _ _ _ _ _ _ 
+             //3_ _ _ i _ e _ _ _ _ _ _ _ _ _ 
+             //4_ _ _ a d a m s _ _ _ _ _ _ _  
+             //5_ _ _ _ _ d _ _ _ _ _ _ _ _ _ 
+             //6_ _ _ _ _ y x _ _ _ _ _ _ _ _ 
+             //7_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+             //8_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+             //9_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+             //0_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+             //1_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+             //2_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+             //3_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+             //4_ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+             //An attempt to add ready as depicted should fail
+             var result = CoreVertical.AddWordVertically("readk", board);
+             PrintBoard(board);
+             Assert.IsFalse(result.inserted);
+         }
+
         [Test]
         public void Should_fail_to_insert_vertical_word_if_there_are_matching_chars_and_at_least_one_non_matching_char()
         {
@@ -166,31 +199,31 @@ namespace CrossSharp.Tests
             board[4, 6] = "m";
             board[4, 7] = "s";
 
-            board[6, 6] = "x";
+            board[7, 5] = "X";
 
-            //B a m i d e l e _ _ _ _ _ _ _ 
-            //_ _ _ n _ _ _ _ _ _ _ _ _ _ _ 
-            //_ _ _ d _ _ _ _ _ _ _ _ _ _ _ 
-            //_ _ _ i _ _ _ _ _ _ _ _ _ _ _ 
-            //_ _ _ a _ _ _ _ _ _ _ _ _ _ _ 
-            //_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-            //_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-            //_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-            //_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-            //_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-            //_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-            //_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-            //_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-            //_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-            //_ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+            //0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 
+            //0B a m i d e l e _ _ _ _ _ _ _ 
+            //1_ _ _ n _ _ _ _ _ _ _ _ _ _ _ 
+            //2_ _ _ d _ r _ _ _ _ _ _ _ _ _ 
+            //3_ _ _ i _ e _ _ _ _ _ _ _ _ _ 
+            //4_ _ _ a d a m s _ _ _ _ _ _ _  
+            //5_ _ _ _ _ d _ _ _ _ _ _ _ _ _ 
+            //6_ _ _ _ _ y _ _ _ _ _ _ _ _ _ 
+            //7_ _ _ _ _ X _ _ _ _ _ _ _ _ _ 
+            //8_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+            //9_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+            //0_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+            //1_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+            //2_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+            //3_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+            //4_ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
+            //An attempt to add ready as depicted should fail
+            PrintBoard(board);
+            var result = CoreVertical.AddWordVertically("ready", board);
             PrintBoard(board);
 
-            var result = CoreVertical.AddWordVertically("tomes", board);
-            var result2 = CoreVertical.AddWordVertically("Bread", board);
-            PrintBoard(board);
             Assert.IsFalse(result.inserted);
-            PrintBoard(board);
 
         }
 
@@ -204,7 +237,7 @@ namespace CrossSharp.Tests
             //B a m i d e l e _ _ _ _ _ _ _ 
             //_ _ _ n _ _ _ _ _ _ _ _ _ _ _ 
             //_ _ _ d _ _ _ _ _ _ _ _ _ _ _ 
-            //_ _ _ i _ x _ _ _ _ _ _ _ _ _ 
+            //_ _ _ i _ x _ _ _ _ _ _ _ _ _  //Target row with matching value 'i'
             //_ _ _ a _ _ _ _ _ _ _ _ _ _ _ 
             //_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
             //_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
