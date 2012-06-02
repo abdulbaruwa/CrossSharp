@@ -268,10 +268,14 @@ namespace CrossSharp.Tests
             words.Add("belt");
             words.Add("train");
             words.Add("adeola");
+            words.Add("amoeba");
+            words.Add("moscow");
+
 
 
             var board = CoreHorizontal.GetBoard(15,15);
             var result = (CoreVertical.AddWordsAttempts(words.ToArray(), board));
+            PrintBoard(result.Item2);
             foreach (var s in result.Item1 )
             {
                 Assert.IsTrue(s.inserted);

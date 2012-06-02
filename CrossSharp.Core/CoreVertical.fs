@@ -50,26 +50,6 @@ module CoreVertical =
         else
             result
 
-//    let rec findVerticalMatch ( wordchars:char[]) (board:string[,]) startrow startcol letterindex (result: (bool * matchingCell[])) =
-//        //let charsBeforeAndAfterWordAreEmpty = board.[(startrow - 1), startcol] && 
-//        if (letterindex < wordchars.Length &&  (startrow + wordchars.Length) < board.GetLength(1)) then 
-//            if board.[startrow,startcol].Equals (wordchars.[letterindex].ToString(), StringComparison.OrdinalIgnoreCase) then
-//                let noInvalidcharAbove = hastopchar board startrow startcol
-//                let noInvalidcharBelow = hasbottomchar board startrow startcol
-//                let noVerCharBeforeOrAfter = verNeighboursAreNotEmpty board startrow startcol
-//                let cells = snd result
-//                if(noInvalidcharAbove = false && noInvalidcharBelow = false && noVerCharBeforeOrAfter = false) then
-//                    cells.[letterindex] <- {matchingCell.row = startrow; matchingCell.col = startcol; matchingCell.letterindex = letterindex}
-//                    findVerticalMatch wordchars board (startrow + 1) startcol (letterindex + 1)  (true, cells)
-//                else
-//                    result
-//            elif board.[startrow,startcol] = emptyCell then
-//                findVerticalMatch wordchars board (startrow + 1) startcol (letterindex + 1) result
-//            else
-//                (false, snd result)
-//        else
-//            result
-
                 
     let cellHasHorizontalNeighbours (board:string[,]) (acell:matchingCell) = 
         let ccol = acell.col
@@ -167,7 +147,6 @@ module CoreVertical =
 
     //Given remaining words (3rd onwards) loop through mapping a function to add to board and
     //return an array of (word, cell, orientation). If word is not added to board the start cell value should be set to (-1,-1)
-
     let addWordVerticallyOrHorizontally (word:string) (board:string[,]) = 
        let vertres = AddWordVertically word board
        if vertres.inserted then

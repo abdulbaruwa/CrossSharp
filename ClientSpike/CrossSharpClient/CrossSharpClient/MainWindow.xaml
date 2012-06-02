@@ -1,0 +1,47 @@
+﻿<Window
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	x:Class="CrossSharpClient.MainWindow"
+	x:Name="Window"
+	Title="MainWindow"
+	Width="640" Height="480">
+
+<Canvas xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Name="Grid_Group_Detail_Page_Light_15" Width="1366" Height="768" Canvas.Left="0" Canvas.Top="0">
+	<Viewbox x:Name="Collection_16" Width="1133.67" Height="465" Canvas.Left="39" Canvas.Top="57">
+		<Canvas Width="1133.67" Height="465">
+			<Image x:Name="Image_placeholder_17" Source="SKXaml5_files/image7.png" Width="480" Height="240" Canvas.Left="0" Canvas.Top="0">
+				<Image.RenderTransform>
+					<TransformGroup>
+						<MatrixTransform Matrix="1,0,0,1,81,123"/>
+					</TransformGroup>
+				</Image.RenderTransform>
+			</Image>
+			<TextBlock x:Name="Collection_Sub_Title_18" TextAlignment="Left" VerticalAlignment="Top" HorizontalAlignment="Left">
+				<TextBlock.RenderTransform>
+					<TransformGroup>
+						<MatrixTransform Matrix="1.33333,0,0,1.33333,81.1356,86.3643"/>
+					</TransformGroup>
+				</TextBlock.RenderTransform>
+				<Run FontFamily="Segoe UI" FontSize="12.95" Text="Collection Sub Title " Foreground="#FF000000"/>
+				<Run FontFamily="Segoe UI" FontSize="12.95" Text="1" Foreground="#FF000000"/>
+			</TextBlock>
+			<TextBlock x:Name="Title_19" TextAlignment="Left" VerticalAlignment="Top" HorizontalAlignment="Left">
+				<TextBlock.RenderTransform>
+					<TransformGroup>
+						<MatrixTransform Matrix="1.33333,0,0,1.33333,78.1847,-5.61808"/>
+					</TransformGroup>
+				</TextBlock.RenderTransform>
+				<Run FontFamily="Segoe UI" FontSize="27.195" Text="Collection title " Foreground="#FF000000"/>
+				<Run FontFamily="Segoe UI" FontSize="27.195" Text="1" Foreground="#FF000000"/>
+			</TextBlock>
+			<Image x:Name="Back_Button_20" Source="BackIcon.png" Width="42" Height="42" Canvas.Left="0" Canvas.Top="0">
+				<Image.RenderTransform>
+					<TransformGroup>
+						<MatrixTransform Matrix="1,0,0,1,0,2"/>
+					</TransformGroup>
+				</Image.RenderTransform>
+			</Image>
+		</Canvas>
+	</Viewbox>
+</Canvas>
+</Window>

@@ -1,0 +1,30 @@
+﻿<ItemsControl
+    x:Class="CrossSharpClient.BoardMatrix"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:CrossSharpClient"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:DataModel="using:CrossSharpClient.DataModel" mc:Ignorable="d"
+    Background="White"
+    d:DesignHeight="300"
+    d:DesignWidth="400"
+    ItemsSource="{Binding Path=Cells}">
+    
+    <ItemsControl.ItemsPanel>
+        <ItemsPanelTemplate>
+            <local:BoardCanvas/>
+        </ItemsPanelTemplate>
+    </ItemsControl.ItemsPanel>
+
+    <!--Render each CellViewModel with a CellView control-->
+    <ItemsControl.ItemTemplate>
+        <DataTemplate>
+            <local:BoardCell />
+            <!--<Button Padding="0" FontSize="16" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="{Binding Path=Value}" Width="50" Height="50" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />-->
+        </DataTemplate>
+    </ItemsControl.ItemTemplate>        
+    </ItemsControl>
+
+    
+    

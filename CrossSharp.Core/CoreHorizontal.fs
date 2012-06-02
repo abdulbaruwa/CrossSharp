@@ -216,28 +216,6 @@ module CoreHorizontal =
             | Orientation.horizontal ->  board.[row,col + index] <- wordchars.[index].ToString()
             | _ -> board.[row + index, col ] <- wordchars.[index].ToString()
 
-//    //Given a board with the first two base entries (Horizontal and vertical), loop to find next horizontal match for given word.
-//    //Add for valid position on board is found.
-//    let rec loopboardrows (board:string[,]) (wordchars:char[]) row col  (result: (bool * matchingCell[])) = 
-//        let wordlen = wordchars.Length
-//        if((col + wordlen) < 15) then
-//            let wordfound = findHorizontalMatch wordchars board row col 0  result
-//            if validForHorizontal wordfound wordchars board then
-//                //Add the word to the board
-//                let cells = snd result
-//                let firstcellformatchingword = getStartPosFromRecordResult cells Orientation.horizontal 
-//                firstcellformatchingword |> addword wordchars board Orientation.horizontal
-//                (true,firstcellformatchingword)
-//            else
-//                let newcol = col + 1
-//                loopboardrows board wordchars row newcol result//
-//        else
-//            //next row
-//            let newrow = row + 1
-//            if newrow < 15 then
-//                loopboardrows board wordchars newrow 0 result
-//            else
-//                (false,firstcellformatchingword)
 
     let  rec boardloophoriz (board:string[,]) row col (wordchars:char[]) = 
         let next = nextCell (row,col)
