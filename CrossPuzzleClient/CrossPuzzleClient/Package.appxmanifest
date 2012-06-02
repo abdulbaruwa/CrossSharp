@@ -1,15 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest">
 
-  <Identity Name="1955f119-683a-40b1-a1a7-a4a638df01f8"
-            Publisher="CN=abdulrahaman"
+  <Identity Name="dc9671c4-859c-499e-9a01-a7379a4cc2d5"
+            Publisher="CN=Abdul"
             Version="1.0.0.0" />
 
   <Properties>
-    <DisplayName>CrossSharpClient</DisplayName>
-    <PublisherDisplayName>abdulrahaman</PublisherDisplayName>
+    <DisplayName>CrossPuzzleClient</DisplayName>
+    <PublisherDisplayName>Abdul</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
-    <Description>CrossSharpClient</Description>
   </Properties>
 
   <Prerequisites>
@@ -24,14 +23,14 @@
   <Applications>
     <Application Id="App"
         Executable="$targetnametoken$.exe"
-        EntryPoint="CrossSharpClient.App">
+        EntryPoint="CrossPuzzleClient.App">
         <VisualElements
-            DisplayName="CrossSharpClient"
+            DisplayName="CrossPuzzleClient"
             Logo="Assets\Logo.png"
             SmallLogo="Assets\SmallLogo.png"
-            Description="CrossSharpClient"
+            Description="CrossPuzzleClient"
             ForegroundText="light"
-            BackgroundColor="#222222">
+            BackgroundColor="#464646">
             <DefaultTile ShowName="allLogos" />
             <SplashScreen Image="Assets\SplashScreen.png" />
         </VisualElements>

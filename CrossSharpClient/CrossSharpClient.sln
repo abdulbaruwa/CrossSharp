@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 11
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrossSharpClient", "CrossSharpClient\CrossSharpClient.csproj", "{8D9E880F-F5C0-41CB-B993-0C893E837B8E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrossClient", "CrossClient\CrossClient.csproj", "{8F40110D-0E0F-4443-8FD6-D479828CB17A}"

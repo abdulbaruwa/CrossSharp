@@ -1,15 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest">
 
-  <Identity Name="1955f119-683a-40b1-a1a7-a4a638df01f8"
-            Publisher="CN=abdulrahaman"
+  <Identity Name="ace5af70-55a2-4952-820c-1fe9d9facb72"
+            Publisher="CN=Abdul"
             Version="1.0.0.0" />
 
   <Properties>
-    <DisplayName>CrossSharpClient</DisplayName>
-    <PublisherDisplayName>abdulrahaman</PublisherDisplayName>
+    <DisplayName>App1</DisplayName>
+    <PublisherDisplayName>Abdul</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
-    <Description>CrossSharpClient</Description>
   </Properties>
 
   <Prerequisites>
@@ -24,14 +23,14 @@
   <Applications>
     <Application Id="App"
         Executable="$targetnametoken$.exe"
-        EntryPoint="CrossSharpClient.App">
+        EntryPoint="App1.App">
         <VisualElements
-            DisplayName="CrossSharpClient"
+            DisplayName="App1"
             Logo="Assets\Logo.png"
             SmallLogo="Assets\SmallLogo.png"
-            Description="CrossSharpClient"
+            Description="App1"
             ForegroundText="light"
-            BackgroundColor="#222222">
+            BackgroundColor="#464646">
             <DefaultTile ShowName="allLogos" />
             <SplashScreen Image="Assets\SplashScreen.png" />
         </VisualElements>

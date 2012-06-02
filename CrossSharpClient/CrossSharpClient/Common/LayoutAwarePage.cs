@@ -129,7 +129,7 @@ namespace CrossSharpClient.Common
             if (this._layoutAwareControls == null)
             {
                 // Start listening to view state changes when there are controls interested in updates
-                ApplicationView.GetForCurrentView().ViewStateChanged += this.ViewStateChanged;
+                //ApplicationView.GetForCurrentView().ViewStateChanged += this.ViewStateChanged;
                 Window.Current.SizeChanged += this.WindowSizeChanged;
                 this._layoutAwareControls = new List<Control>();
             }
@@ -139,10 +139,10 @@ namespace CrossSharpClient.Common
             VisualStateManager.GoToState(control, DetermineVisualState(ApplicationView.Value), false);
         }
 
-        private void ViewStateChanged(ApplicationView sender, ApplicationViewStateChangedEventArgs e)
-        {
-            this.InvalidateVisualState(e.ViewState);
-        }
+        //private void ViewStateChanged(ApplicationView sender, ApplicationViewStateChangedEventArgs e)
+        //{
+        //    this.InvalidateVisualState(e.ViewState);
+        //}
 
         private void WindowSizeChanged(object sender, Windows.UI.Core.WindowSizeChangedEventArgs e)
         {
@@ -169,7 +169,7 @@ namespace CrossSharpClient.Common
             {
                 // Stop listening to view state changes when no controls are interested in updates
                 this._layoutAwareControls = null;
-                ApplicationView.GetForCurrentView().ViewStateChanged -= this.ViewStateChanged;
+               // ApplicationView.GetForCurrentView().ViewStateChanged -= this.ViewStateChanged;
                 Window.Current.SizeChanged -= this.WindowSizeChanged;
             }
         }

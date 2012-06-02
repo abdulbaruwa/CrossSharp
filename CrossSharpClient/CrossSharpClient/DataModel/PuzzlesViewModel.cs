@@ -15,7 +15,7 @@ namespace CrossSharpClient.DataModel
             set { SetProperty(ref _puzzles, value); }
         }
 
-        internal List<G> 
+
     }
 
     public class PuzzleViewModel
@@ -60,7 +60,8 @@ namespace CrossSharpClient.DataModel
     {
         public static PuzzleViewModel FakePuzzleBuilder(string title)
         {
-            var puzzleVm = new PuzzleViewModel { Title = title };            puzzleVm.Words = new List<string>();
+            var puzzleVm = new PuzzleViewModel { Title = title };
+            puzzleVm.Words = new List<string>();
             puzzleVm.Words.Add("First");
             puzzleVm.Words.Add("Second");
             puzzleVm.Words.Add("Third");
