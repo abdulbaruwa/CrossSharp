@@ -27,14 +27,11 @@
 
 
             <DataTemplate x:Key="puzzleTemplate">
-                <Grid Margin="0,0,6,10">
+                <Grid Margin="10,0,6,10">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="160"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition MinWidth="200" Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <Border >
-                        <Image Stretch="UniformToFill" Source=""/>
-                    </Border>
+                    
                     <StackPanel>
                         <TextBlock Text="{Binding Title}" TextWrapping="NoWrap"/>
                     </StackPanel>
@@ -43,7 +40,7 @@
         
     </Grid.Resources>
     <Grid.RowDefinitions>
-      <RowDefinition Height="140" />
+      <RowDefinition Height="200" />
       <RowDefinition Height="*" />
     </Grid.RowDefinitions>
 
@@ -61,7 +58,7 @@
 
     <!-- Horizontal scrolling grid used in most view states -->
     <GridView x:Name="itemGridView" AutomationProperties.AutomationId="ItemGridView"
-              AutomationProperties.Name="Grouped Items" Grid.Row="1" Margin="0,-3,0,0" Padding="116,0,40,46"
+              AutomationProperties.Name="Grouped Items" Grid.Row="1" Margin="0,3,0,0" Padding="116,0,40,46"
               ItemTemplate="{StaticResource puzzleTemplate}"
               ItemsSource="{Binding Source={StaticResource groupedItemsViewSource}}">
 
@@ -76,7 +73,7 @@
         <GroupStyle>
           <GroupStyle.HeaderTemplate>
             <DataTemplate>
-              <Grid Margin="1,0,0,6">
+              <Grid Margin="1,0,0,5">
 <Button AutomationProperties.Name="Group Title" Content="{Binding Category}"
                         Style="{StaticResource TextButtonStyle}" />
               </Grid>
@@ -84,7 +81,7 @@
           </GroupStyle.HeaderTemplate>
           <GroupStyle.Panel>
             <ItemsPanelTemplate>
-              <VariableSizedWrapGrid Orientation="Vertical" Margin="0,0,80,0" />
+              <VariableSizedWrapGrid Orientation="Vertical" Margin="0,0,50,0" />
             </ItemsPanelTemplate>
           </GroupStyle.Panel>
         </GroupStyle>

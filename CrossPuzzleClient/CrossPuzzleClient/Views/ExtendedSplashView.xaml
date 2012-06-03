@@ -17,7 +17,7 @@
             <Image x:Name="extendedSplashImage" Source="../Assets/SplashScreen.png"/>
         </Canvas>
         <StackPanel Grid.Row="1" HorizontalAlignment="Center">
-            <Button  x:Name="LoadPuzzle" Content="Load Puzzle" HorizontalAlignment="Center" Click="StartButton_Click" />
+            <Button  x:Name="LoadPuzzle" Content="Load Puzzle" HorizontalAlignment="Center"/> 
         </StackPanel>
     </Grid>
 </Page>

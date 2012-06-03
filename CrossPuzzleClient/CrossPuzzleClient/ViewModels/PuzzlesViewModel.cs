@@ -70,7 +70,6 @@ namespace CrossPuzzleClient.ViewModels
 
     }
 
-
     public static class ViewModelHelper
     {
         public static PuzzleViewModel FakePuzzleBuilder(string title) 

@@ -39,8 +39,8 @@ namespace CrossPuzzleClient.Views
             this.extendedSplashImage.Height = this.splashImageCoordinates.Height;
             this.extendedSplashImage.Width = this.splashImageCoordinates.Width;
 
-            LoadPuzzle.Click += new RoutedEventHandler(StartButton_Click);
-            Window.Current.SizeChanged += new WindowSizeChangedEventHandler(ExtendedSplash_OnResize);
+            LoadPuzzle.Click += StartButton_Click;
+            Window.Current.SizeChanged += ExtendedSplash_OnResize;
         }
 
         /// <summary>
@@ -54,15 +54,13 @@ namespace CrossPuzzleClient.Views
 
         void StartButton_Click(object sender, RoutedEventArgs e)
         {
-            var b = new DesignPuzzlesVM();
-            //var mainViewModel = new MainViewModel();
-            //var rootFrame = new Frame();
-            ////rootFrame.Navigate(typeof(GroupedItemsPage), sampleData.ItemGroups);
-            //rootFrame.Navigate(typeof(GroupedItemsPage), mainViewModel.Board);
+            var puzzlesVm = new DesignPuzzlesVM();
+            var rootFrame = new Frame();
+            rootFrame.Navigate(typeof(PuzzlesView), puzzlesVm);
 
-            //// Place the frame in the current Window and ensure that it is active
-            //Window.Current.Content = rootFrame;
-
+            // Place the frame in the current Window and ensure that it is active
+            Window.Current.Content = rootFrame;
+            Window.Current.Activate();
         }
 
         void ExtendedSplash_OnResize(Object sender, Windows.UI.Core.WindowSizeChangedEventArgs e)
