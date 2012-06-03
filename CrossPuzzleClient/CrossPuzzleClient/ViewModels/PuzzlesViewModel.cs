@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Windows.Input;
 using CrossPuzzleClient.Common;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,6 +15,15 @@ namespace CrossPuzzleClient.ViewModels
         {
             get { return _puzzles; }
             set { SetProperty(ref _puzzles, value); }
+        }
+
+        public ICommand StartPuzzleCommand
+        {
+            get { return new DelegateCommand(() => StartPuzzle()); }
+        }
+
+        private void StartPuzzle()
+        {
         }
     }
 
@@ -67,6 +77,14 @@ namespace CrossPuzzleClient.ViewModels
             get { return _puzzles; }
             set { SetProperty(ref _puzzles, value); }
         }
+        public ICommand StartPuzzleCommand
+        {
+            get { return new DelegateCommand(() => StartPuzzle()); }
+        }
+        private void StartPuzzle()
+        {
+        }
+
 
     }
 

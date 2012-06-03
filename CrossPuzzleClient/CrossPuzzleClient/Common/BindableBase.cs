@@ -51,5 +51,6 @@ namespace CrossPuzzleClient.Common
                 eventHandler(this, new PropertyChangedEventArgs(propertyName));
             }
         }
+
     }
 }

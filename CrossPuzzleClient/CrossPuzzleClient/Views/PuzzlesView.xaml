@@ -42,10 +42,12 @@
     <Grid.RowDefinitions>
       <RowDefinition Height="200" />
       <RowDefinition Height="*" />
+      <RowDefinition Height="*" />
+      
     </Grid.RowDefinitions>
 
     <!-- Back button and page title -->
-    <Grid>
+    <Grid Grid.Row="0">
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="Auto" />
         <ColumnDefinition Width="*" />
@@ -88,6 +90,7 @@
       </GridView.GroupStyle>
     </GridView>
 
+<Button DataContext="{Binding PuzzleVm}" Grid.Row="2" FontSize="22" Margin="116,10,0,218" Height="56" Command="{Binding StartPuzzleCommand}">Start Puzzle</Button>
     <!-- Vertical scrolling list only used when snapped -->
     <ListView x:Name="itemListView" AutomationProperties.AutomationId="ItemListView"
               AutomationProperties.Name="Grouped Items" Grid.Row="1" Visibility="Collapsed" Margin="0,-10,0,0" Padding="10,0,0,60"
@@ -109,7 +112,6 @@
     </ListView>
 
     <VisualStateManager.VisualStateGroups>
-
       <!-- Visual states reflect the application's view state -->
       <VisualStateGroup x:Name="ApplicationViewStates">
         <VisualState x:Name="FullScreenLandscape" />

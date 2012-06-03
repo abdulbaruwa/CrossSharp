@@ -30,6 +30,7 @@ namespace CrossPuzzleClient.Views
         {
             // TODO: Assign a collection of bindable groups to this.DefaultViewModel["Groups"]
             var item = (DesignPuzzlesVM) navigationParameter;
+            DefaultViewModel["PuzzleVm"] = item;
             DefaultViewModel["Groups"] = item.PuzzleGroups;
         }
     }
