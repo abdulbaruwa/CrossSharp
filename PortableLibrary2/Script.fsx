@@ -3,5 +3,5 @@
 // Note that script files will not be part of the project build.
 
 #load "PortableLibrary1.fs"
-open PortableLibrary1
+open PortableLibrary2
 

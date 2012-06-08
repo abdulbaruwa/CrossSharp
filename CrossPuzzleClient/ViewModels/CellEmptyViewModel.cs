@@ -23,6 +23,7 @@ namespace CrossPuzzleClient.ViewModels
         private int _col;
         private int _row;
         private string _value = string.Empty;
+        private bool _isVisible;
 
         public CellEmptyViewModel(int col, int row, string value)
 
@@ -50,6 +51,12 @@ namespace CrossPuzzleClient.ViewModels
             get { return _value; }
             set { SetProperty(ref _value, value); }
         }
+
+        public bool IsVisible
+        {
+            get { return _isVisible; }
+            set { SetProperty(ref _isVisible, value); }
+        }
     }
 
     public enum Direction
@@ -67,6 +74,7 @@ namespace CrossPuzzleClient.ViewModels
         private bool _isFirtCharacter;
         private Direction _direction;
         private WordViewModel _wordViewModel;
+        private bool _isVisible;
 
         public DesignCellViewModel()
         {
@@ -76,20 +84,6 @@ namespace CrossPuzzleClient.ViewModels
             _isFirtCharacter = true;
             _direction = Direction.Down;
             _startPosition = 3.ToString();
-        }
-
-        public WordViewModel Word
-        {
-            get { return _wordViewModel; }
-            set { SetProperty(ref _wordViewModel, value); }
-        }
-
-        public string StartPosition
-        {
-            get
-            {
-                return _isFirtCharacter ? _startPosition : string.Empty;
-            }
         }
 
         public int Row
@@ -110,14 +104,10 @@ namespace CrossPuzzleClient.ViewModels
             set { SetProperty(ref _value, value); }
         }
 
-        public bool IsFirtCharacter
+        public bool IsVisible
         {
-            get { return _isFirtCharacter; }
-        }
-
-        public Direction Direction
-        {
-            get { return _direction; }
+            get { return _isVisible; }
+            set { SetProperty(ref _isVisible, value); }
         }
     }
 }

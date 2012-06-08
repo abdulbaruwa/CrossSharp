@@ -237,9 +237,9 @@ module CoreHorizontal =
 
     let AddWordHorizontally (word:string) (board:string[,]) = 
         let wordchars = word.ToCharArray()
-        let vertresult = boardloophoriz board 0 0 wordchars
-        let cell = snd vertresult
-        {resultCell.row = (fst cell); resultCell.col = snd cell; word = word; inserted = fst vertresult; orientation = Orientation.vertical}
+        let horizresult = boardloophoriz board 0 0 wordchars
+        let cell = snd horizresult
+        {resultCell.row = (fst cell); resultCell.col = snd cell; word = word; inserted = fst horizresult; orientation = Orientation.horizontal}
 
     let rec buildrowstring rowindex colindex (board:string[,]) str =
         let rlen = Array2D.length1 board

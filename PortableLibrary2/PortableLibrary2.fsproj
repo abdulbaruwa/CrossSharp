@@ -5,13 +5,13 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>43c51e32-bd54-495d-b3a0-2ca0fa82850c</ProjectGuid>
+    <ProjectGuid>f56cc125-d827-4ad7-b0ef-5cfc7c71bed3</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>PortableLibrary1</RootNamespace>
-    <AssemblyName>PortableLibrary1</AssemblyName>
+    <RootNamespace>PortableLibrary2</RootNamespace>
+    <AssemblyName>PortableLibrary2</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Profile47</TargetFrameworkProfile>
-    <Name>PortableLibrary1</Name>
+    <Name>PortableLibrary2</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -21,7 +21,7 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
-    <DocumentationFile>bin\Debug\PortableLibrary1.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\PortableLibrary2.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,7 +30,7 @@
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
-    <DocumentationFile>bin\Release\PortableLibrary1.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\PortableLibrary2.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="FSharp.Core">

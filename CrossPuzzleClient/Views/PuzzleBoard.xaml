@@ -91,7 +91,26 @@
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <local:BoardCell DataContext="{Binding}" Width="50" Height="50" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"   />
+                                    <!--<local:BoardCell DataContext="{Binding}" Width="50" Height="50" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"   />-->
+                                         <Border BorderThickness=".5">
+
+                                        <Grid  Background="WhiteSmoke" Width="50" Height="50">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="*"/>
+                                            </Grid.RowDefinitions>
+                                            <!--<Image Grid.Row="0" Grid.Column="0" Source="Assets/DownButton.png" Visibility="{Binding ShowVertical, Converter={StaticResource VisibilityOfBool}}" Height="14" Width="14"></Image>-->
+                                            <!--<Image Grid.Row="2" Grid.Column="0" Visibility="{Binding ShowHorizontal, Converter={StaticResource VisibilityOfBool}}" Height="14" Width="14"></Image>-->
+                                            <!--<TextBlock Grid.Row="0" Grid.Column="2"  Text="{Binding StartPosition}" FontSize="14" Padding="0" VerticalAlignment="Center" HorizontalAlignment="Center" />-->
+                                            <TextBlock Grid.ColumnSpan="3" FontFamily="Segoi" FontSize="32" Foreground="Red" VerticalAlignment="Top" Padding="0" HorizontalAlignment="Center" Text="{Binding Value}" Grid.RowSpan="3" Margin="13,7,14,0"/>
+                                        </Grid>
+                                    </Border>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>

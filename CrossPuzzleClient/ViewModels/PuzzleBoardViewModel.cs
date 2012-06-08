@@ -13,7 +13,8 @@ namespace CrossPuzzleClient.ViewModels
         public DesignPuzzleBoardViewModel()
         {
             Words = new ObservableCollection<WordViewModel>();
-            CreateDummyData(); 
+            CreateDummyData();
+            AddWordsToBoard();
         }
 
         private void CreateDummyData()
@@ -49,9 +50,9 @@ namespace CrossPuzzleClient.ViewModels
                 {
                     var cell = new CellViewModel(col, row, character.ToString(), wordViewModel);
                     if (word.orientation == CoreHorizontal.Orientation.horizontal)
-                        col += col;
+                        col += 1;
                     else
-                        row += row;
+                        row += 1;
 
                    wordViewModel.Cells.Add(cell); 
                 }
@@ -123,6 +124,18 @@ namespace CrossPuzzleClient.ViewModels
             foreach (CellEmptyViewModel cellViewModel in cells)
             {
                 _cells.Add(cellViewModel);
+            }
+        }
+
+        public void AddWordsToBoard()
+        {
+            foreach (var wordViewModel in Words)
+            {
+                foreach (var cell in wordViewModel.Cells)
+                {
+                    var position = (cell.Row*15) + cell.Col;
+                    Cells[position] = new CellViewModel(cell.Col, cell.Row, cell.Value, wordViewModel);
+                }
             }
         }
 
