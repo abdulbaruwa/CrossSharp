@@ -271,8 +271,6 @@ namespace CrossSharp.Tests
             words.Add("amoeba");
             words.Add("moscow");
 
-
-
             var board = CoreHorizontal.GetBoard(15,15);
             var result = (CoreVertical.AddWordsAttempts(words.ToArray(), board));
             PrintBoard(result.Item2);
@@ -280,6 +278,7 @@ namespace CrossSharp.Tests
             {
                 Assert.IsTrue(s.inserted);
             }
+
             PrintBoard(result.Item2);
 
             //B A m i d e l e _ _ _ _ _ _ _ 
