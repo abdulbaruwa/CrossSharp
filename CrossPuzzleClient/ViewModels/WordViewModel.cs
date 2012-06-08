@@ -9,6 +9,7 @@ namespace CrossPuzzleClient.ViewModels
         private ObservableCollection<CellEmptyViewModel> _cells;
         private Direction _direction;
         private string _word;
+        private int _index;
 
         public ObservableCollection<CellEmptyViewModel> Cells
         {
@@ -21,6 +22,13 @@ namespace CrossPuzzleClient.ViewModels
             get { return _word; }
             set { SetProperty(ref _word, value); }
         }
+
+        public int Index
+        {
+            get { return _index; }
+            set { SetProperty(ref _index, value); }
+        }
+
         public Direction Direction
         {
             get { return _direction; }

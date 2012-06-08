@@ -35,13 +35,17 @@ namespace CrossPuzzleClient.ViewModels
             var result = (CoreVertical.AddWordsAttempts(words.ToArray(), board));
 
             var wordsInserted = result.Item1.Where(x => x.inserted);
+            var wordviewmodels = new List<WordViewModel>();
             foreach (var word in wordsInserted)
             {
+                var position = (word.row * 15) + word.col;
+
                var wordViewModel = new WordViewModel()
                 {
                     Cells = new ObservableCollection<CellEmptyViewModel>(),
                     Direction = GetDirection(word.orientation),
-                    Word = word.word
+                    Word = word.word,
+                    Index = position
                 };
 
                 var row = word.row;
@@ -56,10 +60,33 @@ namespace CrossPuzzleClient.ViewModels
 
                    wordViewModel.Cells.Add(cell); 
                 }
-                this.Words.Add((wordViewModel));
-
+                wordviewmodels.Add((wordViewModel));
             }
 
+            var orderedWords = wordviewmodels.OrderBy(x => x.Index).ToList();
+            int lastindex = orderedWords[0].Index;
+            for (int i = 0; i < orderedWords.Count; i++)
+            {
+                if(i > 0 )
+                {
+                    if (orderedWords[i].Index == lastindex)
+                    {
+                        lastindex = Words[i].Index;
+                        orderedWords[i].Index = orderedWords[i - 1].Index;
+                    }
+                    else
+                    {
+                        lastindex = orderedWords[i].Index;
+                        orderedWords[i].Index = orderedWords[i - 1].Index + 1;
+                    }
+                }
+                else
+                {
+                    orderedWords[i].Index = 1;
+                }
+                Words.Add(orderedWords[i]);
+            }
+           
         }
 
         private Direction GetDirection(CoreHorizontal.Orientation orientation)

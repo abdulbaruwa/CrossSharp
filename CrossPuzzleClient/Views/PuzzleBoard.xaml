@@ -62,13 +62,15 @@
                 <!--Down-->
                 <Border Grid.Row="1" Grid.Column="0" Background="Transparent" BorderBrush="White" BorderThickness=".5" 
                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,25,0">
-                
                     <StackPanel Orientation="Vertical" Grid.Column="0"  Grid.Row="1" HorizontalAlignment="Center">
                         <TextBlock Style="{StaticResource CrossWordSideHeaderTextStyle}" Text="Down" Margin="0,5,40,40" />
                         <ListView  ItemsSource="{Binding Path=WordsDown}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding Word}" Style="{StaticResource CrossWordHeaderTextStyle}" FontSize="24" HorizontalAlignment="Left"/>
+                                    <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                                        <TextBlock Text="{Binding Index}" FontSize="22" FontWeight="Bold" Margin="0,0,15,0" VerticalAlignment="Center"/>
+                                        <TextBlock Text="{Binding Word}" Style="{StaticResource CrossWordHeaderTextStyle}" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                    </StackPanel>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ListView>
@@ -123,11 +125,13 @@
 <ListView  ItemsSource="{Binding Path=WordsAcross}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding Word}" Style="{StaticResource CrossWordHeaderTextStyle}" FontSize="24" HorizontalAlignment="Left"/>
+                                    <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                                        <TextBlock Text="{Binding Index}" FontSize="22" FontWeight="Bold" Margin="0,0,15,0" VerticalAlignment="Center"/>
+                                        <TextBlock Text="{Binding Word}" Style="{StaticResource CrossWordHeaderTextStyle}" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                    </StackPanel>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ListView>
-
                     </StackPanel>
                 </Border>
             </Grid>
