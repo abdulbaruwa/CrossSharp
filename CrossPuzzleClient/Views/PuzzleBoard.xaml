@@ -12,7 +12,9 @@
     xmlns:ViewModels="using:CrossPuzzleClient.ViewModels" mc:Ignorable="d" Margin="0,-2,0,2">
 
     <Page.Resources>
+        <common:BooleanToCellShadeConverter  x:Key="BoolToCellShade" />
 
+            
         <!-- TODO: Delete this line if the key AppName is declared in App.xaml -->
         <x:String x:Key="AppName">Puzzle</x:String>
         <Style x:Key="CrossWordHeaderTextStyle" TargetType="TextBlock" BasedOn="{StaticResource BaselineTextStyle}">
@@ -96,7 +98,7 @@
                                     <!--<local:BoardCell DataContext="{Binding}" Width="50" Height="50" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"   />-->
                                          <Border BorderThickness=".5">
 
-                                        <Grid  Background="WhiteSmoke" Width="50" Height="50">
+                                        <Grid  Background="{Binding IsVisible, Converter={StaticResource BoolToCellShade}}"  Width="50" Height="50">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="*"/>
                                                 <ColumnDefinition Width="*"/>
@@ -109,7 +111,7 @@
                                             </Grid.RowDefinitions>
                                             <!--<Image Grid.Row="0" Grid.Column="0" Source="Assets/DownButton.png" Visibility="{Binding ShowVertical, Converter={StaticResource VisibilityOfBool}}" Height="14" Width="14"></Image>-->
                                             <!--<Image Grid.Row="2" Grid.Column="0" Visibility="{Binding ShowHorizontal, Converter={StaticResource VisibilityOfBool}}" Height="14" Width="14"></Image>-->
-                                            <!--<TextBlock Grid.Row="0" Grid.Column="2"  Text="{Binding StartPosition}" FontSize="14" Padding="0" VerticalAlignment="Center" HorizontalAlignment="Center" />-->
+                                            <TextBlock Grid.Row="0" Grid.Column="0"  Text="{Binding WordPosition}" FontSize="14" Foreground="Red" Padding="0" VerticalAlignment="Center" HorizontalAlignment="Center" />
                                             <TextBlock Grid.ColumnSpan="3" FontFamily="Segoi" FontSize="32" Foreground="Red" VerticalAlignment="Top" Padding="0" HorizontalAlignment="Center" Text="{Binding Value}" Grid.RowSpan="3" Margin="13,7,14,0"/>
                                         </Grid>
                                     </Border>

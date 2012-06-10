@@ -17,6 +17,7 @@ namespace CrossPuzzleClient.ViewModels
             set { SetProperty(ref _cells, value); }
         }
 
+        
         public string Word
         {
             get { return _word; }

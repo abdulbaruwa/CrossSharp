@@ -1,6 +1,9 @@
 ﻿using System;
+using Windows.UI;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Media;
 
 namespace CrossPuzzleClient.Common
 {
@@ -14,10 +17,27 @@ namespace CrossPuzzleClient.Common
         {
             return (value is bool && (bool)value) ? Visibility.Visible : Visibility.Collapsed;
         }
-
+        
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
             return value is Visibility && (Visibility)value == Visibility.Visible;
+        }
+    }
+
+
+    public sealed  class BooleanToCellShadeConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            var enabledcolor = new SolidColorBrush(Colors.WhiteSmoke);
+            var disabledcolor = new SolidColorBrush(Colors.AntiqueWhite);
+
+            return (value is bool && (bool) value) ? enabledcolor : disabledcolor;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            throw new NotImplementedException();
         }
     }
 }

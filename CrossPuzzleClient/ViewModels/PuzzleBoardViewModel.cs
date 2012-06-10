@@ -52,7 +52,7 @@ namespace CrossPuzzleClient.ViewModels
                 var col = word.col;
                 foreach (var character in word.word)
                 {
-                    var cell = new CellViewModel(col, row, character.ToString(), wordViewModel);
+                    var cell = new CellViewModel(col, row, character.ToString(), wordViewModel,string.Empty);
                     if (word.orientation == CoreHorizontal.Orientation.horizontal)
                         col += 1;
                     else
@@ -86,7 +86,6 @@ namespace CrossPuzzleClient.ViewModels
                 }
                 Words.Add(orderedWords[i]);
             }
-           
         }
 
         private Direction GetDirection(CoreHorizontal.Orientation orientation)
@@ -158,10 +157,16 @@ namespace CrossPuzzleClient.ViewModels
         {
             foreach (var wordViewModel in Words)
             {
+                var firstCellVisited = false;
                 foreach (var cell in wordViewModel.Cells)
                 {
-                    var position = (cell.Row*15) + cell.Col;
-                    Cells[position] = new CellViewModel(cell.Col, cell.Row, cell.Value, wordViewModel);
+                    var startPositionForWordOnBoard = string.Empty;
+
+                    var cellPositionOnBoard = (cell.Row*15) + cell.Col;
+                    if (!firstCellVisited) startPositionForWordOnBoard = wordViewModel.Index.ToString();
+                    firstCellVisited = true;
+
+                    Cells[cellPositionOnBoard] = new CellViewModel(cell.Col, cell.Row, cell.Value, wordViewModel,startPositionForWordOnBoard);
                 }
             }
         }
