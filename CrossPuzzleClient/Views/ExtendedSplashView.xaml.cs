@@ -1,4 +1,5 @@
 ﻿using System;
+using CrossPuzzleClient.Infrastructure;
 using CrossPuzzleClient.ViewModels;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
@@ -53,6 +54,18 @@ namespace CrossPuzzleClient.Views
             // Place the frame in the current Window and ensure that it is active
             Window.Current.Content = rootFrame;
             Window.Current.Activate();
+
+            //var rootFrame = new Frame();
+            App.NavigationService = new NavigationService(rootFrame);
+
+
+            //rootFrame.Navigate(typeof(BlankPage));
+
+
+            //// Place the frame in the current Window and ensure that it is active
+            //Window.Current.Content = rootFrame;
+            //Window.Current.Activate();
+
         }
 
         void ExtendedSplash_OnResize(Object sender, Windows.UI.Core.WindowSizeChangedEventArgs e)

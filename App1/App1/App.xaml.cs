@@ -1,16 +1,22 @@
-﻿using CrossPuzzleClient.Common;
-
-using System;
-using CrossPuzzleClient.Infrastructure;
-using CrossPuzzleClient.Views;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.Foundation;
+using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Navigation;
 
-// The Grid App template is documented at http://go.microsoft.com/fwlink/?LinkId=234226
+// The Blank Application template is documented at http://go.microsoft.com/fwlink/?LinkId=234227
 
-namespace CrossPuzzleClient
+namespace App1
 {
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
@@ -18,7 +24,7 @@ namespace CrossPuzzleClient
     sealed partial class App : Application
     {
         /// <summary>
-        /// Initializes the singleton Application object.  This is the first line of authored code
+        /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
         /// </summary>
         public App()
@@ -27,16 +33,13 @@ namespace CrossPuzzleClient
             this.Suspending += OnSuspending;
         }
 
-        public static NavigationService NavigationService;
-   
-
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
         /// will be used when the application is launched to open a specific file, to display
         /// search results, and so forth.
         /// </summary>
         /// <param name="args">Details about the launch request and process.</param>
-        protected override async void OnLaunched(LaunchActivatedEventArgs args)
+        protected override void OnLaunched(LaunchActivatedEventArgs args)
         {
             // Do not repeat app initialization when already running, just ensure that
             // the window is active
@@ -46,39 +49,21 @@ namespace CrossPuzzleClient
                 return;
             }
 
-            // Create a Frame to act as the navigation context and associate it with
-            // a SuspensionManager key
-            var rootFrame = new Frame();
-            SuspensionManager.RegisterFrame(rootFrame, "AppFrame");
-
             if (args.PreviousExecutionState == ApplicationExecutionState.Terminated)
             {
-                // Restore the saved session state only when appropriate
-                await SuspensionManager.RestoreAsync();
+                //TODO: Load state from previously suspended application
             }
 
-            //if (rootFrame.Content == null)
-            //{
-            //    // When the navigation stack isn't restored navigate to the first page,
-            //    // configuring the new page by passing required information as a navigation
-            //    // parameter
-            //    if (!rootFrame.Navigate(typeof(GroupedItemsPage), "AllGroups"))
-            //    {
-            //        throw new Exception("Failed to create initial page");
-            //    }
-            //}
+            // Create a Frame to act navigation context and navigate to the first page
+            var rootFrame = new Frame();
+            if (!rootFrame.Navigate(typeof(MainPage)))
+            {
+                throw new Exception("Failed to create initial page");
+            }
 
-            SplashScreen splashScreen = args.SplashScreen;
-            var extendedSplashScreen = new ExtendedSplashView(splashScreen, false);
-            splashScreen.Dismissed += splashScreen_Dismissed;
             // Place the frame in the current Window and ensure that it is active
-            Window.Current.Content = extendedSplashScreen;
+            Window.Current.Content = rootFrame;
             Window.Current.Activate();
-        }
-
-        void splashScreen_Dismissed(SplashScreen sender, object args)
-        {
-            //throw new NotImplementedException();
         }
 
         /// <summary>
@@ -88,10 +73,10 @@ namespace CrossPuzzleClient
         /// </summary>
         /// <param name="sender">The source of the suspend request.</param>
         /// <param name="e">Details about the suspend request.</param>
-        private async void OnSuspending(object sender, SuspendingEventArgs e)
+        private void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
-            await SuspensionManager.SaveAsync();
+            //TODO: Save application state and stop any background activity
             deferral.Complete();
         }
     }

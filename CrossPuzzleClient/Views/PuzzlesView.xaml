@@ -4,10 +4,13 @@
                         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:common="using:CrossPuzzleClient.Common"
                         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:data="using:CrossPuzzleClient.ViewModels"
-                        mc:Ignorable="d">
+                        mc:Ignorable="d" Margin="0,2,0,-2"
+                        >
 
   <Page.Resources>
+<!--DataContext="{Binding PuzzlesViewModel, Source={StaticResource ViewModelLocator}}"-->
 
+        
     <!--
             Collection of grouped items displayed by this page, bound to a subset
             of the complete item list because items in groups cannot be virtualized

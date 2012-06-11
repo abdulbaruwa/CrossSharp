@@ -10,6 +10,7 @@ namespace CrossPuzzleClient.Common
     {
         private Action _action;
 
+
         public DelegateCommand(Action action)
         {
             _action = action;
@@ -19,8 +20,6 @@ namespace CrossPuzzleClient.Common
         {
             return true;
         }
-
-      //  public event Windows.UI.Xaml.EventHandler CanExecuteChanged;
 
         public void Execute(object parameter)
         {

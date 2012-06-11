@@ -3,14 +3,16 @@ using System.Windows.Input;
 using CrossPuzzleClient.Common;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using CrossPuzzleClient.Infrastructure;
+using CrossPuzzleClient.Views;
 
 namespace CrossPuzzleClient.ViewModels
 {
     public sealed class PuzzlesViewModel : BindableBase
     {
+        private readonly NavigationService navigation;
         private ObservableCollection<PuzzleGroupViewModel> _puzzles;
         public string CurrentUser { get; set; }
-
         public ObservableCollection<PuzzleGroupViewModel> PuzzleGroups
         {
             get { return _puzzles; }
@@ -24,7 +26,7 @@ namespace CrossPuzzleClient.ViewModels
 
         private void StartPuzzle()
         {
-
+            navigation.Navigate<PuzzleBoard>();
         }
     }
 

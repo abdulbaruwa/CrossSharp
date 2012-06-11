@@ -4,15 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D8E59EF8-40EB-4659-AF05-ECCA2BCF8F8D}</ProjectGuid>
+    <ProjectGuid>{741CB7EC-5D57-43AA-A329-15B00A1BB533}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CrossPuzzleClient</RootNamespace>
-    <AssemblyName>CrossPuzzleClient</AssemblyName>
+    <RootNamespace>App1</RootNamespace>
+    <AssemblyName>App1</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <PackageCertificateKeyFile>CrossPuzzleClient_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateKeyFile>App1_TemporaryKey.pfx</PackageCertificateKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -100,74 +100,28 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <ProjectReference Include="..\CrossSharp.Core\CrossSharp.Core.fsproj">
-      <Project>{f8fb5310-b6cb-413d-944f-7dadc3945737}</Project>
-      <Name>CrossSharp.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Common\RelayCommand.cs" />
-    <Compile Include="GroupedItemsPage.xaml.cs">
-      <DependentUpon>GroupedItemsPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="GroupDetailPage.xaml.cs">
-      <DependentUpon>GroupDetailPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Infrastructure\NavigationService.cs" />
-    <Compile Include="Infrastructure\PreferredConstructorAttribute.cs" />
-    <Compile Include="Infrastructure\ViewModelLocator.cs" />
-    <Compile Include="ViewModels\ViewModelLocator.cs" />
-    <Compile Include="ItemDetailPage.xaml.cs">
-      <DependentUpon>ItemDetailPage.xaml</DependentUpon>
+    <Compile Include="MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="DataModel\SampleDataSource.cs" />
-    <Compile Include="Common\BindableBase.cs" />
-    <Compile Include="Common\BooleanToVisibilityConverter.cs" />
-    <Compile Include="Common\BooleanNegationConverter.cs" />
-    <Compile Include="Common\LayoutAwarePage.cs" />
-    <Compile Include="Common\RichTextColumns.cs" />
-    <Compile Include="Common\SuspensionManager.cs" />
-    <Compile Include="ViewModels\CellEmptyViewModel.cs" />
-    <Compile Include="ViewModels\DesignTimeHelper.cs" />
-    <Compile Include="ViewModels\PuzzleBoardViewModel.cs" />
-    <Compile Include="ViewModels\PuzzlesViewModel.cs" />
-    <Compile Include="ViewModels\PuzzleViewModel.cs" />
-    <Compile Include="ViewModels\WordViewModel.cs" />
-    <Compile Include="Views\BoardCanvas.cs" />
-    <Compile Include="Views\BoardCell.xaml.cs">
-      <DependentUpon>BoardCell.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\CellViewModel.cs" />
-    <Compile Include="Views\ExtendedSplashView.xaml.cs">
-      <DependentUpon>ExtendedSplashView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\PuzzleBoard.xaml.cs">
-      <DependentUpon>PuzzleBoard.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\PuzzlesView.xaml.cs">
-      <DependentUpon>PuzzlesView.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\ViewModelLocator.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <None Include="Common\ReadMe.txt" />
-    <None Include="CrossPuzzleClient_TemporaryKey.pfx" />
+    <None Include="App1_TemporaryKey.pfx" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Logo.png" />
     <Content Include="Assets\SmallLogo.png" />
     <Content Include="Assets\SplashScreen.png" />
     <Content Include="Assets\StoreLogo.png" />
-    <Content Include="Assets\LightGray.png" />
-    <Content Include="Assets\MediumGray.png" />
-    <Content Include="Assets\DarkGray.png" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -178,41 +132,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="GroupedItemsPage.xaml">
+    <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="GroupDetailPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="ItemDetailPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\BoardCell.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\ExtendedSplashView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\PuzzleBoard.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\PuzzlesView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
+    <Reference Include="GalaSoft.MvvmLight.Extras.Win8">
+      <HintPath>..\packages\MvvmLightPreview.4.1.22.0\lib\winrt45\GalaSoft.MvvmLight.Extras.Win8.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight.Win8">
+      <HintPath>..\packages\MvvmLightPreview.4.1.22.0\lib\winrt45\GalaSoft.MvvmLight.Win8.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation">
-      <HintPath>..\App1\packages\MvvmLightPreview.4.1.22.0\lib\winrt45\Microsoft.Practices.ServiceLocation.dll</HintPath>
+      <HintPath>..\packages\MvvmLightPreview.4.1.22.0\lib\winrt45\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0' ">
