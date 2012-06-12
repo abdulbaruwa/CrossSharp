@@ -3,8 +3,15 @@ using Windows.UI.Xaml.Controls;
 
 namespace CrossPuzzleClient.Infrastructure
 {
+    public interface INavigationService
+    {
+        void GoBack();
+        void GoForward();
+        bool Navigate<T>(object parameter = null);
+        bool Navigate(Type source, object parameter = null);
+    }
 
-    public class NavigationService
+    public class NavigationService : INavigationService
     {
         readonly Frame frame;
 

@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using CrossPuzzleClient.Common;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,8 +9,31 @@ namespace CrossPuzzleClient.ViewModels
 {
     public sealed class PuzzlesViewModel : BindableBase
     {
+
         private readonly NavigationService navigation;
         private ObservableCollection<PuzzleGroupViewModel> _puzzles;
+
+        public PuzzlesViewModel(NavigationService navigationService)
+        {
+            navigation = navigationService;
+            _puzzles = new ObservableCollection<PuzzleGroupViewModel>();
+            var sciencegroup = new PuzzleGroupViewModel() { Category = "Science", Puzzles = new ObservableCollection<PuzzleViewModel>() };
+            sciencegroup.Puzzles.Add(ViewModelHelper.FakePuzzleBuilder("Human Skeleton Puzzles"));
+            sciencegroup.Puzzles.Add(ViewModelHelper.FakePuzzleBuilder("Resperatory System"));
+            sciencegroup.Puzzles.Add(ViewModelHelper.FakePuzzleBuilder("Muscle System"));
+            PuzzleGroups.Add(sciencegroup);
+            var englishgroup = new PuzzleGroupViewModel() { Category = "English", Puzzles = new ObservableCollection<PuzzleViewModel>() };
+            englishgroup.Puzzles.Add(ViewModelHelper.FakePuzzleBuilder("English Vocabs Puzzles"));
+            englishgroup.Puzzles.Add(ViewModelHelper.FakePuzzleBuilder("Grammer"));
+            PuzzleGroups.Add(englishgroup);
+            var geographygroup = new PuzzleGroupViewModel() { Category = "Geography", Puzzles = new ObservableCollection<PuzzleViewModel>() };
+            geographygroup.Puzzles.Add(ViewModelHelper.FakePuzzleBuilder("Rivers Puzzles"));
+            geographygroup.Puzzles.Add(ViewModelHelper.FakePuzzleBuilder("Tectonic Plates Puzzles"));
+            geographygroup.Puzzles.Add(ViewModelHelper.FakePuzzleBuilder("Polution Puzzles"));
+            geographygroup.Puzzles.Add(ViewModelHelper.FakePuzzleBuilder("Volcanoes Puzzles"));
+            PuzzleGroups.Add(geographygroup);
+        }
+
         public string CurrentUser { get; set; }
         public ObservableCollection<PuzzleGroupViewModel> PuzzleGroups
         {
@@ -26,7 +48,8 @@ namespace CrossPuzzleClient.ViewModels
 
         private void StartPuzzle()
         {
-            navigation.Navigate<PuzzleBoard>();
+            object param = "parameter";
+            navigation.Navigate<PuzzleBoard>(param);
         }
     }
 

@@ -1,4 +1,6 @@
 ﻿using CrossPuzzleClient.ViewModels;
+using CrossPuzzleClient.Views;
+using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
 
 namespace CrossPuzzleClient.Infrastructure
@@ -19,7 +21,9 @@ namespace CrossPuzzleClient.Infrastructure
             ////if (ViewModelBase.IsInDesignModeStatic)
             ////{
             ////    // Create design time view services and models
-            ////    SimpleIoc.Default.Register<IDataService, DesignDataService>();
+            INavigationService x = App.NavigationService;
+
+            
             ////}
             ////else
             ////{
@@ -30,14 +34,18 @@ namespace CrossPuzzleClient.Infrastructure
             SimpleIoc.Default.Register<PuzzlesViewModel>();
         }
 
-        public PuzzlesViewModel Main
+        public PuzzlesViewModel PuzzlesViewModel
         {
             get
             {
-                return ServiceLocator.Current.GetInstance<PuzzlesViewModel>();
+                return new PuzzlesViewModel(App.NavigationService); 
             }
         }
 
+        public PuzzleBoardViewModel PuzzleBoardViewModel
+        {
+            get{return new PuzzleBoardViewModel();}
+        }
         public static void Cleanup()
         {
             // TODO Clear the ViewModels

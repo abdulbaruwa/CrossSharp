@@ -36,7 +36,7 @@ namespace CrossPuzzleClient.Views
 
         private void Button_Click_1(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            this.Frame.Navigate(typeof(PuzzleBoard));
+            //this.Frame.Navigate(typeof(PuzzleBoard));
             // Place the frame in the current Window and ensure that it is active
             //Window.Current.Activate();
 
