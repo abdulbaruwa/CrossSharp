@@ -100,11 +100,25 @@ namespace CrossPuzzleClient.ViewModels
         private int _cols;
         private int _rows;
         private ObservableCollection<WordViewModel> _words;
+        private string _puzzleId;
+
         public PuzzleBoardViewModel()
         {
             _cells = new ObservableCollection<CellEmptyViewModel>();
             _words = new ObservableCollection<WordViewModel>();
             CreateBubblesAsync();
+            RegisterForMessage();
+        }
+
+        private void RegisterForMessage()
+        {
+            GalaSoft.MvvmLight.Messaging.Messenger.Default.Register<StartPuzzleMessage>(this, m => PuzzleId = m.PuzzleId);
+        }
+
+        public string PuzzleId
+        {
+            get { return _puzzleId; }
+            set { SetProperty(ref _puzzleId, value); }
         }
 
         public int Cols

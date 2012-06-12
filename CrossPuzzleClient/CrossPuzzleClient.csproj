@@ -136,6 +136,7 @@
     <Compile Include="ViewModels\PuzzleBoardViewModel.cs" />
     <Compile Include="ViewModels\PuzzlesViewModel.cs" />
     <Compile Include="ViewModels\PuzzleViewModel.cs" />
+    <Compile Include="ViewModels\StartPuzzleMessage.cs" />
     <Compile Include="ViewModels\WordViewModel.cs" />
     <Compile Include="Views\BoardCanvas.cs" />
     <Compile Include="Views\BoardCell.xaml.cs">

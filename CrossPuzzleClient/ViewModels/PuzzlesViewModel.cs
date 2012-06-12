@@ -50,6 +50,9 @@ namespace CrossPuzzleClient.ViewModels
         {
             object param = "parameter";
             navigation.Navigate<PuzzleBoard>(param);
+
+            GalaSoft.MvvmLight.Messaging.Messenger.Default.Send<StartPuzzleMessage>(new StartPuzzleMessage()
+                                                                                        {PuzzleId = "firstpuzzle"});
         }
     }
 
