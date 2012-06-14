@@ -1,0 +1,30 @@
+﻿<RecentFiles>
+  <RecentFiles>
+    <File id="8D9E880F-F5C0-41CB-B993-0C893E837B8E/d:DataModel/f:CellViewModel.cs" caret="0" fromTop="0" />
+    <File id="8F40110D-0E0F-4443-8FD6-D479828CB17A/d:Common/f:BooleanToVisibilityConverter.cs" caret="0" fromTop="0" />
+    <File id="8F40110D-0E0F-4443-8FD6-D479828CB17A/d:Common/f:BooleanNegationConverter.cs" caret="0" fromTop="0" />
+    <File id="8F40110D-0E0F-4443-8FD6-D479828CB17A/d:Common/f:BindableBase.cs" caret="391" fromTop="12" />
+    <File id="8F40110D-0E0F-4443-8FD6-D479828CB17A/d:Common/f:SuspensionManager.cs" caret="11564" fromTop="229" />
+    <File id="8D9E880F-F5C0-41CB-B993-0C893E837B8E/d:Common/f:SuspensionManager.cs" caret="11569" fromTop="229" />
+    <File id="8F40110D-0E0F-4443-8FD6-D479828CB17A/d:Common/f:LayoutAwarePage.cs" caret="15675" fromTop="8" />
+    <File id="8D9E880F-F5C0-41CB-B993-0C893E837B8E/d:Views/f:GroupedItemsPage.xaml" caret="0" fromTop="0" />
+    <File id="8D9E880F-F5C0-41CB-B993-0C893E837B8E/d:Views/f:PuzzlesListView.xaml" caret="2166" fromTop="2" />
+    <File id="F0E754AC-DF9F-4593-ABCE-6BA068DD952B/f:App.g.i.cs" caret="2088" fromTop="21" />
+    <File id="8D9E880F-F5C0-41CB-B993-0C893E837B8E/f:BoardCanvas.cs" caret="0" fromTop="0" />
+    <File id="8D9E880F-F5C0-41CB-B993-0C893E837B8E/d:DataModel/f:SampleDataSource.cs" caret="1166" fromTop="0" />
+    <File id="8D9E880F-F5C0-41CB-B993-0C893E837B8E/d:DataModel/f:MainViewModel.cs" caret="0" fromTop="0" />
+    <File id="8D9E880F-F5C0-41CB-B993-0C893E837B8E/d:Common/f:BooleanToVisibilityConverter.cs" caret="0" fromTop="0" />
+    <File id="8D9E880F-F5C0-41CB-B993-0C893E837B8E/d:Common/f:LayoutAwarePage.cs" caret="16033" fromTop="15" />
+    <File id="8D9E880F-F5C0-41CB-B993-0C893E837B8E/d:Common/f:ReadMe.txt" caret="0" fromTop="0" />
+    <File id="8D9E880F-F5C0-41CB-B993-0C893E837B8E/d:DataModel/f:PuzzlesViewModel.cs" caret="149" fromTop="6" />
+    <File id="8D9E880F-F5C0-41CB-B993-0C893E837B8E/d:Common/f:RichTextColumns.cs" caret="0" fromTop="0" />
+  </RecentFiles>
+  <RecentEdits>
+    <File id="8D9E880F-F5C0-41CB-B993-0C893E837B8E/d:DataModel/f:PuzzlesViewModel.cs" caret="1145" fromTop="39" />
+    <File id="8F40110D-0E0F-4443-8FD6-D479828CB17A/d:Common/f:LayoutAwarePage.cs" caret="15637" fromTop="7" />
+    <File id="8F40110D-0E0F-4443-8FD6-D479828CB17A/d:Common/f:SuspensionManager.cs" caret="11564" fromTop="229" />
+    <File id="8D9E880F-F5C0-41CB-B993-0C893E837B8E/d:Common/f:LayoutAwarePage.cs" caret="23297" fromTop="541" />
+    <File id="8D9E880F-F5C0-41CB-B993-0C893E837B8E/d:Common/f:SuspensionManager.cs" caret="11569" fromTop="229" />
+    <File id="8D9E880F-F5C0-41CB-B993-0C893E837B8E/d:Views/f:PuzzlesListView.xaml" caret="1761" fromTop="0" />
+  </RecentEdits>
+</RecentFiles>

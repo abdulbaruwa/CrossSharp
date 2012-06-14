@@ -52,7 +52,7 @@
         </Grid>
         <!--board-->
         <Grid Grid.Row="1">
-            <Grid Margin="50"
+            <Grid Margin="50,53,50,47"
                   d:DataContext="{Binding Source={d:DesignInstance Type=ViewModels:DesignPuzzleBoardViewModel, IsDesignTimeCreatable=True}}">
                    
                 <Grid.ColumnDefinitions>
@@ -62,26 +62,26 @@
                 </Grid.ColumnDefinitions>
 
                 <!--Down-->
-                <Border Grid.Row="1" Grid.Column="0" Background="Transparent" BorderBrush="White" BorderThickness=".5" 
-                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,25,0">
-                    <StackPanel Orientation="Vertical" Grid.Column="0"  Grid.Row="1" HorizontalAlignment="Center">
-                        <TextBlock Style="{StaticResource CrossWordSideHeaderTextStyle}" Text="Down" Margin="0,5,40,40" />
-                        <ListView  ItemsSource="{Binding Path=WordsDown}">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
-                                        <TextBlock Text="{Binding Index}" FontSize="22" FontWeight="Bold" Margin="0,0,15,0" VerticalAlignment="Center"/>
-                                        <TextBlock Text="{Binding Word}" Style="{StaticResource CrossWordHeaderTextStyle}" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ListView>
-                    </StackPanel>
-                </Border>
+                <Rectangle Grid.Column="0"  Width="{Binding ElementName=wordsdown, Path=Width}" Height="{Binding ElementName=wordsdown, Path=Height}" Grid.Row="1" Fill="AntiqueWhite"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10" Stroke="{StaticResource ButtonDisabledBackgroundThemeBrush}">
+                </Rectangle>
+
+                <StackPanel x:Name="wordsdown" Orientation="Vertical" HorizontalAlignment="Center" Margin="10">
+                    <TextBlock Style="{StaticResource CrossWordSideHeaderTextStyle}" Text="Down" Margin="0,5,40,40" Foreground="Red"/>
+                    <ListView  ItemsSource="{Binding Path=WordsDown}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Index}" FontSize="22" FontWeight="Bold" Foreground="Red"  Margin="0,0,15,0" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{Binding Word}" Style="{StaticResource CrossWordHeaderTextStyle}" FontSize="24" Foreground="Red"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ListView>
+                </StackPanel>
 
                 <!--Main Board-->
-                <Border Grid.Column="1"  Grid.Row="1" Background="Transparent" BorderBrush="White" BorderThickness=".5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
-                    <StackPanel Orientation="Vertical" Margin="10,10,10,0">
+                <!--<Border Grid.Column="1"  Grid.Row="1" Background="Transparent" BorderBrush="White" BorderThickness=".5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >-->
+                    <StackPanel Orientation="Vertical" Margin="10,10,10,0" Grid.Column="1"  Grid.Row="1" >
                         <ItemsControl Grid.Column="1" x:Name="itemsTwo" ItemsSource="{Binding Path=Cells}">
                             <ItemsControl.ItemContainerTransitions>
                                 <TransitionCollection>
@@ -119,23 +119,25 @@
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
                     </StackPanel>
-                </Border>
+                <!--</Border>-->
                 <!--Across-->
-                <Border Grid.Column="2"  Grid.Row="1"  Background="Transparent" BorderBrush="White" BorderThickness=".5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="25,0,0,0">
-                    <StackPanel x:Name="margin" Orientation="Vertical" >
-                        <TextBlock Style="{StaticResource CrossWordSideHeaderTextStyle}" Text="Across" Margin="0,5,40,40" />
+                <Rectangle Grid.Column="2"  Width="{Binding ElementName=wordsacross, Path=Width}" Height="{Binding ElementName=wordsacross, Path=Height}" Grid.Row="1" Fill="AntiqueWhite"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10" Stroke="{StaticResource ButtonDisabledBackgroundThemeBrush}">
+
+                </Rectangle>
+
+                    <StackPanel x:Name="wordsacross" Orientation="Vertical" Grid.Column="2" Grid.Row="1" Margin="10">
+                        <TextBlock Style="{StaticResource CrossWordSideHeaderTextStyle}" Text="Across" Margin="0,5,40,40" Foreground="Red" />
 <ListView  ItemsSource="{Binding Path=WordsAcross}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
-                                        <TextBlock Text="{Binding Index}" FontSize="22" FontWeight="Bold" Margin="0,0,15,0" VerticalAlignment="Center"/>
-                                        <TextBlock Text="{Binding Word}" Style="{StaticResource CrossWordHeaderTextStyle}" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                        <TextBlock Text="{Binding Index}" FontSize="22" FontWeight="Bold" Margin="0,0,15,0" VerticalAlignment="Center" Foreground="Red"/>
+                                        <TextBlock Text="{Binding Word}" Style="{StaticResource CrossWordHeaderTextStyle}" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="Red"/>
                                     </StackPanel>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ListView>
                     </StackPanel>
-                </Border>
             </Grid>
 
         </Grid>

@@ -17,19 +17,7 @@ namespace CrossPuzzleClient.Infrastructure
         public ViewModelLocator()
         {
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
-
-            ////if (ViewModelBase.IsInDesignModeStatic)
-            ////{
-            ////    // Create design time view services and models
-            INavigationService x = App.NavigationService;
-
-            
-            ////}
-            ////else
-            ////{
-            ////    // Create run time view services and models
-            ////    SimpleIoc.Default.Register<IDataService, DataService>();
-            ////}
+            if (Windows.ApplicationModel.DesignMode.DesignModeEnabled) return;
 
             SimpleIoc.Default.Register<PuzzlesViewModel>();
             SimpleIoc.Default.Register<IPuzzleRepository, FakePuzzleRepository>();
