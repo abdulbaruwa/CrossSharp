@@ -52,7 +52,7 @@ namespace CrossPuzzleClient.ViewModels
             navigation.Navigate<PuzzleBoard>(param);
 
             GalaSoft.MvvmLight.Messaging.Messenger.Default.Send<StartPuzzleMessage>(new StartPuzzleMessage()
-                                                                                        {PuzzleId = "firstpuzzle"});
+                                                                                        {PuzzleId = 0});
         }
     }
 

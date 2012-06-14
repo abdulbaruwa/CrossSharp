@@ -32,6 +32,8 @@ namespace CrossPuzzleClient.Infrastructure
             ////}
 
             SimpleIoc.Default.Register<PuzzlesViewModel>();
+            SimpleIoc.Default.Register<IPuzzleRepository, FakePuzzleRepository>();
+            SimpleIoc.Default.Register<IPuzzlesService, PuzzlesService>();
         }
 
         public PuzzlesViewModel PuzzlesViewModel
@@ -44,8 +46,9 @@ namespace CrossPuzzleClient.Infrastructure
 
         public PuzzleBoardViewModel PuzzleBoardViewModel
         {
-            get{return new PuzzleBoardViewModel();}
+            get{return new PuzzleBoardViewModel(SimpleIoc.Default.GetInstance<IPuzzlesService>());}
         }
+
         public static void Cleanup()
         {
             // TODO Clear the ViewModels

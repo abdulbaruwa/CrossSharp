@@ -132,8 +132,14 @@
     <Compile Include="Common\RichTextColumns.cs" />
     <Compile Include="Common\SuspensionManager.cs" />
     <Compile Include="ViewModels\CellEmptyViewModel.cs" />
+    <Compile Include="ViewModels\DesignPuzzleBoardViewModel.cs" />
     <Compile Include="ViewModels\DesignTimeHelper.cs" />
+    <Compile Include="ViewModels\FakePuzzleRepository.cs" />
+    <Compile Include="ViewModels\FakePuzzlesService.cs" />
+    <Compile Include="ViewModels\IPuzzleRepository.cs" />
+    <Compile Include="ViewModels\IPuzzlesService.cs" />
     <Compile Include="ViewModels\PuzzleBoardViewModel.cs" />
+    <Compile Include="ViewModels\PuzzlesService.cs" />
     <Compile Include="ViewModels\PuzzlesViewModel.cs" />
     <Compile Include="ViewModels\PuzzleViewModel.cs" />
     <Compile Include="ViewModels\StartPuzzleMessage.cs" />
