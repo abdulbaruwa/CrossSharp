@@ -72,7 +72,6 @@ namespace CrossPuzzleClient.ViewModels
             get { return new ObservableCollection<WordViewModel>(Words.Where(x => x.Direction == Direction.Down)); }
         }
 
-
         private void CreateBubblesAsync()
         {
             var cells = new List<CellEmptyViewModel>();

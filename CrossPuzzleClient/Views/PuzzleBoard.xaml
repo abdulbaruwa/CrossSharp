@@ -37,7 +37,7 @@
     -->
     <Grid Style="{StaticResource LayoutRootStyle}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="140"/>
+            <RowDefinition Height="100"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
@@ -52,7 +52,7 @@
         </Grid>
         <!--board-->
         <Grid Grid.Row="1">
-            <Grid Margin="50,53,50,47"
+            <Grid Margin="50,13,50,7"
                   d:DataContext="{Binding Source={d:DesignInstance Type=ViewModels:DesignPuzzleBoardViewModel, IsDesignTimeCreatable=True}}">
                    
                 <Grid.ColumnDefinitions>
@@ -82,43 +82,43 @@
                 <!--Main Board-->
                 <!--<Border Grid.Column="1"  Grid.Row="1" Background="Transparent" BorderBrush="White" BorderThickness=".5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >-->
                     <StackPanel Orientation="Vertical" Margin="10,10,10,0" Grid.Column="1"  Grid.Row="1" >
-                        <ItemsControl Grid.Column="1" x:Name="itemsTwo" ItemsSource="{Binding Path=Cells}">
-                            <ItemsControl.ItemContainerTransitions>
-                                <TransitionCollection>
-                                    <RepositionThemeTransition/>
-                                </TransitionCollection>
-                            </ItemsControl.ItemContainerTransitions>
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <local:BoardCanvas/>
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <!--<local:BoardCell DataContext="{Binding}" Width="50" Height="50" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"   />-->
-                                         <Border BorderThickness=".5">
+                    <ItemsControl x:Name="itemsTwo" ItemsSource="{Binding Cells}">
+                        <ItemsControl.ItemContainerTransitions>
+                            <TransitionCollection>
+                                <RepositionThemeTransition/>
+                            </TransitionCollection>
+                        </ItemsControl.ItemContainerTransitions>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <local:BoardCanvas/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <!--<local:BoardCell DataContext="{Binding}" Width="50" Height="50" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"   />-->
+                                <Border BorderThickness=".5">
 
-                                        <Grid  Background="{Binding IsVisible, Converter={StaticResource BoolToCellShade}}"  Width="50" Height="50">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="*"/>
-                                                <RowDefinition Height="*"/>
-                                                <RowDefinition Height="*"/>
-                                            </Grid.RowDefinitions>
-                                            <!--<Image Grid.Row="0" Grid.Column="0" Source="Assets/DownButton.png" Visibility="{Binding ShowVertical, Converter={StaticResource VisibilityOfBool}}" Height="14" Width="14"></Image>-->
-                                            <!--<Image Grid.Row="2" Grid.Column="0" Visibility="{Binding ShowHorizontal, Converter={StaticResource VisibilityOfBool}}" Height="14" Width="14"></Image>-->
-                                            <TextBlock Grid.Row="0" Grid.Column="0"  Text="{Binding WordPosition}" FontSize="14" Foreground="Red" Padding="0" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                                            <TextBlock Grid.ColumnSpan="3" FontFamily="Segoi" FontSize="32" Foreground="Red" VerticalAlignment="Top" Padding="0" HorizontalAlignment="Center" Text="{Binding Value}" Grid.RowSpan="3" Margin="13,7,14,0"/>
-                                        </Grid>
-                                    </Border>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                    </StackPanel>
+                                    <Grid  Background="{Binding IsVisible, Converter={StaticResource BoolToCellShade}}"  Width="50" Height="50">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <!--<Image Grid.Row="0" Grid.Column="0" Source="Assets/DownButton.png" Visibility="{Binding ShowVertical, Converter={StaticResource VisibilityOfBool}}" Height="14" Width="14"></Image>-->
+                                        <!--<Image Grid.Row="2" Grid.Column="0" Visibility="{Binding ShowHorizontal, Converter={StaticResource VisibilityOfBool}}" Height="14" Width="14"></Image>-->
+                                        <TextBlock Grid.Row="0" Grid.Column="0"  Text="{Binding WordPosition}" FontSize="14" Foreground="Red" Padding="0" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                        <TextBlock Grid.ColumnSpan="3" FontFamily="Segoi" FontSize="32" Foreground="Red" VerticalAlignment="Top" Padding="0" HorizontalAlignment="Center" Text="{Binding Value}" Grid.RowSpan="3" Margin="13,7,14,0"/>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
                 <!--</Border>-->
                 <!--Across-->
                 <Rectangle Grid.Column="2"  Width="{Binding ElementName=wordsacross, Path=Width}" Height="{Binding ElementName=wordsacross, Path=Height}" Grid.Row="1" Fill="AntiqueWhite"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10" Stroke="{StaticResource ButtonDisabledBackgroundThemeBrush}">
