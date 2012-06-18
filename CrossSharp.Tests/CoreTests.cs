@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using NUnit.Framework;
 using System.Diagnostics;
 using System.Linq;
-using MS.Internal.Xml.XPath;
-using NUnit.Framework;
 using CrossSharp.Core;
+using System.Collections.Generic;
+
 namespace CrossSharp.Tests
 {
     [TestFixture]
@@ -25,7 +24,7 @@ namespace CrossSharp.Tests
 
         private string[,] GetBoardWithFirstWord(string word)
         {
-            var board = CoreHorizontal.GetBoard(15,15);
+            var board = CoreHorizontal.GetBoard(12,12);
             return CoreHorizontal.AddFirstWord(word, board);
         }
 
@@ -271,7 +270,7 @@ namespace CrossSharp.Tests
             words.Add("amoeba");
             words.Add("moscow");
 
-            var board = CoreHorizontal.GetBoard(15,15);
+            var board = CoreHorizontal.GetBoard(12,12);
             var result = (CoreVertical.AddWordsAttempts(words.ToArray(), board));
             PrintBoard(result.Item2);
             foreach (var s in result.Item1 )

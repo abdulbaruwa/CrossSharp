@@ -76,8 +76,8 @@ namespace CrossPuzzleClient.ViewModels
         {
             var cells = new List<CellEmptyViewModel>();
             cells.AddRange(
-                from row in Enumerable.Range(0, 15)
-                from col in Enumerable.Range(0, 15)
+                from row in Enumerable.Range(0, 12)
+                from col in Enumerable.Range(0, 12)
                 select new CellEmptyViewModel(col, row, string.Empty));
 
             foreach (CellEmptyViewModel cellViewModel in cells)
@@ -95,7 +95,7 @@ namespace CrossPuzzleClient.ViewModels
                 {
                     var startPositionForWordOnBoard = string.Empty;
 
-                    var cellPositionOnBoard = (cell.Row*15) + cell.Col;
+                    var cellPositionOnBoard = (cell.Row*12) + cell.Col;
                     if (!firstCellVisited) startPositionForWordOnBoard = wordViewModel.Index.ToString();
                     firstCellVisited = true;
 

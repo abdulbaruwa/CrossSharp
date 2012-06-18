@@ -23,7 +23,7 @@ namespace CrossPuzzleClient.Views
             }
 
             // return the size available to the whole panel, which is 300x300
-            return new Size(750, 750);
+            return new Size(600, 600);
         }
 
 
@@ -42,7 +42,7 @@ namespace CrossPuzzleClient.Views
             {
 
                 // Get (left, top) origin point for the element in the 3x3 block
-                Point cellOrigin = GetOrigin(i, 15, new Size(50, 50));
+                Point cellOrigin = GetOrigin(i, 12, new Size(50, 50));
 
                 // Arrange child
                 // Get desired height and width. This will not be larger than 100x100 as set in MeasureOverride.

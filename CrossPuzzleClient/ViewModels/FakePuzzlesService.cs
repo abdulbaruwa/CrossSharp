@@ -59,14 +59,14 @@ namespace CrossPuzzleClient.ViewModels
             words.Add("amoeba");
             words.Add("moscow");
 
-            var board = CoreHorizontal.GetBoard(15, 15);
+            var board = CoreHorizontal.GetBoard(12, 12);
             var result = (CoreVertical.AddWordsAttempts(words.ToArray(), board));
 
             var wordsInserted = result.Item1.Where(x => x.inserted);
             var wordviewmodels = new List<WordViewModel>();
             foreach (var word in wordsInserted)
             {
-                var position = (word.row * 15) + word.col;
+                var position = (word.row * 12) + word.col;
 
                 var wordViewModel = new WordViewModel()
                                         {

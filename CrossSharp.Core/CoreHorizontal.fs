@@ -7,7 +7,8 @@ module CoreHorizontal =
     open System
 
     let emptyCell = "_"
-
+    let cellcount = 12
+    let cellindexcount = 11
     type Orientation =
         | vertical = 0
         | horizontal = 1
@@ -32,8 +33,8 @@ module CoreHorizontal =
 
     let nextCell cell = 
         match cell with
-        |(14, 14) -> (-1,-1)
-        |(row, col) & (_,14) -> ((row + 1), 0)
+        |( cellindexcount) -> (-1,-1)
+        |(row, col) & (_,cellindexcount) -> ((row + 1), 0)
         |(row, col) & (_,_) -> (row, (col + 1))
 
     let SortWords words = Array.sortWith sortFunction words
@@ -60,7 +61,7 @@ module CoreHorizontal =
             else
                 let newindex = index+1
                 GetLocationIfExists letter board len newindex
-        let hpos = GetLocationIfExists firstLetter board 15 0
+        let hpos = GetLocationIfExists firstLetter board cellcount 0
         hpos
 
 
