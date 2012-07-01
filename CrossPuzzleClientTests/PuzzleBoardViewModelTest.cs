@@ -1,19 +1,17 @@
 ﻿using System.Linq;
 using CrossPuzzleClient.ViewModels;
 using GalaSoft.MvvmLight.Messaging;
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 
 namespace CrossPuzzleClientTests
 {
     [TestClass]
     public class PuzzleBoardViewModelTest
     {
-       
         [TestMethod]
         public void Should_instatiate_with_dummy_words()
         {
             var puzzleBoardVm = new DesignPuzzleBoardViewModel();
-            
+
             Assert.IsTrue(puzzleBoardVm.Words.Count > 0);
         }
 
@@ -21,9 +19,7 @@ namespace CrossPuzzleClientTests
         [TestMethod]
         public void SelectedWord_should_be_set_after_an_item_is_selected_on_the_Down_list()
         {
-               
             var puzzleBoardVm = new DesignPuzzleBoardViewModel();
-
         }
 
         [TestMethod]
@@ -32,7 +28,7 @@ namespace CrossPuzzleClientTests
             var puzzleBoardVm = new DesignPuzzleBoardViewModel();
             puzzleBoardVm.SelectedWordAcross = puzzleBoardVm.Words.First();
 
-            Messenger.Default.Send(new KeyReceivedMessage() {KeyChar = "t"});
+            Messenger.Default.Send(new KeyReceivedMessage {KeyChar = "t"});
             Assert.AreEqual(puzzleBoardVm.SelectedWord.Cells.First().EnteredValue, "t");
         }
 
@@ -42,12 +38,25 @@ namespace CrossPuzzleClientTests
             var puzzleBoardVm = new DesignPuzzleBoardViewModel();
             puzzleBoardVm.SelectedWordAcross = puzzleBoardVm.Words.First();
 
-            foreach (var cell in puzzleBoardVm.SelectedWord.Cells)
+            foreach (CellEmptyViewModel cell in puzzleBoardVm.SelectedWord.Cells)
             {
-                Messenger.Default.Send(new KeyReceivedMessage() {KeyChar = "t"});
+                Messenger.Default.Send(new KeyReceivedMessage {KeyChar = "t"});
             }
 
             Assert.IsTrue(puzzleBoardVm.ShowCompleteTick);
         }
+
+        public void When_a_backspace_is_hit_should_remove_a_letter_from_entered_characters()
+        {
+            var puzzleBoardVm = new DesignPuzzleBoardViewModel();
+            puzzleBoardVm.SelectedWordAcross = puzzleBoardVm.Words.First();
+            Messenger.Default.Send(new KeyReceivedMessage {KeyChar = "t"});
+            Messenger.Default.Send(new KeyReceivedMessage {KeyChar = "t"});
+
+            Messenger.Default.Send(new KeyReceivedMessage { KeyCharType = KeyCharType.BackSpace });
+            
+            
+        }
+
     }
 }
