@@ -49,7 +49,7 @@ namespace CrossPuzzleClient.Data
         public string Title
         {
             get { return this._title; }
-            set { this.SetProperty(ref this._title, value); }
+            set { this.SetProperty(ref this._title, value); } 
         }
 
         private string _subtitle = string.Empty;

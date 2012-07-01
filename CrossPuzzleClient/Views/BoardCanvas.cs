@@ -7,6 +7,8 @@ namespace CrossPuzzleClient.Views
 {
     public class BoardCanvas : Panel
     {
+    
+
         protected override Size MeasureOverride(Size availableSize)
         {
             // Get the collection of children

@@ -4,4 +4,9 @@ namespace CrossPuzzleClient.ViewModels
     {
         public int PuzzleId { get; set; }
     }
+
+    public class KeyReceivedMessage
+    {
+        public string KeyChar { get; set; }
+    }
 }

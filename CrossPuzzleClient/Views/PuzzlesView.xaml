@@ -77,7 +77,7 @@
           <GroupStyle.HeaderTemplate>
             <DataTemplate>
               <Grid Margin="1,0,0,5">
-<Button AutomationProperties.Name="Group Title" Content="{Binding Category}"
+<Button AutomationProperties.Name="Group NewTitle" Content="{Binding Category}"
                         Style="{StaticResource TextButtonStyle}" />
               </Grid>
             </DataTemplate>
@@ -103,7 +103,7 @@
           <GroupStyle.HeaderTemplate>
             <DataTemplate>
               <Grid Margin="7,7,0,0">
-                <Button AutomationProperties.Name="Group Title" Content="{Binding}"
+                <Button AutomationProperties.Name="Group NewTitle" Content="{Binding}"
                         Style="{StaticResource TextButtonStyle}" />
               </Grid>
             </DataTemplate>

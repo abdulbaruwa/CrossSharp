@@ -25,9 +25,6 @@ namespace CrossPuzzleClient.ViewModels
             get { return _wordPosition; }
             set { SetProperty(ref _wordPosition, value); }
         }
-
-
-
     }
 
     public class CellEmptyViewModel : BindableBase
@@ -36,6 +33,7 @@ namespace CrossPuzzleClient.ViewModels
         private int _row;
         private string _value = string.Empty;
         private bool _isVisible;
+        private string _enteredvalue;
 
         public CellEmptyViewModel(int col, int row, string value)
 
@@ -63,6 +61,12 @@ namespace CrossPuzzleClient.ViewModels
             set { SetProperty(ref _value, value); }
         }
 
+        public string EnteredValue
+        {
+            get { return _enteredvalue; }
+            set { SetProperty(ref _enteredvalue, value); }
+ 
+        }
         public bool IsVisible
         {
             get { return _isVisible; }

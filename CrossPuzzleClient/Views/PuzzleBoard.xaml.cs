@@ -1,17 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using CrossPuzzleClient.Common;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
+using CrossPuzzleClient.ViewModels;
+using GalaSoft.MvvmLight.Messaging;
+using Windows.System;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234237
 
@@ -20,11 +14,11 @@ namespace CrossPuzzleClient.Views
     /// <summary>
     /// A basic page that provides characteristics common to most applications.
     /// </summary>
-    public sealed partial class PuzzleBoard : CrossPuzzleClient.Common.LayoutAwarePage
+    public sealed partial class PuzzleBoard : LayoutAwarePage
     {
         public PuzzleBoard()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         /// <summary>
@@ -50,5 +44,16 @@ namespace CrossPuzzleClient.Views
         {
         }
 
+        protected override void OnKeyUp(KeyRoutedEventArgs e)
+        {
+            var keyint = (int) e.Key;
+            if (keyint >= 60 && keyint <= 90)
+            {
+                string keyname = Enum.GetName(typeof (VirtualKey), e.Key);
+                Messenger.Default.Send(new KeyReceivedMessage {KeyChar = keyname});
+            }
+
+            base.OnKeyUp(e);
+        }
     }
 }

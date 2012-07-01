@@ -43,7 +43,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Button x:Name="backButton" Click="GoBack" IsEnabled="{Binding Frame.CanGoBack, ElementName=pageRoot}" Style="{StaticResource BackButtonStyle}"/>
-            <TextBlock x:Name="pageTitle" Text="{Binding Title}" Style="{StaticResource PageHeaderTextStyle}" Grid.Column="1"/>
+            <TextBlock x:Name="pageTitle" Text="{Binding NewTitle}" Style="{StaticResource PageHeaderTextStyle}" Grid.Column="1"/>
         </Grid>
 
         <!--
@@ -74,7 +74,7 @@
                             <common:RichTextColumns x:Name="richTextColumns" Margin="117,0,117,47">
                                 <RichTextBlock x:Name="richTextBlock" Width="560" Style="{StaticResource ItemRichTextStyle}">
                                     <Paragraph>
-                                        <Run FontSize="26.667" FontWeight="Light" Text="{Binding Title}"/>
+                                        <Run FontSize="26.667" FontWeight="Light" Text="{Binding NewTitle}"/>
                                         <LineBreak/>
                                         <LineBreak/>
                                         <Run FontWeight="SemiBold" Text="{Binding Subtitle}"/>
