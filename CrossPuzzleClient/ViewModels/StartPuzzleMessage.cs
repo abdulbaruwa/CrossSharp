@@ -1,3 +1,5 @@
+using System;
+
 namespace CrossPuzzleClient.ViewModels
 {
     internal class StartPuzzleMessage 

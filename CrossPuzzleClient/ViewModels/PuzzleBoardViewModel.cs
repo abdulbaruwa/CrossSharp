@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Input;
 using CrossPuzzleClient.Common;
 using GalaSoft.MvvmLight.Messaging;
+using System.Linq;
 
 namespace CrossPuzzleClient.ViewModels
 {
@@ -69,6 +71,19 @@ namespace CrossPuzzleClient.ViewModels
             set { SetProperty(ref _showCompleteTick, value); }
         }
 
+        public ICommand AddWordToBoardCommand
+        {
+           get{return new DelegateCommand(LoadWordToBoard);} 
+        }
+
+        private void LoadWordToBoard()
+        {
+            foreach (var cell in SelectedWord.Cells)
+            {
+                Cells.First(x => x.Row == cell.Row && x.Col == cell.Col).EnteredValue = cell.EnteredValue;
+            }
+        }
+
         public ObservableCollection<WordViewModel> WordsAcross
         {
             get { return new ObservableCollection<WordViewModel>(Words.Where(x => x.Direction == Direction.Across)); }
@@ -88,10 +103,29 @@ namespace CrossPuzzleClient.ViewModels
                 if (value != null)
                 {
                     SelectedWord = value;
-                    _currentWordPosition = 0;
+                    SetSelectedWordCurrentCellPosition(value);
                 }
                 if (_selectedWordAcross != null && value != null)
                     SelectedWordAcross = null;
+            }
+        }
+
+        private void SetSelectedWordCurrentCellPosition(WordViewModel value)
+        {
+            if (value.Cells.Any(x => string.IsNullOrEmpty(x.EnteredValue) == false))
+            {
+                for (int index = 0; index < value.Cells.Count; index++)
+                {
+                    var cell = value.Cells[index];
+                    if (string.IsNullOrEmpty(cell.EnteredValue))
+                    {
+                        _currentWordPosition = index;
+                    }
+                }
+            }
+            else
+            {
+                _currentWordPosition = 0;
             }
         }
 
@@ -110,8 +144,7 @@ namespace CrossPuzzleClient.ViewModels
                 if (value != null)
                 {
                     SelectedWord = value;
-                    _currentWordPosition = 0;
-
+                    SetSelectedWordCurrentCellPosition(value);
                 }
                 if (_selectedWordDown != null && value != null)
                     SelectedWordDown = null;
@@ -128,8 +161,19 @@ namespace CrossPuzzleClient.ViewModels
         {
             if (_currentWordPosition < SelectedWord.Cells.Count)
             {
-                SelectedWord.Cells[_currentWordPosition].EnteredValue = keyReceivedMessage.KeyChar;
-                _currentWordPosition += 1;                   
+                switch (keyReceivedMessage.KeyCharType)
+                {
+                    case KeyCharType.Delete:
+                    case KeyCharType.BackSpace:
+                        Messenger.Default.Send(new CellValueDeletedMessage(keyReceivedMessage.KeyCharType));
+                        _currentWordPosition -= 1;
+                        SelectedWord.Cells[_currentWordPosition].EnteredValue = string.Empty;
+                        break;
+                    default:
+                        SelectedWord.Cells[_currentWordPosition].EnteredValue = keyReceivedMessage.KeyChar;
+                        _currentWordPosition += 1;                   
+                        break;
+                }
                 ShowCompleteTick = SetShowCompleteTick();
             }
         }

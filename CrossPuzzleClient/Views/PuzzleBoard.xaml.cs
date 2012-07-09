@@ -52,6 +52,14 @@ namespace CrossPuzzleClient.Views
                 string keyname = Enum.GetName(typeof (VirtualKey), e.Key);
                 Messenger.Default.Send(new KeyReceivedMessage {KeyChar = keyname});
             }
+            else if (keyint == 46)
+            {
+                Messenger.Default.Send(new KeyReceivedMessage {KeyCharType = KeyCharType.Delete});
+            }
+            else if (keyint == 8)
+            {
+                Messenger.Default.Send(new KeyReceivedMessage {KeyCharType = KeyCharType.BackSpace});
+            }
 
             base.OnKeyUp(e);
         }

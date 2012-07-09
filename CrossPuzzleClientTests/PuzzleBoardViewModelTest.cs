@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using CrossPuzzleClient.ViewModels;
 using GalaSoft.MvvmLight.Messaging;
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 
 namespace CrossPuzzleClientTests
 {
@@ -35,6 +36,13 @@ namespace CrossPuzzleClientTests
         [TestMethod]
         public void When_all_chars_for_a_selected_word_are_received_should_activate_the_Tick_button()
         {
+            var puzzleBoardVm = PuzzleWithFirstLetterTypedIn();
+
+            Assert.IsTrue(puzzleBoardVm.ShowCompleteTick);
+        }
+
+        private static DesignPuzzleBoardViewModel PuzzleWithFirstLetterTypedIn()
+        {
             var puzzleBoardVm = new DesignPuzzleBoardViewModel();
             puzzleBoardVm.SelectedWordAcross = puzzleBoardVm.Words.First();
 
@@ -42,10 +50,10 @@ namespace CrossPuzzleClientTests
             {
                 Messenger.Default.Send(new KeyReceivedMessage {KeyChar = "t"});
             }
-
-            Assert.IsTrue(puzzleBoardVm.ShowCompleteTick);
+            return puzzleBoardVm;
         }
 
+        [TestMethod]
         public void When_a_backspace_is_hit_should_remove_a_letter_from_entered_characters()
         {
             var puzzleBoardVm = new DesignPuzzleBoardViewModel();
@@ -54,9 +62,51 @@ namespace CrossPuzzleClientTests
             Messenger.Default.Send(new KeyReceivedMessage {KeyChar = "t"});
 
             Messenger.Default.Send(new KeyReceivedMessage { KeyCharType = KeyCharType.BackSpace });
-            
-            
+            Assert.AreEqual(puzzleBoardVm.SelectedWord.Cells.Count(x => x.EnteredValue == "t"), 1);
         }
 
+
+        [TestMethod]
+        public void When_a_delete_is_hit_should_remove_a_letter_from_entered_characters()
+        {
+            var puzzleBoardVm = new DesignPuzzleBoardViewModel();
+            puzzleBoardVm.SelectedWordAcross = puzzleBoardVm.Words.First();
+            Messenger.Default.Send(new KeyReceivedMessage { KeyChar = "t" });
+            Messenger.Default.Send(new KeyReceivedMessage { KeyChar = "t" });
+
+            Messenger.Default.Send(new KeyReceivedMessage { KeyCharType = KeyCharType.Delete });
+            Assert.AreEqual(puzzleBoardVm.SelectedWord.Cells.Count(x => x.EnteredValue == "t"), 1);
+        }
+
+        [TestMethod]
+        public void When_the_all_chars_entered_and_tick_button_is_clicked_Should_move_entered_word_on_to_the_Puzzle_Board()
+        {
+            var puzzleBoardVm = PuzzleWithFirstLetterTypedIn();
+            puzzleBoardVm.AddWordToBoardCommand.Execute(null);
+
+            foreach (var cell in puzzleBoardVm.SelectedWord.Cells)
+            {
+                var boardcell = puzzleBoardVm.Cells.First(x => x.Row == cell.Row && x.Col == cell.Col);
+                Assert.AreEqual(boardcell.EnteredValue, cell.EnteredValue);
+            }
+        }
+
+        [TestMethod]
+        public void When_a_cell_belonging_to_two_words_is_changed_the_change_Should_reflect_in_both_words()
+        {
+            var puzzleBoardVm = PuzzleWithFirstLetterTypedIn(); //First word typed in
+            puzzleBoardVm.SelectedWordAcross = puzzleBoardVm.Words.First();
+            puzzleBoardVm.AddWordToBoardCommand.Execute(null); //Add word to board
+
+            puzzleBoardVm.SelectedWordDown = puzzleBoardVm.Words[1];
+
+            foreach (CellEmptyViewModel cell in puzzleBoardVm.SelectedWord.Cells)
+            {
+                Messenger.Default.Send(new KeyReceivedMessage { KeyChar = "a" });
+            }
+
+            //Assert the shared cell have switched with 
+            Assert.AreEqual(puzzleBoardVm.SelectedWordDown.Cells[0].EnteredValue,puzzleBoardVm.Words[0].Cells[3].EnteredValue);
+        }
     }
 }

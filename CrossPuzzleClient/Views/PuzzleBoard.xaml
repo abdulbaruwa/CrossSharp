@@ -187,7 +187,7 @@
               </DataTemplate>
             </ItemsControl.ItemTemplate>
           </ItemsControl>
-          <Button Visibility="{Binding ShowCompleteTick, Converter={StaticResource BoolToVis}}">Hellos</Button>
+        <Button Command="{Binding AddWordToBoardCommand}" Visibility="{Binding ShowCompleteTick, Converter={StaticResource BoolToVis}}">Hellos</Button>
         </StackPanel>
       </Grid>
 
