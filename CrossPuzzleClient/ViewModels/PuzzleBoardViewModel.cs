@@ -62,7 +62,12 @@ namespace CrossPuzzleClient.ViewModels
         public WordViewModel SelectedWord
         {
             get { return _selectedWord; }
-            set { SetProperty(ref _selectedWord, value); }
+            set
+            {
+                if(_selectedWord != null) _selectedWord.RejectCellValueChanges();
+                SetProperty(ref _selectedWord, value);
+                if (_selectedWord != null) _selectedWord.AcceptCellValueChanges();
+            }
         }
 
         public bool ShowCompleteTick
@@ -112,21 +117,23 @@ namespace CrossPuzzleClient.ViewModels
 
         private void SetSelectedWordCurrentCellPosition(WordViewModel value)
         {
-            if (value.Cells.Any(x => string.IsNullOrEmpty(x.EnteredValue) == false))
-            {
-                for (int index = 0; index < value.Cells.Count; index++)
-                {
-                    var cell = value.Cells[index];
-                    if (string.IsNullOrEmpty(cell.EnteredValue))
-                    {
-                        _currentWordPosition = index;
-                    }
-                }
-            }
-            else
-            {
-                _currentWordPosition = 0;
-            }
+            _currentWordPosition = 0;
+
+            //if (value.Cells.Any(x => string.IsNullOrEmpty(x.EnteredValue) == false))
+            //{
+            //    for (int index = 0; index < value.Cells.Count; index++)
+            //    {
+            //        var cell = value.Cells[index];
+            //        if (string.IsNullOrEmpty(cell.EnteredValue))
+            //        {
+            //            _currentWordPosition = index;
+            //        }
+            //    }
+            //}
+            //else
+            //{
+            //    _currentWordPosition = 0;
+            //}
         }
 
         private bool SetShowCompleteTick()
@@ -165,12 +172,19 @@ namespace CrossPuzzleClient.ViewModels
                 {
                     case KeyCharType.Delete:
                     case KeyCharType.BackSpace:
-                        Messenger.Default.Send(new CellValueDeletedMessage(keyReceivedMessage.KeyCharType));
                         _currentWordPosition -= 1;
                         SelectedWord.Cells[_currentWordPosition].EnteredValue = string.Empty;
                         break;
                     default:
                         SelectedWord.Cells[_currentWordPosition].EnteredValue = keyReceivedMessage.KeyChar;
+                        var cellValueChangedMesage =
+                            new CellValueChangedMessage()
+                                {
+                                    Character = keyReceivedMessage.KeyChar,
+                                    Col = SelectedWord.Cells[_currentWordPosition].Col,
+                                    Row = SelectedWord.Cells[_currentWordPosition].Row
+                                };
+                        Messenger.Default.Send(cellValueChangedMesage);
                         _currentWordPosition += 1;                   
                         break;
                 }
