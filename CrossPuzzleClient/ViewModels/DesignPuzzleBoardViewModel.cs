@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Linq;
 namespace CrossPuzzleClient.ViewModels
 {
@@ -7,15 +8,27 @@ namespace CrossPuzzleClient.ViewModels
         public DesignPuzzleBoardViewModel()
             : base(new FakePuzzlesService())
         {
+            Debug.WriteLine("Username {0}", UserName);
+            Debug.WriteLine("StartPauseButtonCaption {0}", StartPauseButtonCaption);
+
             Words = _puzzlesService.GetOrdereredWordsForPuzzle(0);
 
             SelectedWord = (from word in Words
                                where word.Cells.Count == Words.Max(x => x.Cells.Count)
                                select word).FirstOrDefault();
 
-            AddWordsToBoard();
 
             UserName = "Abdul";
+
+            StartPauseButtonCaption = "Pause";
+
+            GameCountDown = "00:00:00";
+           
+
+            
+            AddWordsToBoard();
+
         }
+
     }
 }

@@ -23,6 +23,8 @@ namespace CrossPuzzleClient.ViewModels
         private ObservableCollection<WordViewModel> _words;
         private bool _showCompleteTick;
         private string _userName;
+        private string _startPauseButtonCaption;
+        private string _gameCountDown;
 
         public PuzzleBoardViewModel(IPuzzlesService puzzlesService)
         {
@@ -71,6 +73,16 @@ namespace CrossPuzzleClient.ViewModels
             }
         }
 
+        public string GameCountDown
+        {
+            get { return _gameCountDown; }
+            set { SetProperty(ref _gameCountDown, value); }
+        }
+        public string StartPauseButtonCaption
+        {
+            get { return _startPauseButtonCaption; }
+            set { SetProperty(ref _startPauseButtonCaption,value); }
+        }
 
         public string UserName
         {

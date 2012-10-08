@@ -47,7 +47,8 @@ namespace CrossPuzzleClient.ViewModels
         public List<WordViewModel> GetWordsWordviewmodels()
         {
             var words = new List<string>();
-            words.Add("BamideleBaru");
+            words.Add("Bamidele");
+
             words.Add("station");
             words.Add("india");
             words.Add("Adams");

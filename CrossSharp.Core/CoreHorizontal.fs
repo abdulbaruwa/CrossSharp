@@ -8,7 +8,6 @@ module CoreHorizontal =
 
     let emptyCell = "_"
     let cellcount = 12
-    let cellindexcount = 11
     type Orientation =
         | vertical = 0
         | horizontal = 1
@@ -33,8 +32,8 @@ module CoreHorizontal =
 
     let nextCell cell = 
         match cell with
-        |( cellindexcount) -> (-1,-1)
-        |(row, col) & (_,cellindexcount) -> ((row + 1), 0)
+        |( 11,11) -> (-1,-1)
+        |(row, col) & (_,11) -> ((row + 1), 0)
         |(row, col) & (_,_) -> (row, (col + 1))
 
     let SortWords words = Array.sortWith sortFunction words
