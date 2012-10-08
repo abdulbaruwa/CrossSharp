@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Windows.Input;
 using CrossPuzzleClient.Common;
 using GalaSoft.MvvmLight.Messaging;
@@ -25,6 +26,11 @@ namespace CrossPuzzleClient.ViewModels
         private string _userName;
         private string _startPauseButtonCaption;
         private string _gameCountDown;
+        private bool _gameIsRunning;
+        private int _seconds;
+        private int _minutes;
+        private int _hours;
+        private int _days;
 
         public PuzzleBoardViewModel(IPuzzlesService puzzlesService)
         {
@@ -101,6 +107,63 @@ namespace CrossPuzzleClient.ViewModels
            get{return new DelegateCommand(LoadWordToBoard);} 
         }
 
+        public ICommand StartPauseCommand
+        {
+            get { return new DelegateCommand(StartPauseGame); }
+        }
+
+        private void StartPauseGame()
+        {
+            if(_gameIsRunning) return;
+            _gameIsRunning = !_gameIsRunning;
+            var secondsObserver = Observable.Interval(new TimeSpan(1000));
+            secondsObserver.ObserveOnDispatcher().Subscribe(
+
+                x =>
+                    { 
+                        if(_seconds == 59 && _minutes == 59 && _hours == 59)
+                        {
+                            _seconds = 0;
+                            _minutes = 0;
+                            _hours = 0;
+                            _days = _days + 1;
+                        }
+                        else if(_seconds == 59 && _minutes == 59)
+                        {
+                            _seconds = 0;
+                            _minutes = 0;
+                            _hours = _hours + 1;
+                        }
+                        else if(_seconds == 59)
+                        {
+                            _seconds = 0;
+                            _minutes = _minutes + 1;
+                        }
+                        else
+                        {
+                            _seconds = _seconds + 1;
+                        }
+
+                        GameCountDown = ConvertIntTwoUnitStringNumber(_hours) + ":" +
+                                        ConvertIntTwoUnitStringNumber(_minutes) + ":" +
+                                        ConvertIntTwoUnitStringNumber(_seconds);
+
+                    }
+                );
+        }
+
+
+        private string ConvertIntTwoUnitStringNumber(int number)
+        {
+            if (number < 10)
+                return "0" + number.ToString();
+            return number.ToString();
+        }
+
+        private void AddOneToTimePart(int timepartvalue)
+        {
+            
+        }
         private void LoadWordToBoard()
         {
             foreach (var cell in SelectedWord.Cells)
