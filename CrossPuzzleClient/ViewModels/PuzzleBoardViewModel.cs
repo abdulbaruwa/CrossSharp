@@ -22,6 +22,7 @@ namespace CrossPuzzleClient.ViewModels
         private WordViewModel _selectedWordDown;
         private ObservableCollection<WordViewModel> _words;
         private bool _showCompleteTick;
+        private string _userName;
 
         public PuzzleBoardViewModel(IPuzzlesService puzzlesService)
         {
@@ -68,6 +69,13 @@ namespace CrossPuzzleClient.ViewModels
                 SetProperty(ref _selectedWord, value);
                 if (_selectedWord != null) _selectedWord.AcceptCellValueChanges();
             }
+        }
+
+
+        public string UserName
+        {
+            get { return _userName; }
+            set { SetProperty(ref _userName,value);}
         }
 
         public bool ShowCompleteTick

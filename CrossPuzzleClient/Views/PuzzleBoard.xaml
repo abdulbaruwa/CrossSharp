@@ -34,7 +34,7 @@
     -->
   <Grid Style="{StaticResource LayoutRootStyle}">
     <Grid.RowDefinitions>
-      <RowDefinition Height="100" />
+      <RowDefinition Height="80" />
       <RowDefinition Height="*" />
     </Grid.RowDefinitions>
 
@@ -42,18 +42,21 @@
     <Grid>
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="Auto" />
-        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="300" />
+		<ColumnDefinition Width="*" />
       </Grid.ColumnDefinitions>
       <Button x:Name="backButton" Click="GoBack" IsEnabled="{Binding Frame.CanGoBack, ElementName=pageRoot}"
-              Style="{StaticResource BackButtonStyle}" >
+              Style="{StaticResource BackButtonStyle}" Margin="36,0,0,24" >
 
 			  </Button>
       <TextBlock x:Name="pageTitle" Grid.Column="1" Text="{StaticResource AppName}"
-                 Style="{StaticResource PageHeaderTextStyle}" />
+                 Style="{StaticResource PageHeaderTextStyle}" Margin="20,0,10,28" />
+	  <TextBlock x:Name="userName" Grid.Column="2" Text="Abdul"  Style="{StaticResource SubHeaderTextStyle}" HorizontalAlignment="Right" Margin="0,0,56,40" />
+
     </Grid>
     <!--board-->
-    <Grid Grid.Row="1">
-      <Grid Margin="50,5,50,7"
+    <Grid VerticalAlignment="Top" Margin="0,64,0,0" Grid.RowSpan="2">
+      <Grid Margin="50,0,50,7"
             d:DataContext="{Binding Source={d:DesignInstance Type=ViewModels:DesignPuzzleBoardViewModel, IsDesignTimeCreatable=True}}">
 
         <Grid.ColumnDefinitions>
@@ -62,14 +65,14 @@
           <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-          <RowDefinition Height="600" />
+          <RowDefinition Height="620" />
           <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <!--Down-->
         <Rectangle Grid.Column="0" Width="{Binding ElementName=wordsdown, Path=Width}"
                    Height="{Binding ElementName=wordsdown, Path=Height}" Grid.Row="0" Fill="AntiqueWhite" HorizontalAlignment="Stretch"
-                   VerticalAlignment="Stretch" Margin="10,10,10,0" Stroke="{StaticResource ButtonDisabledBackgroundThemeBrush}"></Rectangle>
+                   VerticalAlignment="Stretch" Margin="10" Stroke="{StaticResource ButtonDisabledBackgroundThemeBrush}"></Rectangle>
 
         <StackPanel x:Name="wordsdown" Grid.Row="0" Grid.Column="0" Orientation="Vertical" HorizontalAlignment="Center"
                     Margin="10" Height="{Binding ElementName=mainboard, Path=Height}" >
@@ -133,7 +136,7 @@
         <!--Across-->
         <Rectangle Grid.Column="2" Width="{Binding ElementName=wordsacross, Path=Width}"
                    Height="{Binding ElementName=wordsacross, Path=Height}" Grid.Row="0" Fill="AntiqueWhite" HorizontalAlignment="Stretch"
-                   VerticalAlignment="Stretch" Margin="10,10,10,0" Stroke="{StaticResource ButtonDisabledBackgroundThemeBrush}"></Rectangle>
+                   VerticalAlignment="Stretch" Margin="10" Stroke="{StaticResource ButtonDisabledBackgroundThemeBrush}"></Rectangle>
 
         <StackPanel x:Name="wordsacross" Orientation="Vertical" Grid.Column="2" Grid.Row="0" Margin="10">
           <TextBlock Style="{StaticResource CrossWordSideHeaderTextStyle}" Text="Across" Margin="0,5,40,0"
@@ -152,8 +155,8 @@
           </ListView>
         </StackPanel>
 
-        <StackPanel x:Name="displayselectedPanel" Orientation="Horizontal" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Margin="10,-60,0,0">
-          <ItemsControl x:Name="wordselected" ItemsSource="{Binding SelectedWord.Cells}">
+        <!--<StackPanel x:Name="displayselectedPanel" Orientation="Horizontal" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Margin="10,-60,0,0">-->
+          <ItemsControl x:Name="wordselected" ItemsSource="{Binding SelectedWord.Cells}" Grid.Column="1" Grid.Row="1" Margin="10,0,10,0" >
             <ItemsControl.ItemContainerTransitions>
               <TransitionCollection>
                 <RepositionThemeTransition />
@@ -168,7 +171,7 @@
               <DataTemplate>
                 <Border BorderThickness=".5">
                   <Grid Background="{Binding IsVisible, Converter={StaticResource BoolToCellShade}}"
-                        Width="50" Height="50">
+                        Width="48.5" Height="48.5">
                     <Grid.ColumnDefinitions>
                       <ColumnDefinition Width="*" />
                       <ColumnDefinition Width="*" />
@@ -187,8 +190,9 @@
               </DataTemplate>
             </ItemsControl.ItemTemplate>
           </ItemsControl>
-        <Button Command="{Binding AddWordToBoardCommand}" Visibility="{Binding ShowCompleteTick, Converter={StaticResource BoolToVis}}">Hellos</Button>
-        </StackPanel>
+          <Button Command="{Binding AddWordToBoardCommand}" Grid.Column="2" Grid.Row="1" Margin="9,0,0,0" >Place on Board</Button>
+                    <!-- Visibility="{Binding ShowCompleteTick, Converter={StaticResource BoolToVis}}">Hellos</Button> -->
+        <!--</StackPanel>-->
       </Grid>
 
     </Grid>
