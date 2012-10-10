@@ -80,7 +80,7 @@ namespace CrossSharp.Tests
             var result = CoreHorizontal.AddSecondWord(secondWordChars, board);
             PrintBoard(board);
             Assert.AreEqual(true, result.Item1);
-            for (int i = 0; i < 14; i++)
+            for (int i = 0; i < board.GetLength(1); i++)
             {
                 Assert.AreEqual(i < secondWordChars.Length ? secondWordChars[i].ToString() : "_", board[i, 3]);
             }
@@ -101,6 +101,8 @@ namespace CrossSharp.Tests
         public void Given_base_board_Should_return_true_if_a_vertical_word_can_be_added()
         {
             var board = GetBoardWithFirstAndSecondWords("Bamidele","india");
+            PrintBoard(board);
+
             CoreHorizontal.AddWordHorizontally( "adamsandler", board);
             var vertword = "station";
 
@@ -108,10 +110,20 @@ namespace CrossSharp.Tests
             CoreVertical.AddWordVertically(vertword, board);
             PrintBoard(board);
 
-            
+            //B a m i d e l e _ _ _ _ 
+            //_ _ _ n _ _ _ _ _ _ _ _ 
+            //_ s _ d _ _ _ _ _ _ _ _ 
+            //_ t _ i _ _ _ _ _ _ _ _ 
+            //_ a d a m s a n d l e r 
+            //_ t _ _ _ _ _ _ _ _ _ _ 
+            //_ i _ _ _ _ _ _ _ _ _ _ 
+            //_ o _ _ _ _ _ _ _ _ _ _ 
+            //_ n _ _ _ _ _ _ _ _ _ _ 
+            //_ _ _ _ _ _ _ _ _ _ _ _
+
             for (int i = 0; i < vertword.Length -1; i++)
             {
-                Assert.AreEqual((vertword[i]).ToString(), board[2+i,(6)]);
+                Assert.AreEqual((vertword[i]).ToString(), board[2+i,(1)]);
             }
         }
 
@@ -120,12 +132,14 @@ namespace CrossSharp.Tests
         {
             var board = GetBoardWithFirstAndSecondWords("Bamidele", "india");
             CoreHorizontal.AddWordHorizontally("adamsandler", board);
-            board[6, 7] = "x";
+            board[8, 1] = "x";
             board[9, 5] = "x";
             PrintBoard(board);
             var vertword = "station";
                       
             var result = CoreVertical.AddWordVertically(vertword, board);
+            PrintBoard(board);
+
             Assert.IsFalse(result.inserted);
             //Check from second char - first char exists via another word
             for (int i = 1; i < vertword.Length - 1; i++)

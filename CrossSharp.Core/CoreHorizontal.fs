@@ -132,28 +132,29 @@ module CoreHorizontal =
 
     //Walk the board horizontally and return result in last param (matchingCell tuple). 
     //Validation is done only on matching chars, so a positive result may yet not be valid. 
-    let rec findHorizontalMatch (wordchars:char[]) (board:string[,]) startrow startcol letterindex  (result: (bool * matchingCell[])) =
-        if (letterindex < wordchars.Length && (startcol + wordchars.Length) < board.GetLength(1)) then
-           if board.[startrow,startcol] = wordchars.[letterindex].ToString() then
+    let rec findHorizontalMatch (wordchars:char[]) (board:string[,]) colIterator (startcell:(int*int)) letterindex  (result: (bool * matchingCell[])) =
+        let startrow = fst startcell
+        if (letterindex < wordchars.Length && (snd startcell + wordchars.Length) <= board.GetLength(1)) then
+           if board.[startrow,colIterator] = wordchars.[letterindex].ToString() then
                 //Match or emptry cell
                 //Does letter have any vertical neighbours ?
-                let noInvalidcharAbove = hastopchar board startrow startcol
-                let noInvalidcharBelow = hasbottomchar board startrow startcol
-                let noHorCharBeforeOrAfter = horNeighboursAreNotEmpty board startrow startcol
+                let noInvalidcharAbove = hastopchar board startrow colIterator
+                let noInvalidcharBelow = hasbottomchar board startrow colIterator
+                let noHorCharBeforeOrAfter = horNeighboursAreNotEmpty board startrow colIterator
                 if(noInvalidcharAbove = false && noInvalidcharBelow = false && noHorCharBeforeOrAfter = false) then
 
                     let isfound = fst result 
                     let cells = snd result
-                    let currentcell = {matchingCell.row = startrow; matchingCell.col = startcol; matchingCell.letterindex = letterindex}
+                    let currentcell = {matchingCell.row = startrow; matchingCell.col = colIterator; matchingCell.letterindex = letterindex}
                     cells.[letterindex] <- currentcell
 
-                    let nextletter = letterindex + 1
-                    let nextcol = startcol + 1
-                    findHorizontalMatch wordchars board startrow (startcol + 1) (letterindex + 1) (true, cells)
+                    //let nextletter = letterindex + 1
+                    //let nextcol = startcol + 1
+                    findHorizontalMatch wordchars board (colIterator + 1) startcell (letterindex + 1) (true, cells)
                 else
                     result
-            elif board.[startrow,startcol] = "_" then
-               findHorizontalMatch wordchars board startrow (startcol + 1) (letterindex + 1) result
+            elif board.[startrow,colIterator] = "_" then
+               findHorizontalMatch wordchars board (colIterator + 1) startcell (letterindex + 1) result
             else
                 (false, snd result)
         else
@@ -224,7 +225,7 @@ module CoreHorizontal =
         if (newrow = -1) then
             (false, (-1,-1))
         else
-            let wordfound = resultTuple wordchars.Length |> findHorizontalMatch wordchars board row col 0 
+            let wordfound = resultTuple wordchars.Length |> findHorizontalMatch wordchars board col (row,col) 0 
             if validForHorizontal wordfound wordchars board then 
                 //Add the word to the board
                 let cells = snd wordfound

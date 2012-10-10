@@ -59,7 +59,9 @@ module CoreVertical =
         match acell with
         | x when x.col = 0 -> false
         | x when x.col >= (Array2D.length2 board) -> false
+       // | x ->  board.[x.row, x.col] != emptyCell
         | x -> (board.[(x.row), (x.col - 1)] = emptyCell) && (board.[(x.row), (x.col + 1)] = emptyCell)
+        
 
         
     let cellsBeforeAndAfterWordAreEmpty  (board:string[,]) row col = 
