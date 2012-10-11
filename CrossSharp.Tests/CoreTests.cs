@@ -133,6 +133,7 @@ namespace CrossSharp.Tests
             var board = GetBoardWithFirstAndSecondWords("Bamidele", "india");
             CoreHorizontal.AddWordHorizontally("adamsandler", board);
             board[8, 1] = "x";
+            board[8, 6] = "x";
             board[9, 5] = "x";
             PrintBoard(board);
             var vertword = "station";
@@ -141,11 +142,7 @@ namespace CrossSharp.Tests
             PrintBoard(board);
 
             Assert.IsFalse(result.inserted);
-            //Check from second char - first char exists via another word
-            for (int i = 1; i < vertword.Length - 1; i++)
-            {
-                Assert.AreEqual(CoreHorizontal.emptyCell, board[2 + i, (6)]);
-            }
+            
             PrintBoard(board);
         }
 
@@ -160,6 +157,7 @@ namespace CrossSharp.Tests
             var vertword = "station";
 
             var result = CoreVertical.AddWordVertically(vertword, board);
+            PrintBoard(board);
             Assert.IsFalse(result.inserted);
             //Check from second char - first char exists via another word
             for (int i = 1; i < vertword.Length - 1; i++)

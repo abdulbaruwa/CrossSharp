@@ -78,6 +78,14 @@ module CoreVertical =
         else
             NoVerticaCellsHaveHorizonalNeighbours  board cells (index + 1)
 
+    let rec checkIfLettersOverlapAnyExistingLettersOnBoard firstmatchingrow (firstmatchedcell:matchingCell) (board:string[,]) (wordchars:char[]) counter =
+        if (counter = wordchars.Length) then
+            true
+        elif ( (board.[(firstmatchingrow + counter), firstmatchedcell.col] <> wordchars.[counter].ToString() &&  board.[(firstmatchingrow + counter), firstmatchedcell.col]  <> "_")) then
+            false
+        else
+            checkIfLettersOverlapAnyExistingLettersOnBoard firstmatchingrow firstmatchedcell board wordchars (counter + 1)
+
     //Validate that entire word does not trip over any other on the board.
     let validForVertical (result: (bool * matchingCell[])) (wordchars:char[]) (board:string[,]) = 
         if not (fst result) then 
@@ -103,13 +111,15 @@ module CoreVertical =
 
                 //At this point placeholderarray will contain position for chars that have not been matched against.
                 let unmatchedCharsCells = placeholderarray |> Array.filter(fun x -> x.row >= 0 )
-                       
+                
+                let hasNoOverlappingValuesInCells = checkIfLettersOverlapAnyExistingLettersOnBoard thefirstmatchingrow firstmatchedcell board wordchars 0 
                 //(cellsBeforeAndAfterWordAreEmpty board thefirstmatchingrow firstmatchedcell.col) &&
-                NoVerticaCellsHaveHorizonalNeighbours board unmatchedCharsCells 0
+               
+                hasNoOverlappingValuesInCells && (NoVerticaCellsHaveHorizonalNeighbours board unmatchedCharsCells 0)
             else
                 false
-
-    let  rec boardloop (board:string[,]) row col (wordchars:char[]) = 
+                
+    let rec boardloop (board:string[,]) row col (wordchars:char[]) = 
         let next = nextCell (row,col)
         let newrow = fst next
         let newcol = snd next

@@ -160,7 +160,6 @@ module CoreHorizontal =
         else
             result
 
-
     let cellHasVertNeighbours (board:string[,]) (acell:matchingCell) = 
             let hasAbove = board.[(acell.row - 1), (acell.col)] = emptyCell
             let hasBelow = board.[(acell.row + 1), (acell.col)] = emptyCell
