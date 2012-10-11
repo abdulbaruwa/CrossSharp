@@ -144,6 +144,18 @@ namespace CrossSharp.Tests
             Assert.IsFalse(result.inserted);
             
             PrintBoard(board);
+            //B a m i d e l e _ _ _ _ 
+            //_ _ _ n _ _ _ _ _ _ _ _ 
+            //_ _ _ d _ _ _ _ _ _ _ _ 
+            //_ _ _ i _ _ _ _ _ _ _ _ 
+            //_ a d a m s a n d l e r 
+            //_ _ _ _ _ _ _ _ _ _ _ _ 
+            //_ _ _ _ _ _ _ _ _ _ _ _ 
+            //_ _ _ _ _ _ _ _ _ _ _ _ 
+            //x _ _ _ _ _ x _ _ _ _ _ 
+            //_ _ _ _ _ x _ _ _ _ _ _ 
+            //_ _ _ _ _ _ _ _ _ _ _ _ 
+            //_ _ _ _ _ _ _ _ _ _ _ _
         }
 
         [Test]
@@ -152,7 +164,9 @@ namespace CrossSharp.Tests
             var board = GetBoardWithFirstAndSecondWords("Bamidele", "india");
             CoreHorizontal.AddWordHorizontally("adamsandler", board);
             //Add spurious char to board to tail of ensure i
-            board[9, 6] = "x";
+            board[8, 0] = "x";
+            board[8, 6] = "x";
+            board[9, 5] = "x";
 
             var vertword = "station";
 
@@ -160,10 +174,7 @@ namespace CrossSharp.Tests
             PrintBoard(board);
             Assert.IsFalse(result.inserted);
             //Check from second char - first char exists via another word
-            for (int i = 1; i < vertword.Length - 1; i++)
-            {
-                Assert.AreEqual(CoreHorizontal.emptyCell, board[2 + i, (6)]);
-            }
+           
             PrintBoard(board);
         }
 
