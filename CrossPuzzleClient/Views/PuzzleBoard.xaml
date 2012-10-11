@@ -59,10 +59,10 @@
             <TextBlock x:Name="userName" Grid.Column="4" Text="{Binding Path=UserName}"
                        Style="{StaticResource SubHeaderTextStyle}" HorizontalAlignment="Right" Margin="0,0,60,26" />
             <TextBlock x:Name="gameCountdown" Grid.Column="2" Text="{Binding GameCountDown}"
-                       Style="{StaticResource PageHeaderTextStyle}" HorizontalAlignment="Right" Margin="0,0,10,28" />
+                       Style="{StaticResource SubHeaderTextStyle}" HorizontalAlignment="Right" Margin="0,11,10,17" />
             <Button VerticalContentAlignment="Center" Style="{StaticResource TextButtonStyle}" Command="{Binding StartPauseCommand}"
                     x:Name="startPauseButton" Grid.Column="3" Content="{Binding Path=StartPauseButtonCaption}" Height="35"
-                    HorizontalAlignment="Right" Margin="0,16,50,29" />
+                    HorizontalAlignment="Right" Margin="0,27,50,18" />
 
         </Grid>
         <!--board-->

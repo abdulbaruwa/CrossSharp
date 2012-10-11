@@ -23,8 +23,8 @@ namespace CrossPuzzleClient.ViewModels
         private WordViewModel _selectedWordDown;
         private ObservableCollection<WordViewModel> _words;
         private bool _showCompleteTick;
-        private string _userName;
-        private string _startPauseButtonCaption;
+        private string _userName = "Abdul";
+        private string _startPauseButtonCaption = "Start";
         private string _gameCountDown;
         private bool _gameIsRunning;
         private int _seconds;
