@@ -34,6 +34,27 @@ namespace CrossPuzzleClientTests
         }
 
         [TestMethod]
+        public void When_the_start_button_is_hit_the_button_display_should_switch_to_Pause()
+        {
+            var puzzleBoardVm = new DesignPuzzleBoardViewModel();
+            puzzleBoardVm.StartPauseButtonCaption = "Start";
+            puzzleBoardVm.StartPauseCommand.Execute(null);
+
+            //Act
+            puzzleBoardVm.StartPauseCommand.Execute(null);
+
+            //Assert
+            Assert.AreEqual(puzzleBoardVm.StartPauseButtonCaption,"Pause");
+        }
+
+        [TestMethod]
+        public void When_start_is_hit_the_Count_up_Timer_should_commence()
+        {
+            var puzzleBoardVm = new DesignPuzzleBoardViewModel();
+            
+        }
+
+        [TestMethod]
         public void When_all_chars_for_a_selected_word_are_received_should_activate_the_Tick_button()
         {
             var puzzleBoardVm = PuzzleWithFirstLetterTypedIn();

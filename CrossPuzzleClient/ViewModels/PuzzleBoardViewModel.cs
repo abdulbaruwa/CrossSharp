@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Windows.Input;
 using CrossPuzzleClient.Common;
 using GalaSoft.MvvmLight.Messaging;
 using System.Linq;
+using Windows.UI.Xaml;
 
 namespace CrossPuzzleClient.ViewModels
 {
@@ -31,6 +33,8 @@ namespace CrossPuzzleClient.ViewModels
         private int _minutes;
         private int _hours;
         private int _days;
+        private ITimeCounter _timeCounter;
+        private ICommand _gameCountUp;
 
         public PuzzleBoardViewModel(IPuzzlesService puzzlesService)
         {
@@ -39,6 +43,16 @@ namespace CrossPuzzleClient.ViewModels
             _puzzlesService = puzzlesService;
             CreateCellsForBoard();
             RegisterForMessage();
+        }
+
+        public void SetTimeCounter(ITimeCounter timeCounter)
+        {
+            _timeCounter = timeCounter;
+        }
+
+        public void SetGameCountUpCommand(ICommand gameCountUpCommand)
+        {
+            _gameCountUp = gameCountUpCommand;
         }
 
         public string PuzzleId
@@ -107,52 +121,103 @@ namespace CrossPuzzleClient.ViewModels
            get{return new DelegateCommand(LoadWordToBoard);} 
         }
 
+        public ICommand GameCountUpCommand
+        {
+            get
+            {
+                if(_gameCountUp == null)return new DelegateCommand(BeginCount);
+                return _gameCountUp;
+            }
+        }
         public ICommand StartPauseCommand
         {
             get { return new DelegateCommand(StartPauseGame); }
         }
 
-        private void StartPauseGame()
+        public void SetStartPauseDisplayCommand()
         {
-            if(_gameIsRunning) return;
-            _gameIsRunning = !_gameIsRunning;
-            var secondsObserver = Observable.Interval(new TimeSpan(1000));
-            secondsObserver.ObserveOnDispatcher().Subscribe(
-
-                x =>
-                    { 
-                        if(_seconds == 59 && _minutes == 59 && _hours == 59)
-                        {
-                            _seconds = 0;
-                            _minutes = 0;
-                            _hours = 0;
-                            _days = _days + 1;
-                        }
-                        else if(_seconds == 59 && _minutes == 59)
-                        {
-                            _seconds = 0;
-                            _minutes = 0;
-                            _hours = _hours + 1;
-                        }
-                        else if(_seconds == 59)
-                        {
-                            _seconds = 0;
-                            _minutes = _minutes + 1;
-                        }
-                        else
-                        {
-                            _seconds = _seconds + 1;
-                        }
-
-                        GameCountDown = ConvertIntTwoUnitStringNumber(_hours) + ":" +
-                                        ConvertIntTwoUnitStringNumber(_minutes) + ":" +
-                                        ConvertIntTwoUnitStringNumber(_seconds);
-
-                    }
-                );
+            StartPauseButtonCaption = _gameIsRunning ? "Pause" : "Start";
         }
 
+        
+        private void StartPauseGame()
+        {
+            SetStartPauseDisplayCommand();
+            _gameIsRunning = !_gameIsRunning;
+            GameCountUpCommand.Execute(null);
 
+            //var secondsObserver = Observable.Interval(new TimeSpan(1000));
+            //secondsObserver.ObserveOnDispatcher().Subscribe(
+            //    x =>
+            //    {
+            //        if (_seconds == 59 && _minutes == 59 && _hours == 59)
+            //        {
+            //            _seconds = 0;
+            //            _minutes = 0;
+            //            _hours = 0;
+            //            _days = _days + 1;
+            //        }
+            //        else if (_seconds == 59 && _minutes == 59)
+            //        {
+            //            _seconds = 0;
+            //            _minutes = 0;
+            //            _hours = _hours + 1;
+            //        }
+            //        else if (_seconds == 59)
+            //        {
+            //            _seconds = 0;
+            //            _minutes = _minutes + 1;
+            //        }
+            //        else
+            //        {
+            //            _seconds = _seconds + 1;
+            //        }
+
+            //        GameCountDown = ConvertIntTwoUnitStringNumber(_hours) + ":" +
+            //                        ConvertIntTwoUnitStringNumber(_minutes) + ":" +
+            //                        ConvertIntTwoUnitStringNumber(_seconds);
+
+            //    }
+            //   );
+        }
+
+        public void BeginCount()
+        {
+            //var scheduler = new DispatcherScheduler(Application.Current. Dispatcher);
+            var secondsObserver = Observable.Interval(TimeSpan.FromSeconds(1));
+            secondsObserver.ObserveOnDispatcher().Subscribe(
+                x =>
+                {
+                    if (_seconds == 59 && _minutes == 59 && _hours == 59)
+                    {
+                        _seconds = 0;
+                        _minutes = 0;
+                        _hours = 0;
+                        _days = _days + 1;
+                    }
+                    else if (_seconds == 59 && _minutes == 59)
+                    {
+                        _seconds = 0;
+                        _minutes = 0;
+                        _hours = _hours + 1;
+                    }
+                    else if (_seconds == 59)
+                    {
+                        _seconds = 0;
+                        _minutes = _minutes + 1;
+                    }
+                    else
+                    {
+                        _seconds = _seconds + 1;
+                    }
+
+                    GameCountDown = ConvertIntTwoUnitStringNumber(_hours) + ":" +
+                                    ConvertIntTwoUnitStringNumber(_minutes) + ":" +
+                                    ConvertIntTwoUnitStringNumber(_seconds);
+
+                }
+               );
+        }
         private string ConvertIntTwoUnitStringNumber(int number)
         {
             if (number < 10)
@@ -160,10 +225,6 @@ namespace CrossPuzzleClient.ViewModels
             return number.ToString();
         }
 
-        private void AddOneToTimePart(int timepartvalue)
-        {
-            
-        }
         private void LoadWordToBoard()
         {
             foreach (var cell in SelectedWord.Cells)

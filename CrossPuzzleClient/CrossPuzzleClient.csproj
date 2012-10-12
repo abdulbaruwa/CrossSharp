@@ -140,6 +140,8 @@
     <Compile Include="ViewModels\FakePuzzlesService.cs" />
     <Compile Include="ViewModels\IPuzzleRepository.cs" />
     <Compile Include="ViewModels\IPuzzlesService.cs" />
+    <Compile Include="ViewModels\ISchedulerProvider.cs" />
+    <Compile Include="ViewModels\ITimeCounter.cs" />
     <Compile Include="ViewModels\PuzzleBoardViewModel.cs" />
     <Compile Include="ViewModels\PuzzlesService.cs" />
     <Compile Include="ViewModels\PuzzlesViewModel.cs" />
@@ -233,38 +235,20 @@
     <Reference Include="Microsoft.Practices.ServiceLocation">
       <HintPath>..\packages\MvvmLightLibsPreview.4.1.22.0\lib\winrt45\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
-    <Reference Include="ReactiveUI.Routing_WinRT">
-      <HintPath>..\packages\reactiveui-winrt.3.2.0\lib\WinRT45\ReactiveUI.Routing_WinRT.dll</HintPath>
+    <Reference Include="System.Reactive.Core">
+      <HintPath>..\packages\Rx-Core.2.0.20823\lib\WinRT45\System.Reactive.Core.dll</HintPath>
     </Reference>
-    <Reference Include="ReactiveUI.Xaml_WinRT">
-      <HintPath>..\packages\reactiveui-winrt.3.2.0\lib\WinRT45\ReactiveUI.Xaml_WinRT.dll</HintPath>
+    <Reference Include="System.Reactive.Interfaces">
+      <HintPath>..\packages\Rx-Interfaces.2.0.20823\lib\WinRT45\System.Reactive.Interfaces.dll</HintPath>
     </Reference>
-    <Reference Include="ReactiveUI_WinRT">
-      <HintPath>..\packages\reactiveui-winrt.3.2.0\lib\WinRT45\ReactiveUI_WinRT.dll</HintPath>
+    <Reference Include="System.Reactive.Linq">
+      <HintPath>..\packages\Rx-Linq.2.0.20823\lib\WinRT45\System.Reactive.Linq.dll</HintPath>
     </Reference>
-    <Reference Include="System.Reactive.Core, Version=2.0.20612.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\reactiveui-winrt.3.2.0\lib\WinRT45\System.Reactive.Core.dll</HintPath>
+    <Reference Include="System.Reactive.PlatformServices">
+      <HintPath>..\packages\Rx-PlatformServices.2.0.20823\lib\WinRT45\System.Reactive.PlatformServices.dll</HintPath>
     </Reference>
-    <Reference Include="System.Reactive.Interfaces, Version=2.0.20612.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\reactiveui-winrt.3.2.0\lib\WinRT45\System.Reactive.Interfaces.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Reactive.Linq, Version=2.0.20612.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\reactiveui-winrt.3.2.0\lib\WinRT45\System.Reactive.Linq.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Reactive.PlatformServices, Version=2.0.20612.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\reactiveui-winrt.3.2.0\lib\WinRT45\System.Reactive.PlatformServices.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Reactive.Windows.Threading, Version=2.0.20612.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\reactiveui-winrt.3.2.0\lib\WinRT45\System.Reactive.Windows.Threading.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Reactive.WindowsRuntime, Version=2.0.20612.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\reactiveui-winrt.3.2.0\lib\WinRT45\System.Reactive.WindowsRuntime.dll</HintPath>
+    <Reference Include="System.Reactive.Windows.Threading">
+      <HintPath>..\packages\Rx-XAML.2.0.20823\lib\WinRT45\System.Reactive.Windows.Threading.dll</HintPath>
     </Reference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0' ">
