@@ -27,7 +27,7 @@ namespace CrossPuzzleClient.ViewModels
         private bool _showCompleteTick;
         private string _userName = "Abdul";
         private string _startPauseButtonCaption = "Start";
-        private string _gameCountDown;
+        private string _gameCountDown = "00:00:00";
         private bool _gameIsRunning;
         private int _seconds;
         private int _minutes;
@@ -142,8 +142,8 @@ namespace CrossPuzzleClient.ViewModels
         
         private void StartPauseGame()
         {
-            SetStartPauseDisplayCommand();
             _gameIsRunning = !_gameIsRunning;
+            SetStartPauseDisplayCommand();
             GameCountUpCommand.Execute(null);
 
             //var secondsObserver = Observable.Interval(new TimeSpan(1000));
