@@ -1,4 +1,5 @@
-﻿using CrossPuzzleClient.ViewModels;
+﻿using CrossPuzzleClient.Observables;
+using CrossPuzzleClient.ViewModels;
 using CrossPuzzleClient.Views;
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
@@ -34,7 +35,7 @@ namespace CrossPuzzleClient.Infrastructure
 
         public PuzzleBoardViewModel PuzzleBoardViewModel
         {
-            get{return new PuzzleBoardViewModel(SimpleIoc.Default.GetInstance<IPuzzlesService>());}
+            get{return new PuzzleBoardViewModel(SimpleIoc.Default.GetInstance<IPuzzlesService>(), new SchedulerProvider());}
         }
 
         public static void Cleanup()

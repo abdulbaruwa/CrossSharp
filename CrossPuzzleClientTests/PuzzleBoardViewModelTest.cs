@@ -1,13 +1,43 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using CrossPuzzleClient.ViewModels;
 using GalaSoft.MvvmLight.Messaging;
+using Microsoft.Reactive.Testing;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+using System.Reactive.Linq;
 
 namespace CrossPuzzleClientTests
 {
     [TestClass]
     public class PuzzleBoardViewModelTest
     {
+
+        [TestMethod]
+        public void TestMethod()
+        {
+            //var puzzleBoardVm = new DesignPuzzleBoardViewModel();
+            //puzzleBoardVm.StartPauseButtonCaption = "Start";
+
+            //((TestScheduler)puzzleBoardVm.SchedulerProvider.ThreadPool).AdvanceBy(2);
+
+            //puzzleBoardVm.StartPauseCommand.Execute(null);
+
+            ////var expectedValues = new long[] {0, 1, 2, 3, 4};
+            ////var actualValues = new List<long>();
+
+            ////var scheduler = new TestScheduler();
+            ////var interval = Observable.Interval(TimeSpan.FromSeconds(1), scheduler)
+            ////    .Take(5);
+
+            ////interval.Subscribe();
+            ////scheduler.Start();
+            //((TestScheduler)puzzleBoardVm.SchedulerProvider.ThreadPool).Start();
+            //((TestScheduler) puzzleBoardVm.SchedulerProvider.Dispatcher).Start();
+            
+
+        }
+
         [TestMethod]
         public void Should_instatiate_with_dummy_words()
         {

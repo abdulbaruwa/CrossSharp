@@ -1,12 +1,15 @@
 using System.Diagnostics;
 using System.Linq;
+using CrossPuzzleClient.Observables;
+using Microsoft.Reactive.Testing;
+
 namespace CrossPuzzleClient.ViewModels
 {
     public class DesignPuzzleBoardViewModel : PuzzleBoardViewModel
     {
 
         public DesignPuzzleBoardViewModel()
-            : base(new FakePuzzlesService())
+            : base(new FakePuzzlesService(), new TestSchedulers())
         {
             Debug.WriteLine("Username {0}", UserName);
             Debug.WriteLine("StartPauseButtonCaption {0}", StartPauseButtonCaption);

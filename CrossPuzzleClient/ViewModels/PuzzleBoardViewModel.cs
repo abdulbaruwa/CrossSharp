@@ -6,6 +6,7 @@ using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Windows.Input;
 using CrossPuzzleClient.Common;
+using CrossPuzzleClient.Observables;
 using GalaSoft.MvvmLight.Messaging;
 using System.Linq;
 using Windows.UI.Xaml;
@@ -35,14 +36,23 @@ namespace CrossPuzzleClient.ViewModels
         private int _days;
         private ITimeCounter _timeCounter;
         private ICommand _gameCountUp;
+        private IDisposable _counter;
+        private ISchedulerProvider _scheduler;
 
-        public PuzzleBoardViewModel(IPuzzlesService puzzlesService)
+        public PuzzleBoardViewModel(IPuzzlesService puzzlesService, ISchedulerProvider scheduler)
         {
             _cells = new ObservableCollection<CellEmptyViewModel>();
             _words = new ObservableCollection<WordViewModel>();
+            _scheduler = scheduler;
             _puzzlesService = puzzlesService;
             CreateCellsForBoard();
             RegisterForMessage();
+        }
+
+
+        public ISchedulerProvider SchedulerProvider
+        {
+            get { return _scheduler; }
         }
 
         public void SetTimeCounter(ITimeCounter timeCounter)
@@ -142,50 +152,25 @@ namespace CrossPuzzleClient.ViewModels
         
         private void StartPauseGame()
         {
+            //Pause by dispossing current Observable.
+            if (_gameIsRunning && _counter != null)
+            {
+                using (_counter) { }
+            }
             _gameIsRunning = !_gameIsRunning;
+
             SetStartPauseDisplayCommand();
-            GameCountUpCommand.Execute(null);
+            if(_gameIsRunning) GameCountUpCommand.Execute(null);
 
-            //var secondsObserver = Observable.Interval(new TimeSpan(1000));
-            //secondsObserver.ObserveOnDispatcher().Subscribe(
-            //    x =>
-            //    {
-            //        if (_seconds == 59 && _minutes == 59 && _hours == 59)
-            //        {
-            //            _seconds = 0;
-            //            _minutes = 0;
-            //            _hours = 0;
-            //            _days = _days + 1;
-            //        }
-            //        else if (_seconds == 59 && _minutes == 59)
-            //        {
-            //            _seconds = 0;
-            //            _minutes = 0;
-            //            _hours = _hours + 1;
-            //        }
-            //        else if (_seconds == 59)
-            //        {
-            //            _seconds = 0;
-            //            _minutes = _minutes + 1;
-            //        }
-            //        else
-            //        {
-            //            _seconds = _seconds + 1;
-            //        }
-
-            //        GameCountDown = ConvertIntTwoUnitStringNumber(_hours) + ":" +
-            //                        ConvertIntTwoUnitStringNumber(_minutes) + ":" +
-            //                        ConvertIntTwoUnitStringNumber(_seconds);
-
-            //    }
-            //   );
         }
 
         public void BeginCount()
         {
             //var scheduler = new DispatcherScheduler(Application.Current. Dispatcher);
             var secondsObserver = Observable.Interval(TimeSpan.FromSeconds(1));
-            secondsObserver.ObserveOnDispatcher().Subscribe(
+
+            _counter = secondsObserver.ObserveOn(_scheduler.Dispatcher).SubscribeOn(_scheduler.ThreadPool).Subscribe(
+            //_counter = secondsObserver.ObserveOnDispatcher().Subscribe(
                 x =>
                 {
                     if (_seconds == 59 && _minutes == 59 && _hours == 59)
@@ -214,6 +199,7 @@ namespace CrossPuzzleClient.ViewModels
                     GameCountDown = ConvertIntTwoUnitStringNumber(_hours) + ":" +
                                     ConvertIntTwoUnitStringNumber(_minutes) + ":" +
                                     ConvertIntTwoUnitStringNumber(_seconds);
+
 
                 }
                );

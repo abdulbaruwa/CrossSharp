@@ -1,8 +1,7 @@
-using CrossPuzzleClient.Observables;
-using CrossPuzzleClient.ViewModels;
 using Microsoft.Reactive.Testing;
 using System.Reactive.Concurrency;
-namespace CrossPuzzleClientTests
+
+namespace CrossPuzzleClient.Observables
 {
     public sealed class TestSchedulers : ISchedulerProvider
     {

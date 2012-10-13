@@ -1,6 +1,6 @@
 using System.Reactive.Concurrency;
 
-namespace CrossPuzzleClient.ViewModels
+namespace CrossPuzzleClient.Observables
 {
     public interface ISchedulerProvider
     {
