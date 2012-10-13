@@ -125,6 +125,8 @@
     <Compile Include="ItemDetailPage.xaml.cs">
       <DependentUpon>ItemDetailPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Observables\SchedulerProvider.cs" />
+    <Compile Include="Observables\TestSchedulers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DataModel\SampleDataSource.cs" />
     <Compile Include="Common\BindableBase.cs" />
@@ -140,7 +142,7 @@
     <Compile Include="ViewModels\FakePuzzlesService.cs" />
     <Compile Include="ViewModels\IPuzzleRepository.cs" />
     <Compile Include="ViewModels\IPuzzlesService.cs" />
-    <Compile Include="ViewModels\ISchedulerProvider.cs" />
+    <Compile Include="Observables\ISchedulerProvider.cs" />
     <Compile Include="ViewModels\ITimeCounter.cs" />
     <Compile Include="ViewModels\PuzzleBoardViewModel.cs" />
     <Compile Include="ViewModels\PuzzlesService.cs" />
@@ -234,6 +236,9 @@
     </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation">
       <HintPath>..\packages\MvvmLightLibsPreview.4.1.22.0\lib\winrt45\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Reactive.Testing">
+      <HintPath>..\packages\Rx-Testing.2.0.20823\lib\WinRT45\Microsoft.Reactive.Testing.dll</HintPath>
     </Reference>
     <Reference Include="System.Reactive.Core">
       <HintPath>..\packages\Rx-Core.2.0.20823\lib\WinRT45\System.Reactive.Core.dll</HintPath>
