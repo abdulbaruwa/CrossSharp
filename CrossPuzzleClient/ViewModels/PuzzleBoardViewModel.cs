@@ -102,6 +102,11 @@ namespace CrossPuzzleClient.ViewModels
                 if (_selectedWord != null) _selectedWord.AcceptCellValueChanges();
             }
         }
+        public bool GameIsRunning
+        {
+            get { return _gameIsRunning; }
+            set { SetProperty(ref _gameIsRunning, value); }
+        }
 
         public string GameCountDown
         {
@@ -157,7 +162,7 @@ namespace CrossPuzzleClient.ViewModels
             {
                 using (_counter) { }
             }
-            _gameIsRunning = !_gameIsRunning;
+            GameIsRunning = !_gameIsRunning;
 
             SetStartPauseDisplayCommand();
             if(_gameIsRunning) GameCountUpCommand.Execute(null);
@@ -204,6 +209,7 @@ namespace CrossPuzzleClient.ViewModels
                 }
                );
         }
+
         private string ConvertIntTwoUnitStringNumber(int number)
         {
             if (number < 10)
@@ -217,6 +223,8 @@ namespace CrossPuzzleClient.ViewModels
             {
                 Cells.First(x => x.Row == cell.Row && x.Col == cell.Col).EnteredValue = cell.EnteredValue;
             }
+            SelectedWord.EnteredValueAddedToBoard = true;
+
         }
 
         public ObservableCollection<WordViewModel> WordsAcross
@@ -234,6 +242,8 @@ namespace CrossPuzzleClient.ViewModels
             get { return _selectedWordDown; }
             set
             {
+                ResetValueForEnteredWordIfNotAddedToTheBoard();
+
                 SetProperty(ref _selectedWordDown, value);
                 if (value != null)
                 {
@@ -242,6 +252,19 @@ namespace CrossPuzzleClient.ViewModels
                 }
                 if (_selectedWordAcross != null && value != null)
                     SelectedWordAcross = null;
+            }
+        }
+
+        private void ResetValueForEnteredWordIfNotAddedToTheBoard()
+        {
+            if (_selectedWord != null && ! _selectedWord.EnteredValueAddedToBoard)
+            {
+                var wordTypedButNotAddedToBoard = Words.FirstOrDefault(x => x == SelectedWord);
+
+                foreach (var lastselectedWordCell in wordTypedButNotAddedToBoard.Cells)
+                {
+                    lastselectedWordCell.EnteredValue = null;
+                }
             }
         }
 
@@ -277,6 +300,8 @@ namespace CrossPuzzleClient.ViewModels
             get { return _selectedWordAcross; }
             set
             {
+                ResetValueForEnteredWordIfNotAddedToTheBoard();
+
                 SetProperty(ref _selectedWordAcross, value);
                 if (value != null)
                 {

@@ -39,6 +39,27 @@ namespace CrossPuzzleClientTests
         }
 
         [TestMethod]
+        public void Selected_word_values_should_not_be_persisted_if_the_word_is_not_added_to_the_board()
+        {
+
+            //Arrange
+            var puzzleBoardVm = new DesignPuzzleBoardViewModel();
+            puzzleBoardVm.GameIsRunning = true;
+            puzzleBoardVm.SelectedWordDown = puzzleBoardVm.Words[1];
+
+            //Act
+            foreach (var letter in puzzleBoardVm.SelectedWord.Cells)
+            {
+                Messenger.Default.Send(new KeyReceivedMessage() { KeyChar = letter.Value });
+            }
+
+            puzzleBoardVm.SelectedWordDown = puzzleBoardVm.Words[4];
+
+            //Assert
+            Assert.IsNull(puzzleBoardVm.Words[1].Cells[1].EnteredValue);                
+        }
+
+        [TestMethod]
         public void Should_instatiate_with_dummy_words()
         {
             var puzzleBoardVm = new DesignPuzzleBoardViewModel();
