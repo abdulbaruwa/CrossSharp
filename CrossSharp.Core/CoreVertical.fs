@@ -32,20 +32,24 @@ module CoreVertical =
             true     
 
 
-    let rec findVerticalMatch ( wordchars:char[]) (board:string[,]) startrow startcol letterindex (result: (bool * matchingCell[])) =
-        if (letterindex < wordchars.Length &&  (startrow + wordchars.Length) < board.GetLength(1)) then 
-            match board.[startrow,startcol] with
+    //let rec findVerticalMatch ( wordchars:char[]) (board:string[,]) startrow startcol letterindex (result: (bool * matchingCell[])) =
+    let rec findVerticalMatch (wordchars:char[]) (board:string[,]) rowIterator (startcell:(int*int)) letterindex  (result: (bool * matchingCell[])) =
+        let startcol = snd startcell
+        if (letterindex < wordchars.Length && (fst startcell + wordchars.Length) <= board.GetLength(1) && rowIterator < board.GetLength(1)) then
+        //if (letterindex < wordchars.Length &&  (startrow + wordchars.Length) < board.GetLength(1)) then 
+            match board.[rowIterator,startcol] with
             | x when x.Equals (wordchars.[letterindex].ToString(), StringComparison.OrdinalIgnoreCase) -> 
-                        let noInvalidcharAbove = hastopchar board startrow startcol
-                        let noInvalidcharBelow = hasbottomchar board startrow startcol
-                        let noVerCharBeforeOrAfter = verNeighboursAreNotEmpty board startrow startcol
+                        let noInvalidcharAbove = hastopchar board rowIterator startcol
+                        let noInvalidcharBelow = hasbottomchar board rowIterator startcol
+                        let noVerCharBeforeOrAfter = verNeighboursAreNotEmpty board rowIterator startcol
                         let cells = snd result
                         if(noInvalidcharAbove = false && noInvalidcharBelow = false && noVerCharBeforeOrAfter = false) then
-                            cells.[letterindex] <- {matchingCell.row = startrow; matchingCell.col = startcol; matchingCell.letterindex = letterindex}
-                            findVerticalMatch wordchars board (startrow + 1) startcol (letterindex + 1)  (true, cells)
+                            cells.[letterindex] <- {matchingCell.row = rowIterator; matchingCell.col = startcol; matchingCell.letterindex = letterindex}
+                            findVerticalMatch wordchars board (rowIterator + 1) startcell (letterindex + 1)  (true, cells)
+                            //findHorizontalMatch wordchars board (colIterator + 1) startcell (letterindex + 1) (true, cells)
                         else
                             result
-            | x when x = emptyCell -> findVerticalMatch wordchars board (startrow + 1) startcol (letterindex + 1) result
+            | x when x = emptyCell -> findVerticalMatch wordchars board (rowIterator + 1) startcell (letterindex + 1) result
             |_ -> (false, snd result)
         else
             result
@@ -95,11 +99,13 @@ module CoreVertical =
 
             let firstmatchedcell =  cells |> Array.find(fun x -> x.letterindex >= 0)
             let thefirstmatchingrow = firstmatchedcell.row - firstmatchedcell.letterindex
-            //Ensure cell after last matching position for word is empty.
-            if (board.[(thefirstmatchingrow + wordchars.Length), firstmatchedcell.col] = emptyCell) then
+            //let CellAboveHasNoValues (board:string[,]) 
+            if(thefirstmatchingrow > 0 && board.[(thefirstmatchingrow - 1), firstmatchedcell.col] <> emptyCell) then
+                false
+                //Ensure cell after last matching position for word is empty.
+            elif (board.[(thefirstmatchingrow + wordchars.Length), firstmatchedcell.col] = emptyCell) then
                 //get position for unmatched chars on the board based on the match
                 let placeholderarray = Array.zeroCreate(wordchars.Length)
-     
                 cells |> Array.iteri(fun i x -> 
                                             if(x.letterindex = -1 ) then
                                                 let currentrow = thefirstmatchingrow  + i 
@@ -126,7 +132,7 @@ module CoreVertical =
         if (newrow = -1) then
             (false, (-1,-1))
         else
-            let wordfound = resultTuple wordchars.Length |> findVerticalMatch wordchars board row col 0 
+            let wordfound = resultTuple wordchars.Length |> findVerticalMatch wordchars board row (row, col) 0 
             if validForVertical wordfound wordchars board then 
                 //Add the word to the board
                 let cells = snd wordfound

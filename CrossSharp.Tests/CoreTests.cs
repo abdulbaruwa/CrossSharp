@@ -277,6 +277,45 @@ namespace CrossSharp.Tests
             
 
         }
+
+        [Test]
+        public void Given_a_set_words_should_iterate_and_apply_valid_words_starting_from_the_largesta()
+        {
+            var words = new List<string>();
+            words.Add("Bamidele");
+            words.Add("station");
+            words.Add("india");
+            words.Add("Adams");
+            words.Add("novemb");
+
+            var board = CoreHorizontal.GetBoard(12, 12);
+            var result = (CoreVertical.AddWordsAttempts(words.ToArray(), board));
+            PrintBoard(result.Item2);
+            foreach (var s in result.Item1)
+            {
+                Assert.IsTrue(s.inserted);
+            }
+
+            PrintBoard(result.Item2);
+
+            //B A m i d e l e _ _ _ _ _ _ _ 
+            //_ d _ n _ _ _ _ _ _ _ _ _ _ _ 
+            //f a r d s _ _ _ _ _ _ _ _ _ _ 
+            //_ m _ i _ _ n _ _ _ _ _ _ _ _ 
+            //_ s t a t i o n _ _ _ _ _ _ _ 
+            //_ _ _ _ _ _ v _ _ _ _ _ _ _ _ 
+            //_ _ _ _ _ b e l t _ _ _ _ _ _ 
+            //_ _ _ _ _ _ m _ r _ _ _ _ _ _ 
+            //_ _ _ _ _ _ b _ a d e o l a _ 
+            //_ _ _ _ _ _ _ _ i _ _ _ _ _ _ 
+            //_ _ _ _ _ _ _ _ n _ _ _ _ _ _ 
+            //_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+            //_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+            //_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+            //_ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+        }
+
+
         [Test]
         public void Given_a_set_words_should_iterate_and_apply_valid_words_starting_from_the_largest()
         {
