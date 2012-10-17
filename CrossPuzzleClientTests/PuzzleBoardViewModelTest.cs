@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using CrossPuzzleClient.ViewModels;
 using GalaSoft.MvvmLight.Messaging;
-using Microsoft.Reactive.Testing;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-using System.Reactive.Linq;
 
 namespace CrossPuzzleClientTests
 {
@@ -135,6 +131,23 @@ namespace CrossPuzzleClientTests
 
             Messenger.Default.Send(new KeyReceivedMessage { KeyCharType = KeyCharType.BackSpace });
             Assert.AreEqual(puzzleBoardVm.SelectedWord.Cells.Count(x => x.EnteredValue == "t"), 1);
+        }
+
+        [TestMethod]
+        public void When_a_backspace_is_hit_after_all_characters_have_been_entered_should_remove_a_letter_from_entered_characters()
+        {
+            var puzzleBoardVm = new DesignPuzzleBoardViewModel();
+            puzzleBoardVm.SelectedWordAcross = puzzleBoardVm.Words.First();
+            foreach (var cell in puzzleBoardVm.SelectedWord.Cells)
+            {
+                Messenger.Default.Send(new KeyReceivedMessage { KeyChar = cell.Value });
+            }
+
+            //Act
+            Messenger.Default.Send(new KeyReceivedMessage { KeyCharType = KeyCharType.BackSpace });
+
+            //Assert
+            Assert.AreEqual(1,puzzleBoardVm.SelectedWord.Cells.Count(x => string.IsNullOrEmpty(x.EnteredValue)));
         }
 
 

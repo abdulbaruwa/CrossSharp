@@ -321,16 +321,20 @@ namespace CrossPuzzleClient.ViewModels
 
         private void HandleKeyEvent(KeyReceivedMessage keyReceivedMessage)
         {
-            if (_currentWordPosition < SelectedWord.Cells.Count)
+
+            switch (keyReceivedMessage.KeyCharType)
             {
-                switch (keyReceivedMessage.KeyCharType)
-                {
-                    case KeyCharType.Delete:
-                    case KeyCharType.BackSpace:
+                case KeyCharType.Delete:
+                case KeyCharType.BackSpace:
+                    if (_currentWordPosition > 0)
+                    {
                         _currentWordPosition -= 1;
                         SelectedWord.Cells[_currentWordPosition].EnteredValue = string.Empty;
-                        break;
-                    default:
+                    }
+                    break;
+                default:
+                    if (_currentWordPosition < SelectedWord.Cells.Count)
+                    {
                         SelectedWord.Cells[_currentWordPosition].EnteredValue = keyReceivedMessage.KeyChar;
                         var cellValueChangedMesage =
                             new CellValueChangedMessage()
@@ -340,11 +344,11 @@ namespace CrossPuzzleClient.ViewModels
                                     Row = SelectedWord.Cells[_currentWordPosition].Row
                                 };
                         Messenger.Default.Send(cellValueChangedMesage);
-                        _currentWordPosition += 1;                   
-                        break;
-                }
-                ShowCompleteTick = SetShowCompleteTick();
+                        _currentWordPosition += 1;
+                    }
+                    break;
             }
+            ShowCompleteTick = SetShowCompleteTick();
         }
 
         private void LoadPuzzleBoardForSelectedPuzzleId(int puzzleId)
