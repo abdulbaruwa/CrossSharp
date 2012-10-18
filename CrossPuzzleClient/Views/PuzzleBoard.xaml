@@ -126,7 +126,7 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <!--<local:BoardCell DataContext="{Binding}" Width="50" Height="50" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"   />-->
-                                <Border BorderThickness=".5" Background="{Binding IsVisible, Converter={StaticResource BoolToCellShade}}" BorderBrush="Green" Height="auto" Width="auto" CornerRadius="4" Margin="1">
+                                <Border BorderThickness=".5"  Background="{Binding IsVisible, Converter={StaticResource BoolToCellShade}}" BorderBrush="Green" Height="auto" Width="auto" CornerRadius="4" Margin="1">
                                     <Grid Width="50" Opacity="90" Margin="3"
                                           Height="50">
                                         <Grid.ColumnDefinitions>

@@ -97,11 +97,29 @@ namespace CrossPuzzleClient.ViewModels
             get { return _selectedWord; }
             set
             {
-                if(_selectedWord != null) _selectedWord.RejectCellValueChanges();
+                if (_selectedWord != null)
+                {
+                    SetCellsForWordsTo(CellState.IsUsed);
+                    _selectedWord.RejectCellValueChanges();
+                }
                 SetProperty(ref _selectedWord, value);
-                if (_selectedWord != null) _selectedWord.AcceptCellValueChanges();
+                if (_selectedWord != null)
+                {
+                    SetCellsForWordsTo(CellState.IsActive);
+                    _selectedWord.AcceptCellValueChanges();
+                }
             }
         }
+
+        private void SetCellsForWordsTo(CellState isActive)
+        {
+            foreach (var cell in _selectedWord.Cells)
+            {
+                var cell1 = cell;
+                Cells.First(x => x.Row == cell1.Row && x.Col == cell1.Col).IsVisible = isActive;
+            }
+        }
+
         public bool GameIsRunning
         {
             get { return _gameIsRunning; }

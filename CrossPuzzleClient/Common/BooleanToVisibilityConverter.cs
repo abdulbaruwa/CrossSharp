@@ -1,4 +1,5 @@
 ﻿using System;
+using CrossPuzzleClient.ViewModels;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -31,8 +32,15 @@ namespace CrossPuzzleClient.Common
         {
             var enabledcolor = new SolidColorBrush(Colors.WhiteSmoke);
             var disabledcolor = new SolidColorBrush(Colors.AntiqueWhite);
+            var activecolor = new SolidColorBrush(Colors.LightGray);
 
-            return (value is bool && (bool) value) ? enabledcolor : disabledcolor;
+            if (value is CellState )
+            {
+                if((CellState)value == CellState.IsEmpty) return disabledcolor;
+                if((CellState)value == CellState.IsUsed) return enabledcolor;
+                if((CellState)value == CellState.IsActive) return activecolor;
+            }
+            return null;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)

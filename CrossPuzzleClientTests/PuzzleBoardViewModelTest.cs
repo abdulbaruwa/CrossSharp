@@ -35,6 +35,46 @@ namespace CrossPuzzleClientTests
         }
 
         [TestMethod]
+        public void Last_selected_word_should_be_unhighlighted_on_the_board_when_another_word_is_selected()
+        { 
+
+            //Arrange
+            var puzzleBoardVm = new DesignPuzzleBoardViewModel();
+            puzzleBoardVm.GameIsRunning = true;
+            puzzleBoardVm.SelectedWordDown = puzzleBoardVm.Words[1];
+            var pvCells = puzzleBoardVm.SelectedWord.Cells.Select(x => new {Col = x.Col, Row = x.Row});
+
+            puzzleBoardVm.SelectedWordDown = puzzleBoardVm.Words[2];
+
+            foreach (var cell in pvCells)
+            {
+                var cell1 = cell;
+                Assert.IsTrue(puzzleBoardVm.Cells.First(x => x.Row == cell1.Row && x.Col == cell1.Col).IsVisible ==
+                              CellState.IsUsed);
+            }
+
+        }
+
+        [TestMethod]
+        public void Selected_word_should_be_highlighted_on_the_board_and_the_previous_selected_word_unhighlighted()
+        {
+
+            //Arrange
+            var puzzleBoardVm = new DesignPuzzleBoardViewModel();
+            puzzleBoardVm.GameIsRunning = true;
+            puzzleBoardVm.SelectedWordDown = puzzleBoardVm.Words[1];
+
+            foreach (var cell in puzzleBoardVm.SelectedWord.Cells)
+            {
+                var cell1 = cell;
+                Assert.IsTrue(puzzleBoardVm.Cells.First(x => x.Row == cell1.Row && x.Col == cell1.Col).IsVisible ==
+                              CellState.IsActive);
+            }
+
+        }
+
+
+        [TestMethod]
         public void Selected_word_values_should_not_be_persisted_if_the_word_is_not_added_to_the_board()
         {
 

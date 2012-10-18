@@ -11,7 +11,7 @@ namespace CrossPuzzleClient.ViewModels
         {
             _wordViewModel = wordViewModel;
             _wordPosition = wordPosition;
-            IsVisible = true;
+            IsVisible = CellState.IsUsed;
         }
 
         public WordViewModel Word
@@ -32,7 +32,7 @@ namespace CrossPuzzleClient.ViewModels
         private int _col;
         private int _row;
         private string _value = string.Empty;
-        private bool _isVisible;
+        private CellState _isVisible;
         private string _enteredvalue;
 
         public CellEmptyViewModel(int col, int row, string value)
@@ -67,13 +67,19 @@ namespace CrossPuzzleClient.ViewModels
             set { SetProperty(ref _enteredvalue, value); }
  
         }
-        public bool IsVisible
+        public CellState IsVisible
         {
             get { return _isVisible; }
             set { SetProperty(ref _isVisible, value); }
         }
     }
 
+    public enum CellState
+    {
+        IsEmpty,
+        IsUsed,
+        IsActive
+    }
     public enum Direction
     {
         Down,
