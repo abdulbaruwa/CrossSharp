@@ -4,7 +4,7 @@
                         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="using:CrossPuzzleClient.Views"
                         xmlns:common="using:CrossPuzzleClient.Common" xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                        xmlns:ViewModels="using:CrossPuzzleClient.ViewModels" mc:Ignorable="d" Margin="0,-2,0,2">
+                        xmlns:ViewModels="using:CrossPuzzleClient.ViewModels" mc:Ignorable="d" Margin="0,-2,0,2" FontFamily="Global User Interface">
 
     <Page.Resources>
         <common:BooleanToCellShadeConverter x:Key="BoolToCellShade" />
@@ -34,6 +34,9 @@
     -->
     <Grid Style="{StaticResource LayoutRootStyle}"
           d:DataContext="{Binding Source={d:DesignInstance Type=ViewModels:DesignPuzzleBoardViewModel, IsDesignTimeCreatable=True}}">
+    	<Grid.Background>
+    		<ImageBrush ImageSource="ms-appx:///Assets/Landscapes30.png"/>
+    	</Grid.Background>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="734*" />
             <ColumnDefinition Width="633*" />
@@ -71,7 +74,7 @@
         <!--<Canvas Opacity="100" Grid.Row="1" Margin="10,-20,10,10" Grid.Column="0"  Grid.ColumnSpan="3" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" Background="Gray"  />-->
         <Grid Opacity="100" VerticalAlignment="Top" Margin="0,64,0,0" Grid.RowSpan="2" Grid.ColumnSpan="2">
 
-            <Grid Name="FullBoard"  Margin="50,0,50,7"
+            <Grid Name="FullBoard"  Margin="20,0,20,7"
                   d:DataContext="{Binding Source={d:DesignInstance Type=ViewModels:DesignPuzzleBoardViewModel, IsDesignTimeCreatable=True}}">
 
                 <Grid.ColumnDefinitions>
@@ -88,20 +91,19 @@
                 
                 <!--Down-->
                 <Rectangle Grid.Column="0" Width="{Binding ElementName=wordsdown, Path=Width}"
-                           Height="{Binding ElementName=wordsdown, Path=Height}" Grid.Row="0" Fill="AntiqueWhite" HorizontalAlignment="Stretch"
-                           VerticalAlignment="Stretch" Margin="10" Stroke="{StaticResource ButtonDisabledBackgroundThemeBrush}"></Rectangle>
+                           Height="{Binding ElementName=wordsdown, Path=Height}" Grid.Row="0" HorizontalAlignment="Stretch"
+                           VerticalAlignment="Stretch" Margin="10" Stroke="{StaticResource ButtonDisabledBackgroundThemeBrush}"/>
 
-                <StackPanel x:Name="wordsdown" Grid.Row="0" Grid.Column="0" Orientation="Vertical" HorizontalAlignment="Center" Margin="10" Height="{Binding ElementName=mainboard, Path=Height}">
-                    <TextBlock Style="{StaticResource CrossWordSideHeaderTextStyle}" Text="Down" Margin="0,5,40,40"
-                               Foreground="Red" />
+                <StackPanel x:Name="wordsdown" Grid.Row="0" Grid.Column="0" Orientation="Vertical"  Margin="10" Height="{Binding ElementName=mainboard, Path=Height}">
+                    <TextBlock Style="{StaticResource PuzzleBaselineTextStyle}" Text="Down" Margin="10,5,40,40"
+                               HorizontalAlignment="Left" FontSize="20"/>
                     <ListView Visibility="{Binding GameIsRunning,Converter={StaticResource BoolToVisibilityConverter}}" ItemsSource="{Binding Path=WordsDown}" SelectedItem="{Binding Path=SelectedWordDown, Mode=TwoWay}" Margin="0,-30,0,0">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
-                                    <TextBlock Text="{Binding Index}" FontSize="22" FontWeight="Bold" Foreground="Red" Margin="0,0,15,0"
+                                    <TextBlock Text="{Binding Index}" FontSize="18" Style="{StaticResource PuzzleBaselineTextStyle}" Margin="3,0,5,0"
                                                VerticalAlignment="Center" />
-                                    <TextBlock Text="{Binding WordHint}" Style="{StaticResource CrossWordHeaderTextStyle}" FontSize="24"
-                                               Foreground="Red" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                                    <TextBlock Text="{Binding WordHint}"  FontSize="18" Style="{StaticResource PuzzleBaselineTextStyle}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
@@ -110,7 +112,7 @@
 
                 <!--Main Board-->
                 <StackPanel x:Name="mainboard" Orientation="Vertical" Margin="10,10,10,0" Grid.Column="1" Grid.Row="0">
-                    <ItemsControl  x:Name="itemsTwo" ItemsSource="{Binding Cells}" >
+                    <ItemsControl  x:Name="itemsTwo" ItemsSource="{Binding Cells}" Opacity="0.85" >
                         <ItemsControl.ItemContainerTransitions>
                             <TransitionCollection>
                                 <RepositionThemeTransition />
@@ -124,8 +126,8 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <!--<local:BoardCell DataContext="{Binding}" Width="50" Height="50" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"   />-->
-                                <Border BorderThickness=".5">
-                                    <Grid Background="{Binding IsVisible, Converter={StaticResource BoolToCellShade}}" Width="50"
+                                <Border BorderThickness=".5" Background="{Binding IsVisible, Converter={StaticResource BoolToCellShade}}" BorderBrush="Green" Height="auto" Width="auto" CornerRadius="4" Margin="1">
+                                    <Grid Width="50" Opacity="90" Margin="3"
                                           Height="50">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*" />
@@ -138,7 +140,7 @@
                                             <RowDefinition Height="*" />
                                         </Grid.RowDefinitions>
                                         <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding WordPosition}" FontSize="14"
-                                                   Foreground="Red" Padding="0" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                                   Foreground="Gray" Padding="0" VerticalAlignment="Top" HorizontalAlignment="Left" />
                                         <TextBlock Grid.ColumnSpan="3" FontFamily="Segoi" FontSize="32" Foreground="Red"
                                                    VerticalAlignment="Top" Padding="0" HorizontalAlignment="Center" Text="{Binding EnteredValue}" Grid.RowSpan="3"
                                                    Margin="13,7,14,0" />
@@ -151,21 +153,21 @@
                 <!--</Border>-->
                 <!--Across-->
                 <Rectangle Grid.Column="2" Width="{Binding ElementName=wordsacross, Path=Width}"
-                           Height="{Binding ElementName=wordsacross, Path=Height}" Grid.Row="0" Fill="AntiqueWhite" HorizontalAlignment="Stretch"
-                           VerticalAlignment="Stretch" Margin="10" Stroke="{StaticResource ButtonDisabledBackgroundThemeBrush}"></Rectangle>
+                           Height="{Binding ElementName=wordsacross, Path=Height}" Grid.Row="0" HorizontalAlignment="Stretch"
+                           VerticalAlignment="Stretch" Margin="10" Stroke="{StaticResource ButtonDisabledBackgroundThemeBrush}"/>
 
-                <StackPanel x:Name="wordsacross" Orientation="Vertical" Grid.Column="2" Grid.Row="0" Margin="10">
-                    <TextBlock Style="{StaticResource CrossWordSideHeaderTextStyle}" Text="Across" Margin="0,5,40,0"
-                               Foreground="Red" />
-                    <ListView Visibility="{Binding GameIsRunning,Converter={StaticResource BoolToVisibilityConverter}}" ItemsSource="{Binding Path=WordsAcross}"
+                <StackPanel x:Name="wordsacross" Orientation="Vertical" Grid.Column="2" Grid.Row="0" Margin="10,10,10,10">
+                    <TextBlock Style="{StaticResource PuzzleBaselineTextStyle}" Text="Across" Margin="10,5,40,0"
+                               HorizontalAlignment="Left" FontSize="20"/>
+                    <ListView Visibility="{Binding GameIsRunning,Converter={StaticResource BoolToVisibilityConverter}}" ItemsSource="{Binding Path=WordsAcross}" Opacity="100"
                               SelectedItem="{Binding Path=SelectedWordAcross, Mode=TwoWay}" Margin="0,10,0,0">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
-                                    <TextBlock Text="{Binding Index}" FontSize="22" FontWeight="Bold" Margin="0,0,15,0"
-                                               VerticalAlignment="Center" Foreground="Red" />
-                                    <TextBlock Text="{Binding WordHint}" Style="{StaticResource CrossWordHeaderTextStyle}" FontSize="24"
-                                               HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="Red" />
+                                    <TextBlock Style="{StaticResource PuzzleBaselineTextStyle}" Text="{Binding Index}" FontSize="18" Margin="3,0,5,0"
+                                               VerticalAlignment="Center" />
+                                    <TextBlock Text="{Binding WordHint}" FontSize="18" Style="{StaticResource PuzzleBaselineTextStyle}"
+                                               HorizontalAlignment="Left" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
@@ -174,7 +176,7 @@
 
                 <!--<StackPanel x:Name="displayselectedPanel" Orientation="Horizontal" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Margin="10,-60,0,0">-->
                 <ItemsControl Visibility="{Binding GameIsRunning,Converter={StaticResource BoolToVisibilityConverter}}" x:Name="wordselected" ItemsSource="{Binding SelectedWord.Cells}" Grid.Column="1" Grid.Row="1"
-                              Margin="10,0,10,0">
+                              Margin="10,0,10,0" Opacity="0.85">
                     <ItemsControl.ItemContainerTransitions>
                         <TransitionCollection>
                             <RepositionThemeTransition />

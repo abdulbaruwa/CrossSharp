@@ -321,7 +321,7 @@ namespace CrossPuzzleClient.ViewModels
 
         private void HandleKeyEvent(KeyReceivedMessage keyReceivedMessage)
         {
-
+            if(SelectedWord == null) return;
             switch (keyReceivedMessage.KeyCharType)
             {
                 case KeyCharType.Delete:

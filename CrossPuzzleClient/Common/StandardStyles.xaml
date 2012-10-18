@@ -1015,4 +1015,29 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <!--Puzzle specific styles-->
+    <!-- TextBlock styles -->
+
+    <Style x:Key="PuzzleBasicTextStyle" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource ApplicationPointerOverForegroundThemeBrush}"/>
+        <Setter Property="FontSize" Value="{StaticResource ControlContentThemeFontSize}"/>
+        <Setter Property="FontFamily" Value="{StaticResource ContentControlThemeFontFamily}"/>
+        <Setter Property="TextTrimming" Value="WordEllipsis"/>
+        <Setter Property="TextWrapping" Value="Wrap"/>
+        <Setter Property="Typography.StylisticSet20" Value="True"/>
+        <Setter Property="Typography.DiscretionaryLigatures" Value="True"/>
+        <Setter Property="Typography.CaseSensitiveForms" Value="True"/>
+    </Style>
+    
+    <Style x:Key="PuzzleBaselineTextStyle" TargetType="TextBlock" BasedOn="{StaticResource BasicTextStyle}">
+        <!--<Setter Property="LineHeight" Value="20"/>-->
+        <Setter Property="LineStackingStrategy" Value="BlockLineHeight"/>
+        <!-- Properly align text along its baseline -->
+        <Setter Property="RenderTransform">
+            <Setter.Value>
+                <TranslateTransform X="-1" Y="4"/>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>
