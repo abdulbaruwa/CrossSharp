@@ -100,7 +100,7 @@
                                 <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
                                     <TextBlock Text="{Binding Index}" FontSize="22" FontWeight="Bold" Foreground="Red" Margin="0,0,15,0"
                                                VerticalAlignment="Center" />
-                                    <TextBlock Text="{Binding Word}" Style="{StaticResource CrossWordHeaderTextStyle}" FontSize="24"
+                                    <TextBlock Text="{Binding WordHint}" Style="{StaticResource CrossWordHeaderTextStyle}" FontSize="24"
                                                Foreground="Red" HorizontalAlignment="Left" VerticalAlignment="Center" />
                                 </StackPanel>
                             </DataTemplate>
@@ -164,7 +164,7 @@
                                 <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
                                     <TextBlock Text="{Binding Index}" FontSize="22" FontWeight="Bold" Margin="0,0,15,0"
                                                VerticalAlignment="Center" Foreground="Red" />
-                                    <TextBlock Text="{Binding Word}" Style="{StaticResource CrossWordHeaderTextStyle}" FontSize="24"
+                                    <TextBlock Text="{Binding WordHint}" Style="{StaticResource CrossWordHeaderTextStyle}" FontSize="24"
                                                HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="Red" />
                                 </StackPanel>
                             </DataTemplate>

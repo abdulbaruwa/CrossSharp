@@ -4,6 +4,6 @@ namespace CrossPuzzleClient.ViewModels
 {
     public interface IPuzzleRepository
     {
-        List<string> GetPuzzleWithId(int puzzleId);
+        Dictionary<string,string> GetPuzzleWithId(int puzzleId);
     }
 }

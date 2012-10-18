@@ -20,6 +20,7 @@ namespace CrossPuzzleClient.ViewModels
                                where word.Cells.Count == Words.Max(x => x.Cells.Count)
                                select word).FirstOrDefault();
 
+            GameIsRunning = true;
 
             UserName = "Abdul";
 

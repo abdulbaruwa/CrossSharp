@@ -23,6 +23,7 @@ namespace CrossPuzzleClient.ViewModels
         private int _index;
         private string _word;
         private bool _enteredValueAddedToBoard;
+        private string _wordHint;
 
         public WordViewModel()
         {
@@ -40,6 +41,12 @@ namespace CrossPuzzleClient.ViewModels
         {
             get { return _word; }
             set { SetProperty(ref _word, value); }
+        }
+
+        public string WordHint
+        {
+            get { return _wordHint; }
+            set { SetProperty(ref _wordHint, value); }
         }
 
         public int Index

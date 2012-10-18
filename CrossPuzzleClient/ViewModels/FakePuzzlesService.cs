@@ -48,7 +48,6 @@ namespace CrossPuzzleClient.ViewModels
         {
             var words = new List<string>();
             words.Add("Bamidele");
-
             words.Add("station");
             words.Add("india");
             words.Add("Adams");
@@ -74,6 +73,7 @@ namespace CrossPuzzleClient.ViewModels
                                             Cells = new ObservableCollection<CellEmptyViewModel>(),
                                             Direction = GetDirection(word.orientation),
                                             Word = word.word,
+                                            WordHint = " Hint for " + word.word,
                                             Index = position
                                         };
 

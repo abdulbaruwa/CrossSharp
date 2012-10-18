@@ -4,20 +4,22 @@ namespace CrossPuzzleClient.ViewModels
 {
     class FakePuzzleRepository : IPuzzleRepository
     {
-        public List<string> GetPuzzleWithId(int puzzleId)
+        public Dictionary<string,string> GetPuzzleWithId(int puzzleId)
         {
-            var words = new List<string>();
-            words.Add("Bamidele");
-            words.Add("station");
-            words.Add("india");
-            words.Add("Adams");
-            words.Add("fards");
-            words.Add("novemb");
-            words.Add("belt");
-            words.Add("train");
-            words.Add("adeola");
-            words.Add("amoeba");
-            words.Add("moscow");
+            var words = new Dictionary<string, string>
+                            {
+                                {"Bamidele", "Adetoro's first name"},
+                                {"station", "place where i fit get train"},
+                                {"india", "Origin of my favourite curry"},
+                                {"Adams", "Captain Arsenal"},
+                                {"fards", "show off"},
+                                {"novemb", "like november"},
+                                {"belt", "Tied around my waist"},
+                                {"train", "Mode of transportation"},
+                                {"adeola", "My sister"},
+                                {"amoeba", "Single cell organism"},
+                                {"moscow", "Cold city behind iron curtain"}
+                            };
             return words;
 
         }

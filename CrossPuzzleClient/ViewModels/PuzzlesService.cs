@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -55,7 +54,7 @@ namespace CrossPuzzleClient.ViewModels
             return sortedWordViewModel;
         }
 
-        public List<WordViewModel> GetWordsWordviewmodels(List<string> words)
+        public List<WordViewModel> GetWordsWordviewmodels(Dictionary<string,string> words)
         {
 
             ////var words = new List<string>();
@@ -70,21 +69,22 @@ namespace CrossPuzzleClient.ViewModels
             //words.Add("adeola");
             //words.Add("amoeba");
             //words.Add("moscow");
-
             var board = CoreHorizontal.GetBoard(12, 12);
-            var result = (CoreVertical.AddWordsAttempts(words.ToArray(), board));
+            //var wordKeys = words. .Select(x => x.Key).ToArray();
+            var result = (CoreVertical.AddWordsAttempts(words.Keys.ToArray(), board));
 
             var wordsInserted = result.Item1.Where(x => x.inserted);
             var wordviewmodels = new List<WordViewModel>();
             foreach (var word in wordsInserted)
             {
                 var position = (word.row * 12) + word.col;
-
+                CoreHorizontal.resultCell word1 = word;
                 var wordViewModel = new WordViewModel()
                 {
                     Cells = new ObservableCollection<CellEmptyViewModel>(),
                     Direction = GetDirection(word.orientation),
                     Word = word.word,
+                    WordHint = words.First(x =>x.Key == word1.word).Value,
                     Index = position
                 };
 
