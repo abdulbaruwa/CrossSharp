@@ -115,6 +115,7 @@ namespace CrossPuzzleClient.ViewModels
                                     x.Cells.Count(y => y.Col == value.Col && y.Row == value.Row) > 0
                                 );
 
+            if(word == null) return;
             if (word.Direction == Direction.Down)
             {
                 SelectedWordDown = word;
