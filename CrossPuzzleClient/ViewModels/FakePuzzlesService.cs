@@ -74,6 +74,7 @@ namespace CrossPuzzleClient.ViewModels
                                             Direction = GetDirection(word.orientation),
                                             Word = word.word,
                                             WordHint = " Hint for " + word.word,
+                                            WordLength = "(" + word.word.Length.ToString() + ")",
                                             Index = position
                                         };
 

@@ -20,10 +20,11 @@ namespace CrossPuzzleClient.ViewModels
     {
         private ObservableCollection<CellEmptyViewModel> _cells;
         private Direction _direction;
+        private bool _enteredValueAddedToBoard;
         private int _index;
         private string _word;
-        private bool _enteredValueAddedToBoard;
         private string _wordHint;
+        private string _wordLength;
 
         public WordViewModel()
         {
@@ -53,6 +54,12 @@ namespace CrossPuzzleClient.ViewModels
         {
             get { return _index; }
             set { SetProperty(ref _index, value); }
+        }
+
+        public string WordLength
+        {
+            get { return _wordLength; }
+            set { SetProperty(ref _wordLength, value); }
         }
 
         public Direction Direction

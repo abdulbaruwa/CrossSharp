@@ -101,9 +101,9 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
-                                    <TextBlock Text="{Binding Index}" FontSize="18" Style="{StaticResource PuzzleBaselineTextStyle}" Margin="3,0,5,0"
-                                               VerticalAlignment="Center" />
+                                    <TextBlock Text="{Binding Index}" FontSize="18" Style="{StaticResource PuzzleBaselineTextStyle}" Margin="4,0,5,0" VerticalAlignment="Center" />
                                     <TextBlock Text="{Binding WordHint}"  FontSize="18" Style="{StaticResource PuzzleBaselineTextStyle}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{Binding WordLength}" FontSize="18" Style="{StaticResource PuzzleBaselineTextStyle}" Margin="3,0,5,0" VerticalAlignment="Center" />
                                 </StackPanel>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
@@ -143,7 +143,7 @@
                                                    Foreground="Gray" Padding="0" VerticalAlignment="Top" HorizontalAlignment="Left" />
                                         <TextBlock Grid.ColumnSpan="3" FontFamily="Segoi" FontSize="32" Foreground="Red"
                                                    VerticalAlignment="Top" Padding="0" HorizontalAlignment="Center" Text="{Binding EnteredValue}" Grid.RowSpan="3"
-                                                   Margin="13,7,14,0" />
+                                                   Margin="5,2,14,0" />
                                     </Grid>
                                 </Border>
                             </DataTemplate>
@@ -164,10 +164,12 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
-                                    <TextBlock Style="{StaticResource PuzzleBaselineTextStyle}" Text="{Binding Index}" FontSize="18" Margin="3,0,5,0"
+                                    <TextBlock Style="{StaticResource PuzzleBaselineTextStyle}" Text="{Binding Index}" FontSize="18" Margin="4,0,5,0"
                                                VerticalAlignment="Center" />
                                     <TextBlock Text="{Binding WordHint}" FontSize="18" Style="{StaticResource PuzzleBaselineTextStyle}"
                                                HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{Binding WordLength}" FontSize="18" Style="{StaticResource PuzzleBaselineTextStyle}" Margin="3,0,5,0" VerticalAlignment="Center" />
+
                                 </StackPanel>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
@@ -212,7 +214,6 @@
                 </ItemsControl>
                 <Button Visibility="{Binding GameIsRunning,Converter={StaticResource BoolToVisibilityConverter}}" Command="{Binding AddWordToBoardCommand}" Grid.Column="2" Grid.Row="1" Margin="9,0,0,0">Place on Board</Button>
                 <!-- Visibility="{Binding ShowCompleteTick, Converter={StaticResource BoolToVis}}">Hellos</Button> -->
-                <!--</StackPanel>-->
             </Grid>
 
         </Grid>
