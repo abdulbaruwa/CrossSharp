@@ -27,12 +27,9 @@ namespace CrossPuzzleClient.ViewModels
             StartPauseButtonCaption = "Pause";
 
             GameCountDown = "00:00:00";
-           
-
             
             AddWordsToBoard();
 
         }
-
     }
 }

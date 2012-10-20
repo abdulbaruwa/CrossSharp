@@ -38,6 +38,9 @@ namespace CrossPuzzleClient.ViewModels
         private ICommand _gameCountUp;
         private IDisposable _counter;
         private ISchedulerProvider _scheduler;
+        private CellEmptyViewModel _currentSelectedCell;
+        private ObservableCollection<CellEmptyViewModel> _currentSelectedCells;
+        private bool _isBoardEnabled;
 
         public PuzzleBoardViewModel(IPuzzlesService puzzlesService, ISchedulerProvider scheduler)
         {
@@ -84,6 +87,43 @@ namespace CrossPuzzleClient.ViewModels
         public ObservableCollection<CellEmptyViewModel> Cells
         {
             get { return _cells; }
+        }
+
+        public ObservableCollection<CellEmptyViewModel> CurrentSelectedCells
+        {
+            get { return _currentSelectedCells; }
+        }
+
+        public CellEmptyViewModel CurrentSelectedCell
+        {
+            get { return _currentSelectedCell; }
+            set
+            {
+                SetProperty(ref _currentSelectedCell, value);
+                SetLikelyWordMatchOnBoardForSelectedCell(value);
+            }
+        }
+
+        public bool IsBoardEnabled
+        {
+            get { return _isBoardEnabled; }
+        }
+
+        private void SetLikelyWordMatchOnBoardForSelectedCell(CellEmptyViewModel value)
+        {
+            var word = Words.FirstOrDefault(x => 
+                                    x.Cells.Count(y => y.Col == value.Col && y.Row == value.Row) > 0
+                                );
+
+            if (word.Direction == Direction.Down)
+            {
+                SelectedWordDown = word;
+            }
+            else
+            {
+                SelectedWordAcross = word;
+            }
+
         }
 
         public ObservableCollection<WordViewModel> Words

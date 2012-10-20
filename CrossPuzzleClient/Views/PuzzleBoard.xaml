@@ -25,6 +25,32 @@
             <Setter Property="Margin" Value="0,0,40,40" />
         </Style>
 
+        <Style x:Key="RectangleStyle1" TargetType="Rectangle"/>
+        <Style x:Key="ContentPresenterStyle1" TargetType="ContentPresenter">
+            <Setter Property="Margin" Value="0"/>
+        </Style>
+        
+        <Style x:Key="ListBoxItemStyle3" TargetType="ListBoxItem">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="TabNavigation" Value="Local"/>
+            <Setter Property="Padding" Value="8,10"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Border x:Name="LayoutRoot" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Height="50">
+                            
+                            <Grid x:Name="InnerGrid" Background="Transparent">
+                                <Rectangle x:Name="PressedBackground" Fill="{StaticResource ListBoxItemPressedBackgroundThemeBrush}" Opacity="0" Margin="0,0,0,10" Height="50"/>
+                                <ContentPresenter x:Name="ContentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" ContentTransitions="{TemplateBinding ContentTransitions}" Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Style="{StaticResource ContentPresenterStyle1}"/>
+                                <Rectangle x:Name="FocusVisualWhite" Opacity="0" StrokeDashOffset=".5" StrokeEndLineCap="Square" Stroke="{StaticResource FocusVisualWhiteStrokeThemeBrush}" StrokeDashArray="1,1" Margin="0,0,0,10"/>
+                                <Rectangle x:Name="FocusVisualBlack" Opacity="0" StrokeDashOffset="1.5" StrokeEndLineCap="Square" Stroke="{StaticResource FocusVisualBlackStrokeThemeBrush}" StrokeDashArray="1,1" Style="{StaticResource RectangleStyle1}"/>
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Page.Resources>
 
     <!--
@@ -97,7 +123,7 @@
                 <StackPanel x:Name="wordsdown" Grid.Row="0" Grid.Column="0" Orientation="Vertical"  Margin="10" Height="{Binding ElementName=mainboard, Path=Height}">
                     <TextBlock Style="{StaticResource PuzzleBaselineTextStyle}" Text="Down" Margin="10,5,40,40"
                                HorizontalAlignment="Left" FontSize="20"/>
-                    <ListView Visibility="{Binding GameIsRunning,Converter={StaticResource BoolToVisibilityConverter}}" ItemsSource="{Binding Path=WordsDown}" SelectedItem="{Binding Path=SelectedWordDown, Mode=TwoWay}" Margin="0,-30,0,0">
+                    <ListView Visibility="{Binding GameIsRunning,Converter={StaticResource BoolToVisibilityConverter}}" ItemsSource="{Binding Path=WordsDown}" SelectedItem="{Binding Path=SelectedWordDown, Mode=TwoWay}" Margin="0,-30,0,0" HorizontalAlignment="Right">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
@@ -112,20 +138,22 @@
 
                 <!--Main Board-->
                 <StackPanel x:Name="mainboard" Orientation="Vertical" Margin="10,10,10,0" Grid.Column="1" Grid.Row="0">
-                    <ItemsControl  x:Name="itemsTwo" ItemsSource="{Binding Cells}" Opacity="0.85" >
-                        <ItemsControl.ItemContainerTransitions>
+                    <ListBox x:Name="itemsTwo" ItemsSource="{Binding Cells}" Opacity="0.85" IsEnabled="{Binding GameIsRunning,Mode=TwoWay}" 
+                             ItemContainerStyle="{StaticResource ListBoxItemStyle3}" 
+                             SelectedItem="{Binding CurrentSelectedCell, Mode=TwoWay}">
+                        <ListBox.ItemContainerTransitions>
                             <TransitionCollection>
                                 <RepositionThemeTransition />
                             </TransitionCollection>
-                        </ItemsControl.ItemContainerTransitions>
-                        <ItemsControl.ItemsPanel>
+                        </ListBox.ItemContainerTransitions>
+                        <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <local:BoardCanvas />
                             </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
+                        </ListBox.ItemsPanel>
+                        <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <!--<local:BoardCell DataContext="{Binding}" Width="50" Height="50" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"   />-->
+                                <!--<local:BoardCell DataContext="{Binding }" Width="50" Height="50" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"   />-->
                                 <Border BorderThickness=".5"  Background="{Binding IsVisible, Converter={StaticResource BoolToCellShade}}" BorderBrush="Green" Height="auto" Width="auto" CornerRadius="4" Margin="1">
                                     <Grid Width="50" Opacity="90" Margin="3"
                                           Height="50">
@@ -147,8 +175,8 @@
                                     </Grid>
                                 </Border>
                             </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
                 </StackPanel>
                 <!--</Border>-->
                 <!--Across-->

@@ -35,6 +35,37 @@ namespace CrossPuzzleClientTests
         }
 
         [TestMethod]
+        public void Board_should_be_disabled_if_game_is_not_running()
+        {
+
+            var puzzleBoardVm = new DesignPuzzleBoardViewModel();
+            puzzleBoardVm.StartPauseButtonCaption = "Start";
+            puzzleBoardVm.GameIsRunning = false;
+            puzzleBoardVm.StartPauseCommand.Execute(null);
+            Assert.IsTrue(puzzleBoardVm.GameIsRunning);
+        }
+
+        [TestMethod]
+        public void Should_highlight_the_the_most_likely_word_match_on_the_Board_if_a_cell_is_clicked_on_the_Board()
+        {
+           //CurrentSelectedCell 
+            var puzzleBoardVm = new DesignPuzzleBoardViewModel();
+            puzzleBoardVm.StartPauseButtonCaption = "Start";
+            puzzleBoardVm.GameIsRunning = false;
+            puzzleBoardVm.StartPauseCommand.Execute(null);
+
+            //Act
+            var wordToAdd = puzzleBoardVm.Words.FirstOrDefault(x => x.Direction == Direction.Down);
+            puzzleBoardVm.CurrentSelectedCell = wordToAdd.Cells[1];
+            
+            foreach (var cell in puzzleBoardVm.SelectedWordDown.Cells)
+            {
+                Assert.IsTrue(cell.IsVisible == CellState.IsUsed);
+            }
+        }
+
+
+        [TestMethod]
         public void Last_selected_word_should_be_unhighlighted_on_the_board_when_another_word_is_selected()
         { 
 

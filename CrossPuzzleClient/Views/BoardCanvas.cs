@@ -48,8 +48,8 @@ namespace CrossPuzzleClient.Views
 
                 // Arrange child
                 // Get desired height and width. This will not be larger than 100x100 as set in MeasureOverride.
-                var contentPresenter = mychildren[i] as ContentPresenter;
-                var cellViewModel = contentPresenter.DataContext as CellViewModel;
+                //var contentPresenter = mychildren[i] as ContentPresenter;
+              //  var cellViewModel = contentPresenter.DataContext as CellViewModel;
                 double dw = mychildren[i].DesiredSize.Width;
                 double dh = mychildren[i].DesiredSize.Height;
 
