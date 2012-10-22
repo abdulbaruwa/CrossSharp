@@ -35,6 +35,61 @@ namespace CrossPuzzleClientTests
         }
 
         [TestMethod]
+        public void Should_execute_GameFinishedEvent_with_100_percent_result_when_last_word_is_inserted_onto_the_board()
+        {
+            var puzzleBoardVm = new DesignPuzzleBoardViewModel();
+            Messenger.Default.Register<GameCompleteMessage>(this, m => Assert.AreEqual(100, m.ScorePercentage));
+            GetDesignPuzzleBoardViewModelWithAllWordsInserted(puzzleBoardVm);
+        }
+
+        [TestMethod]
+        public void Should_stop_running_game_when_last_word_is_inserted_onto_the_board()
+        {
+            var puzzleBoardVm = GetDesignPuzzleBoardViewModelWithAllWordsInserted(new DesignPuzzleBoardViewModel());
+
+            //Assert
+            Assert.IsFalse(puzzleBoardVm.GameIsRunning);
+        }
+
+        private static DesignPuzzleBoardViewModel GetDesignPuzzleBoardViewModelWithAllWordsInserted(DesignPuzzleBoardViewModel puzzleBoardVm)
+        {
+            puzzleBoardVm.StartPauseButtonCaption = "Start";
+            puzzleBoardVm.GameIsRunning = false;
+            puzzleBoardVm.StartPauseCommand.Execute(null);
+
+            //Act
+            puzzleBoardVm.SelectedWordAcross = puzzleBoardVm.Words.First();
+
+            foreach (var word in puzzleBoardVm.Words)
+            {
+                if (word.Direction == Direction.Down)
+                {
+                    puzzleBoardVm.SelectedWordDown = word;
+                }
+                else
+                {
+                    puzzleBoardVm.SelectedWordAcross = word;
+                }
+
+                foreach (var cell in word.Cells)
+                {
+                    Messenger.Default.Send(new KeyReceivedMessage() {KeyChar = cell.Value});
+                }
+
+                puzzleBoardVm.AddWordToBoardCommand.Execute(null);
+            }
+            return puzzleBoardVm;
+        }
+
+        [TestMethod]
+        public void Should_fire_success_message_if_all_answers_are_correct()
+        {
+                
+        }
+
+        //public void When_game_is_finished_with_success_should_reset_board_and_
+
+        [TestMethod]
         public void Board_should_be_disabled_if_game_is_not_running()
         {
 

@@ -124,7 +124,6 @@ namespace CrossPuzzleClient.ViewModels
             {
                 SelectedWordAcross = word;
             }
-
         }
 
         public ObservableCollection<WordViewModel> Words
@@ -159,6 +158,28 @@ namespace CrossPuzzleClient.ViewModels
                 var cell1 = cell;
                 Cells.First(x => x.Row == cell1.Row && x.Col == cell1.Col).IsVisible = isActive;
             }
+        }
+
+        private void StopGameIfFinished()
+        {
+            if(Words.Count(x => x.EnteredValueAddedToBoard) == Words.Count)
+            {
+                StopGame();
+                GameIsRunning = false;
+                FireGameCompleteMessage();
+            }
+        }
+
+        private void FireGameCompleteMessage()
+        {
+            var score = GetGameScore();
+
+            Messenger.Default.Send(new GameCompleteMessage(){ScorePercentage = score, UserName= "Abdul"});
+        }
+
+        private int GetGameScore()
+        {
+            return (Words.Count(x => x.IsWordAnswerCorrect)/Words.Count())*100;
         }
 
         public bool GameIsRunning
@@ -212,15 +233,11 @@ namespace CrossPuzzleClient.ViewModels
         {
             StartPauseButtonCaption = _gameIsRunning ? "Pause" : "Start";
         }
-
         
         private void StartPauseGame()
         {
             //Pause by dispossing current Observable.
-            if (_gameIsRunning && _counter != null)
-            {
-                using (_counter) { }
-            }
+            StopTime();
             GameIsRunning = !_gameIsRunning;
 
             SetStartPauseDisplayCommand();
@@ -228,6 +245,21 @@ namespace CrossPuzzleClient.ViewModels
 
         }
 
+        private void StopTime()
+        {
+            if (_gameIsRunning && _counter != null)
+            {
+                using (_counter)
+                {
+                }
+            }
+        }
+
+        private void StopGame()
+        {
+           StopTime();
+           StartPauseButtonCaption = "Start";
+        }
         public void BeginCount()
         {
             //var scheduler = new DispatcherScheduler(Application.Current. Dispatcher);
@@ -283,6 +315,7 @@ namespace CrossPuzzleClient.ViewModels
                 Cells.First(x => x.Row == cell.Row && x.Col == cell.Col).EnteredValue = cell.EnteredValue;
             }
             SelectedWord.EnteredValueAddedToBoard = true;
+            StopGameIfFinished();
 
         }
 
@@ -330,22 +363,6 @@ namespace CrossPuzzleClient.ViewModels
         private void SetSelectedWordCurrentCellPosition(WordViewModel value)
         {
             _currentWordPosition = 0;
-
-            //if (value.Cells.Any(x => string.IsNullOrEmpty(x.EnteredValue) == false))
-            //{
-            //    for (int index = 0; index < value.Cells.Count; index++)
-            //    {
-            //        var cell = value.Cells[index];
-            //        if (string.IsNullOrEmpty(cell.EnteredValue))
-            //        {
-            //            _currentWordPosition = index;
-            //        }
-            //    }
-            //}
-            //else
-            //{
-            //    _currentWordPosition = 0;
-            //}
         }
 
         private bool SetShowCompleteTick()

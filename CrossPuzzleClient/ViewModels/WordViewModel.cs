@@ -74,6 +74,16 @@ namespace CrossPuzzleClient.ViewModels
             set { SetProperty(ref _enteredValueAddedToBoard, value); }
         }
 
+        public bool IsWordAnswerCorrect
+        {
+            get { return GetWordAnswer(); }
+        }
+
+        private bool GetWordAnswer()
+        {
+            return _cells.All(cellEmptyViewModel => cellEmptyViewModel.EnteredValue.Equals(cellEmptyViewModel.Value));
+        }
+
         public void AcceptCellValueChanges()
         {
             Messenger.Default.Register<CellValueChangedMessage>(this, m => HandleChangedCellValue(m));
