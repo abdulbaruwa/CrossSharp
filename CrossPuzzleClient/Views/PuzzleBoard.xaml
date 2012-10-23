@@ -136,8 +136,23 @@
                     </ListView>
                 </StackPanel>
 
+
+                
                 <!--Main Board-->
                 <StackPanel x:Name="mainboard" Orientation="Vertical" Margin="10,10,10,0" Grid.Column="1" Grid.Row="0">
+                    <Popup x:Name="LightDismissAnimatedPopup" HorizontalOffset="151" VerticalOffset="226" IsLightDismissEnabled="True" Opacity="80" IsOpen="{Binding ShowGameOverPopup}">
+                        <Popup.ChildTransitions>
+                            <TransitionCollection>
+                                <PopupThemeTransition />
+                            </TransitionCollection>
+                        </Popup.ChildTransitions>
+                        <Border BorderBrush="{StaticResource ApplicationForegroundThemeBrush}" BorderThickness="2" Background="LightSalmon"  Width="300" Height="150" >
+                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <TextBlock Text="Game Over !" FontSize="24.667" HorizontalAlignment="Center" />
+                                <TextBlock Text="{Binding GameScoreDisplay}" FontSize="22.667" HorizontalAlignment="Center" />
+                            </StackPanel>
+                        </Border>
+                    </Popup>
                     <ListBox x:Name="itemsTwo" ItemsSource="{Binding Cells}" Opacity="0.85" IsEnabled="{Binding GameIsRunning,Mode=TwoWay}" 
                              ItemContainerStyle="{StaticResource ListBoxItemStyle3}" 
                              SelectedItem="{Binding CurrentSelectedCell, Mode=TwoWay}">
@@ -220,7 +235,7 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Border BorderThickness=".5">
-                                <Grid Background="{Binding IsVisible, Converter={StaticResource BoolToCellShade}}" Width="48.5"
+                                <Grid Background="{Binding IsVisible, Converter={StaticResource BoolToCellShade},Mode=TwoWay}" Width="48.5"
                                       Height="48.5">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />

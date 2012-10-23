@@ -33,12 +33,14 @@ namespace CrossPuzzleClient.Common
             var enabledcolor = new SolidColorBrush(Colors.WhiteSmoke);
             var disabledcolor = new SolidColorBrush(Colors.AntiqueWhite);
             var activecolor = new SolidColorBrush(Colors.LightGray);
+            var errorcolor = new SolidColorBrush(Colors.LightSalmon);
 
             if (value is CellState )
             {
                 if((CellState)value == CellState.IsEmpty) return disabledcolor;
                 if((CellState)value == CellState.IsUsed) return enabledcolor;
                 if((CellState)value == CellState.IsActive) return activecolor;
+                if((CellState)value == CellState.IsError) return errorcolor;
             }
             return null;
         }

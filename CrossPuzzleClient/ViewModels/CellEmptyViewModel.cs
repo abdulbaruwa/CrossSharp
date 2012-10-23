@@ -32,7 +32,8 @@ namespace CrossPuzzleClient.ViewModels
     {
         protected bool Equals(CellEmptyViewModel other)
         {
-            return _col == other._col && _row == other._row && string.Equals(_value, other._value) && _isVisible.Equals(other._isVisible) && string.Equals(_enteredvalue, other._enteredvalue);
+
+            return _col == other._col && _row == other._row && string.Equals(_value, other._value,StringComparison.OrdinalIgnoreCase) && _isVisible.Equals(other._isVisible) && string.Equals(_enteredvalue, other._enteredvalue, StringComparison.CurrentCultureIgnoreCase);
         }
 
         public override int GetHashCode()
@@ -86,6 +87,7 @@ namespace CrossPuzzleClient.ViewModels
             set { SetProperty(ref _enteredvalue, value); }
  
         }
+
         public CellState IsVisible
         {
             get { return _isVisible; }
@@ -105,7 +107,8 @@ namespace CrossPuzzleClient.ViewModels
     {
         IsEmpty,
         IsUsed,
-        IsActive
+        IsActive,
+        IsError
     }
     public enum Direction
     {

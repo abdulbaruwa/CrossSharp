@@ -34,6 +34,26 @@ namespace CrossPuzzleClientTests
 
         }
 
+
+        [TestMethod]
+        public void Should_show_game_finish_flyout_when_last_word_is_inserted_onto_the_board()
+        {
+            var puzzleBoardVm = new DesignPuzzleBoardViewModel();
+            Messenger.Default.Register<GameCompleteMessage>(this, m => Assert.AreEqual(44, m.ScorePercentage));
+            GetDesignPuzzleBoardViewModelWithAllWordsInsertedButSomeAnswersWrong(puzzleBoardVm);
+            Assert.AreEqual("You scored 44%", puzzleBoardVm.GameScoreDisplay);
+            Assert.IsTrue(puzzleBoardVm.ShowGameOverPopup);
+        }
+
+
+        [TestMethod]
+        public void Should_execute_GameFinishedEvent_with_44_percent_result_when_last_word_is_inserted_onto_the_board()
+        {
+            var puzzleBoardVm = new DesignPuzzleBoardViewModel();
+            Messenger.Default.Register<GameCompleteMessage>(this, m => Assert.AreEqual(44, m.ScorePercentage));
+            GetDesignPuzzleBoardViewModelWithAllWordsInsertedButSomeAnswersWrong(puzzleBoardVm);
+        }
+
         [TestMethod]
         public void Should_execute_GameFinishedEvent_with_100_percent_result_when_last_word_is_inserted_onto_the_board()
         {
@@ -74,6 +94,41 @@ namespace CrossPuzzleClientTests
                 foreach (var cell in word.Cells)
                 {
                     Messenger.Default.Send(new KeyReceivedMessage() {KeyChar = cell.Value});
+                }
+
+                puzzleBoardVm.AddWordToBoardCommand.Execute(null);
+            }
+            return puzzleBoardVm;
+        }        
+        
+        private static DesignPuzzleBoardViewModel GetDesignPuzzleBoardViewModelWithAllWordsInsertedButSomeAnswersWrong(DesignPuzzleBoardViewModel puzzleBoardVm)
+        {
+            puzzleBoardVm.StartPauseButtonCaption = "Start";
+            puzzleBoardVm.GameIsRunning = false;
+            puzzleBoardVm.StartPauseCommand.Execute(null);
+
+            //Act
+            puzzleBoardVm.SelectedWordAcross = puzzleBoardVm.Words.First();
+
+            for (int index = 0; index < puzzleBoardVm.Words.Count; index++)
+            {
+                var word = puzzleBoardVm.Words[index];
+                if (word.Direction == Direction.Down)
+                {
+                    puzzleBoardVm.SelectedWordDown = word;
+                }
+                else
+                {
+                    puzzleBoardVm.SelectedWordAcross = word;
+                }
+
+                foreach (var cell in word.Cells)
+                {
+                    var newValue = cell.Value;
+
+                    if (index % 2 == 0) newValue = "x";
+                    Messenger.Default.Send(new KeyReceivedMessage() {KeyChar = newValue});
+
                 }
 
                 puzzleBoardVm.AddWordToBoardCommand.Execute(null);

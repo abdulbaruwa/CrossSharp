@@ -41,6 +41,8 @@ namespace CrossPuzzleClient.ViewModels
         private CellEmptyViewModel _currentSelectedCell;
         private ObservableCollection<CellEmptyViewModel> _currentSelectedCells;
         private bool _isBoardEnabled;
+        private bool _showGameOverPopup;
+        private string _gameScoreDisplay;
 
         public PuzzleBoardViewModel(IPuzzlesService puzzlesService, ISchedulerProvider scheduler)
         {
@@ -172,14 +174,16 @@ namespace CrossPuzzleClient.ViewModels
 
         private void FireGameCompleteMessage()
         {
-            var score = GetGameScore();
+            var score = Convert.ToInt32(GetGameScore());
 
             Messenger.Default.Send(new GameCompleteMessage(){ScorePercentage = score, UserName= "Abdul"});
         }
 
-        private int GetGameScore()
+        private double GetGameScore()
         {
-            return (Words.Count(x => x.IsWordAnswerCorrect)/Words.Count())*100;
+            var correctCount = Convert.ToDouble(Words.Count(x => x.IsWordAnswerCorrect));
+            var wordCount = Convert.ToDouble(Words.Count());
+            return (correctCount/wordCount)*100;
         }
 
         public bool GameIsRunning
@@ -187,6 +191,13 @@ namespace CrossPuzzleClient.ViewModels
             get { return _gameIsRunning; }
             set { SetProperty(ref _gameIsRunning, value); }
         }
+
+        public bool ShowGameOverPopup
+        {
+            get { return _showGameOverPopup; }
+            set{SetProperty(ref _showGameOverPopup, value);}
+        }
+
 
         public string GameCountDown
         {
@@ -224,6 +235,13 @@ namespace CrossPuzzleClient.ViewModels
                 return _gameCountUp;
             }
         }
+
+        public string GameScoreDisplay
+        {
+            get { return _gameScoreDisplay; }
+            set { SetProperty(ref _gameScoreDisplay, value); }
+        }
+
         public ICommand StartPauseCommand
         {
             get { return new DelegateCommand(StartPauseGame); }
@@ -233,7 +251,7 @@ namespace CrossPuzzleClient.ViewModels
         {
             StartPauseButtonCaption = _gameIsRunning ? "Pause" : "Start";
         }
-        
+
         private void StartPauseGame()
         {
             //Pause by dispossing current Observable.
@@ -260,6 +278,7 @@ namespace CrossPuzzleClient.ViewModels
            StopTime();
            StartPauseButtonCaption = "Start";
         }
+
         public void BeginCount()
         {
             //var scheduler = new DispatcherScheduler(Application.Current. Dispatcher);
@@ -322,6 +341,26 @@ namespace CrossPuzzleClient.ViewModels
         public ObservableCollection<WordViewModel> WordsAcross
         {
             get { return new ObservableCollection<WordViewModel>(Words.Where(x => x.Direction == Direction.Across)); }
+        }
+
+        private void GameComplete(GameCompleteMessage gameCompleteMessage)
+        {
+            ShowGameOverPopup = true;
+            HiglightFailingWords();
+            GameScoreDisplay = string.Format("You scored {0}%", gameCompleteMessage.ScorePercentage);
+        }
+
+        private void HiglightFailingWords()
+        {
+            var erroredCell = from word in Words
+                       from cells in word.Cells
+                       where word.IsWordAnswerCorrect == false
+                       select cells;
+            foreach (var cellEmptyViewModel in erroredCell)
+            {
+                CellEmptyViewModel model = cellEmptyViewModel;
+                this.Cells.First(x => x.Col == model.Col && x.Row == model.Row).IsVisible = CellState.IsError;
+            }
         }
 
         public ObservableCollection<WordViewModel> WordsDown
@@ -393,6 +432,7 @@ namespace CrossPuzzleClient.ViewModels
         {
             Messenger.Default.Register<StartPuzzleMessage>(this, m => LoadPuzzleBoardForSelectedPuzzleId(m.PuzzleId));
             Messenger.Default.Register<KeyReceivedMessage>(this, m => HandleKeyEvent(m));
+            Messenger.Default.Register<GameCompleteMessage>(this, m => GameComplete(m));
         }
 
         private void HandleKeyEvent(KeyReceivedMessage keyReceivedMessage)

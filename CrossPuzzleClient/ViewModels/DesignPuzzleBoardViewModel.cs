@@ -1,7 +1,6 @@
-using System.Diagnostics;
 using System.Linq;
+using System.Diagnostics;
 using CrossPuzzleClient.Observables;
-using Microsoft.Reactive.Testing;
 
 namespace CrossPuzzleClient.ViewModels
 {
@@ -31,5 +30,6 @@ namespace CrossPuzzleClient.ViewModels
             AddWordsToBoard();
 
         }
+
     }
 }
