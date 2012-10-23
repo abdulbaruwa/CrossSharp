@@ -187,6 +187,18 @@
                                         <TextBlock Grid.ColumnSpan="3" FontFamily="Segoi" FontSize="32" Foreground="Red"
                                                    VerticalAlignment="Top" Padding="0" HorizontalAlignment="Center" Text="{Binding EnteredValue}" Grid.RowSpan="3"
                                                    Margin="5,2,14,0" />
+                                        <!--<Popup x:Name="CellDismisAnimatedPopup" Grid.ColumnSpan="3" HorizontalOffset="10" VerticalOffset="10" IsLightDismissEnabled="True">
+                                            <Popup.ChildTransitions>
+                                                <TransitionCollection>
+                                                    <PopupThemeTransition />
+                                                </TransitionCollection>
+                                            </Popup.ChildTransitions>
+                                            <Border BorderBrush="{StaticResource ApplicationForegroundThemeBrush}" BorderThickness="2" Background="LightSalmon"  Width="Auto" Height="50" >
+                                                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                    <TextBlock Text="Correction" FontSize="14.667" HorizontalAlignment="Center" />
+                                                </StackPanel>
+                                            </Border>
+                                        </Popup>-->
                                     </Grid>
                                 </Border>
                             </DataTemplate>

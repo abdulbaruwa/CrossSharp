@@ -103,7 +103,16 @@ namespace CrossPuzzleClient.ViewModels
             {
                 SetProperty(ref _currentSelectedCell, value);
                 SetLikelyWordMatchOnBoardForSelectedCell(value);
+                ShowCorrections(value);
             }
+        }
+
+        private void ShowCorrections(CellEmptyViewModel cellEmptyViewModel)
+        {
+            //Display the word entrie control and use it to show correct value of errorneous answer
+            //First determine which is the failing word based on the offered cell.
+            //Then handl
+            throw new NotImplementedException();
         }
 
         public bool IsBoardEnabled
