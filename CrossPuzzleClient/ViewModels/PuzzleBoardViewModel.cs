@@ -42,6 +42,7 @@ namespace CrossPuzzleClient.ViewModels
         private bool _showGameOverPopup;
         private string _gameScoreDisplay;
         private bool _acrossAndDownVisible;
+        private bool _wordSelectedVisibility;
 
         public PuzzleBoardViewModel(IPuzzlesService puzzlesService, ISchedulerProvider scheduler)
         {
@@ -112,6 +113,11 @@ namespace CrossPuzzleClient.ViewModels
             set { SetProperty(ref _acrossAndDownVisible, value); }
         }
 
+        public bool WordSelectedVisibility
+        {
+            get { return _wordSelectedVisibility; }
+            set { SetProperty(ref _wordSelectedVisibility, value); }
+        }
         public bool IsBoardEnabled
         {
             get { return _isBoardEnabled; }
@@ -119,11 +125,17 @@ namespace CrossPuzzleClient.ViewModels
 
         private void SetLikelyWordMatchOnBoardForSelectedCell(CellEmptyViewModel value)
         {
-            var word = Words.FirstOrDefault(x => 
-                                    x.Cells.Count(y => y.Col == value.Col && y.Row == value.Row) > 0
-                                );
-
-            if(word == null) return;
+           
+            var words = Words.Where(x => x.Cells.Count(y => y.Col == value.Col && y.Row == value.Row) > 0
+                    );
+            var word = CurrentGameState is GameFinishedWithErrorsState
+                                     ? words.FirstOrDefault(x => x.IsWordAnswerCorrect == false)
+                                     : words.FirstOrDefault();
+            if (word == null)
+            {
+                SelectedWord = null;
+                return;
+            }
             if (word.Direction == Direction.Down)
             {
                 SelectedWordDown = word;
@@ -145,27 +157,37 @@ namespace CrossPuzzleClient.ViewModels
             get { return _selectedWord; }
             set
             {
-                if (_selectedWord != null)
+                //Before property change
+                if (_selectedWord != null )
                 {
-                    SetCellsForWordsTo(CellState.IsUsed);
+                    SetBackgroundColourFlagForWordCellsTo(CellState.IsUsed);
                     _selectedWord.RejectCellValueChanges();
                 }
                 SetProperty(ref _selectedWord, value);
+
+                //After property change
                 if (_selectedWord != null)
                 {
-                    SetCellsForWordsTo(CellState.IsActive);
+                    SetBackgroundColourFlagForWordCellsTo(CellState.IsActive);
                     _selectedWord.AcceptCellValueChanges();
+                    ShowSelectedWordIfErrored();
                 }
             }
         }
 
-        private void SetCellsForWordsTo(CellState isActive)
+        private void ShowSelectedWordIfErrored()
+        {
+            if (!(CurrentGameState is GameFinishedWithErrorsState)) return;
+            WordSelectedVisibility = !SelectedWord.IsWordAnswerCorrect;
+        }
+
+        private void SetBackgroundColourFlagForWordCellsTo(CellState cellState)
         {
             if (!(CurrentGameState is GameInProgressState)) return;
             foreach (var cell in _selectedWord.Cells)
             {
                 var cell1 = cell;
-                Cells.First(x => x.Row == cell1.Row && x.Col == cell1.Col).IsVisible = isActive;
+                Cells.First(x => x.Row == cell1.Row && x.Col == cell1.Col).IsVisible = cellState;
             }
         }
 
@@ -173,12 +195,11 @@ namespace CrossPuzzleClient.ViewModels
         {
             if(Words.Count(x => x.EnteredValueAddedToBoard) == Words.Count)
             {
-                IGameState finishedGameState;
                 var gameScore = Convert.ToInt32(GetGameScore());
 
-                finishedGameState = gameScore == 100
-                                        ? (IGameState) new GameFinishedState(this)
-                                        : new GameFinishedWithErrorsState(this);
+                var finishedGameState = gameScore == 100
+                                                   ? (IGameState) new GameFinishedState(this)
+                                                   : new GameFinishedWithErrorsState(this);
 
                 if(CurrentGameState.CanBecome(finishedGameState)) GameStateBecome(finishedGameState);
 
@@ -300,6 +321,7 @@ namespace CrossPuzzleClient.ViewModels
                                    CurrentGameState is GameInProgressState || CurrentGameState is GameNotStartedState;
         }
 
+        
         private void SetGameStatusForNewState(IGameState newGameState)
         {
             GameIsRunning = newGameState is GameInProgressState;

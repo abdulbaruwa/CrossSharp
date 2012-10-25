@@ -58,7 +58,7 @@ namespace CrossPuzzleClient.ViewModels
         public CellEmptyViewModel(int col, int row, string value)
 
         {
-            _value = value;
+            _value = value.ToUpperInvariant();
             _col = col;
             _row = row;
         }

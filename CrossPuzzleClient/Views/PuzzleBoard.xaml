@@ -267,6 +267,41 @@
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
+                <ItemsControl Visibility="{Binding WordSelectedVisibility, Converter={StaticResource BoolToVisibilityConverter}}" x:Name="erroredwordselected" ItemsSource="{Binding SelectedWord.Cells}" Grid.Column="1" Grid.Row="1"
+                              Margin="10,0,10,0" Opacity="0.85">
+                    <ItemsControl.ItemContainerTransitions>
+                        <TransitionCollection>
+                            <RepositionThemeTransition />
+                        </TransitionCollection>
+                    </ItemsControl.ItemContainerTransitions>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderThickness=".5">
+                                <Grid Background="{Binding IsVisible, Converter={StaticResource BoolToCellShade},Mode=TwoWay}" Width="48.5"
+                                      Height="48.5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Grid.ColumnSpan="3" FontFamily="Segoi" FontSize="32" Foreground="Red"
+                                               VerticalAlignment="Top" Padding="0" HorizontalAlignment="Center" Text="{Binding Value}" Grid.RowSpan="3"
+                                               Margin="13,7,14,0" />
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
                 <Button Visibility="{Binding GameIsRunning,Converter={StaticResource BoolToVisibilityConverter}}" Command="{Binding AddEnteredWordOnToBoardCommand}" Grid.Column="2" Grid.Row="1" Margin="9,0,0,0">Place on Board</Button>
                 <!-- Visibility="{Binding ShowCompleteTick, Converter={StaticResource BoolToVis}}">Hellos</Button> -->
             </Grid>
