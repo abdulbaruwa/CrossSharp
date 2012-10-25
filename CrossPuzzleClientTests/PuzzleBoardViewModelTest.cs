@@ -96,7 +96,7 @@ namespace CrossPuzzleClientTests
                     Messenger.Default.Send(new KeyReceivedMessage() {KeyChar = cell.Value});
                 }
 
-                puzzleBoardVm.AddWordToBoardCommand.Execute(null);
+                puzzleBoardVm.AddEnteredWordOnToBoardCommand.Execute(null);
             }
             return puzzleBoardVm;
         }        
@@ -131,7 +131,7 @@ namespace CrossPuzzleClientTests
 
                 }
 
-                puzzleBoardVm.AddWordToBoardCommand.Execute(null);
+                puzzleBoardVm.AddEnteredWordOnToBoardCommand.Execute(null);
             }
             return puzzleBoardVm;
         }
@@ -348,7 +348,7 @@ namespace CrossPuzzleClientTests
         public void When_the_all_chars_entered_and_tick_button_is_clicked_Should_move_entered_word_on_to_the_Puzzle_Board()
         {
             var puzzleBoardVm = PuzzleWithFirstLetterTypedIn();
-            puzzleBoardVm.AddWordToBoardCommand.Execute(null);
+            puzzleBoardVm.AddEnteredWordOnToBoardCommand.Execute(null);
 
             foreach (var cell in puzzleBoardVm.SelectedWord.Cells)
             {
@@ -362,7 +362,7 @@ namespace CrossPuzzleClientTests
         {
             var puzzleBoardVm = PuzzleWithFirstLetterTypedIn(); //First word typed in
             puzzleBoardVm.SelectedWordAcross = puzzleBoardVm.Words.First();
-            puzzleBoardVm.AddWordToBoardCommand.Execute(null); //Add word to board
+            puzzleBoardVm.AddEnteredWordOnToBoardCommand.Execute(null); //Add word to board
 
             puzzleBoardVm.SelectedWordDown = puzzleBoardVm.Words[1];
 

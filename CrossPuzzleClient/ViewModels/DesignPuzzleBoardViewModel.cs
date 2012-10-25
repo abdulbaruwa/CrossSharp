@@ -6,7 +6,6 @@ namespace CrossPuzzleClient.ViewModels
 {
     public class DesignPuzzleBoardViewModel : PuzzleBoardViewModel
     {
-
         public DesignPuzzleBoardViewModel()
             : base(new FakePuzzlesService(), new TestSchedulers())
         {
@@ -30,6 +29,6 @@ namespace CrossPuzzleClient.ViewModels
             AddWordsToBoard();
 
         }
-
+ 
     }
 }

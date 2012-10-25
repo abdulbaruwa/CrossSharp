@@ -114,6 +114,13 @@
     <Compile Include="Common\RelayCommand.cs" />
     <Compile Include="Controls\CustomStackPanelRangeProvider.cs" />
     <Compile Include="Controls\CustomStackPanal.cs" />
+    <Compile Include="GameStates\GameFinishedState.cs" />
+    <Compile Include="GameStates\GameFinishedWithErrorsState.cs" />
+    <Compile Include="GameStates\GameInProgressState.cs" />
+    <Compile Include="GameStates\GameNotStartedState.cs" />
+    <Compile Include="GameStates\GamePauseState.cs" />
+    <Compile Include="GameStates\GameState.cs" />
+    <Compile Include="GameStates\IGameState.cs" />
     <Compile Include="GroupedItemsPage.xaml.cs">
       <DependentUpon>GroupedItemsPage.xaml</DependentUpon>
     </Compile>

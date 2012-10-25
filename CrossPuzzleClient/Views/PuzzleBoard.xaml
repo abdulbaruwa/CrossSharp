@@ -123,7 +123,7 @@
                 <StackPanel x:Name="wordsdown" Grid.Row="0" Grid.Column="0" Orientation="Vertical"  Margin="10" Height="{Binding ElementName=mainboard, Path=Height}">
                     <TextBlock Style="{StaticResource PuzzleBaselineTextStyle}" Text="Down" Margin="10,5,40,40"
                                HorizontalAlignment="Left" FontSize="20"/>
-                    <ListView Visibility="{Binding GameIsRunning,Converter={StaticResource BoolToVisibilityConverter}}" ItemsSource="{Binding Path=WordsDown}" SelectedItem="{Binding Path=SelectedWordDown, Mode=TwoWay}" Margin="0,-30,0,0" HorizontalAlignment="Right">
+                    <ListView Visibility="{Binding AcrossAndDownVisible,Converter={StaticResource BoolToVisibilityConverter}}" ItemsSource="{Binding Path=WordsDown}" SelectedItem="{Binding Path=SelectedWordDown, Mode=TwoWay}" Margin="0,-30,0,0" HorizontalAlignment="Right">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
@@ -153,7 +153,7 @@
                             </StackPanel>
                         </Border>
                     </Popup>
-                    <ListBox x:Name="itemsTwo" ItemsSource="{Binding Cells}" Opacity="0.85" IsEnabled="{Binding GameIsRunning,Mode=TwoWay}" 
+                    <ListBox x:Name="itemsTwo" ItemsSource="{Binding Cells}" Opacity="0.85" IsEnabled="{Binding AcrossAndDownVisible,Mode=TwoWay}" 
                              ItemContainerStyle="{StaticResource ListBoxItemStyle3}" 
                              SelectedItem="{Binding CurrentSelectedCell, Mode=TwoWay}">
                         <ListBox.ItemContainerTransitions>
@@ -214,7 +214,7 @@
                 <StackPanel x:Name="wordsacross" Orientation="Vertical" Grid.Column="2" Grid.Row="0" Margin="10,10,10,10">
                     <TextBlock Style="{StaticResource PuzzleBaselineTextStyle}" Text="Across" Margin="10,5,40,0"
                                HorizontalAlignment="Left" FontSize="20"/>
-                    <ListView Visibility="{Binding GameIsRunning,Converter={StaticResource BoolToVisibilityConverter}}" ItemsSource="{Binding Path=WordsAcross}" Opacity="100"
+                    <ListView Visibility="{Binding AcrossAndDownVisible,Converter={StaticResource BoolToVisibilityConverter}}" ItemsSource="{Binding Path=WordsAcross}" Opacity="100"
                               SelectedItem="{Binding Path=SelectedWordAcross, Mode=TwoWay}" Margin="0,10,0,0">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
@@ -267,7 +267,7 @@
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
-                <Button Visibility="{Binding GameIsRunning,Converter={StaticResource BoolToVisibilityConverter}}" Command="{Binding AddWordToBoardCommand}" Grid.Column="2" Grid.Row="1" Margin="9,0,0,0">Place on Board</Button>
+                <Button Visibility="{Binding GameIsRunning,Converter={StaticResource BoolToVisibilityConverter}}" Command="{Binding AddEnteredWordOnToBoardCommand}" Grid.Column="2" Grid.Row="1" Margin="9,0,0,0">Place on Board</Button>
                 <!-- Visibility="{Binding ShowCompleteTick, Converter={StaticResource BoolToVis}}">Hellos</Button> -->
             </Grid>
 

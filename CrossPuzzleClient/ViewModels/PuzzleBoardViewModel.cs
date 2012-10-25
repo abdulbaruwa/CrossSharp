@@ -1,15 +1,13 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Windows.Input;
 using CrossPuzzleClient.Common;
+using CrossPuzzleClient.GameStates;
 using CrossPuzzleClient.Observables;
 using GalaSoft.MvvmLight.Messaging;
-using System.Linq;
-using Windows.UI.Xaml;
 
 namespace CrossPuzzleClient.ViewModels
 {
@@ -43,6 +41,7 @@ namespace CrossPuzzleClient.ViewModels
         private bool _isBoardEnabled;
         private bool _showGameOverPopup;
         private string _gameScoreDisplay;
+        private bool _acrossAndDownVisible;
 
         public PuzzleBoardViewModel(IPuzzlesService puzzlesService, ISchedulerProvider scheduler)
         {
@@ -52,6 +51,7 @@ namespace CrossPuzzleClient.ViewModels
             _puzzlesService = puzzlesService;
             CreateCellsForBoard();
             RegisterForMessage();
+            CurrentGameState = new GameNotStartedState(this);
         }
 
 
@@ -103,16 +103,13 @@ namespace CrossPuzzleClient.ViewModels
             {
                 SetProperty(ref _currentSelectedCell, value);
                 SetLikelyWordMatchOnBoardForSelectedCell(value);
-                ShowCorrections(value);
             }
         }
 
-        private void ShowCorrections(CellEmptyViewModel cellEmptyViewModel)
+        public bool AcrossAndDownVisible
         {
-            //Display the word entrie control and use it to show correct value of errorneous answer
-            //First determine which is the failing word based on the offered cell.
-            //Then handl
-            throw new NotImplementedException();
+            get { return _acrossAndDownVisible; }
+            set { SetProperty(ref _acrossAndDownVisible, value); }
         }
 
         public bool IsBoardEnabled
@@ -164,6 +161,7 @@ namespace CrossPuzzleClient.ViewModels
 
         private void SetCellsForWordsTo(CellState isActive)
         {
+            if (!(CurrentGameState is GameInProgressState)) return;
             foreach (var cell in _selectedWord.Cells)
             {
                 var cell1 = cell;
@@ -175,16 +173,24 @@ namespace CrossPuzzleClient.ViewModels
         {
             if(Words.Count(x => x.EnteredValueAddedToBoard) == Words.Count)
             {
-                StopGame();
+                IGameState finishedGameState;
+                var gameScore = Convert.ToInt32(GetGameScore());
+
+                finishedGameState = gameScore == 100
+                                        ? (IGameState) new GameFinishedState(this)
+                                        : new GameFinishedWithErrorsState(this);
+
+                if(CurrentGameState.CanBecome(finishedGameState)) GameStateBecome(finishedGameState);
+
+                //StopGame();
                 GameIsRunning = false;
-                FireGameCompleteMessage();
+                //FireGameCompleteMessage();
             }
         }
 
-        private void FireGameCompleteMessage()
+        public void FireGameCompleteMessage()
         {
             var score = Convert.ToInt32(GetGameScore());
-
             Messenger.Default.Send(new GameCompleteMessage(){ScorePercentage = score, UserName= "Abdul"});
         }
 
@@ -207,12 +213,12 @@ namespace CrossPuzzleClient.ViewModels
             set{SetProperty(ref _showGameOverPopup, value);}
         }
 
-
         public string GameCountDown
         {
             get { return _gameCountDown; }
             set { SetProperty(ref _gameCountDown, value); }
         }
+
         public string StartPauseButtonCaption
         {
             get { return _startPauseButtonCaption; }
@@ -231,9 +237,9 @@ namespace CrossPuzzleClient.ViewModels
             set { SetProperty(ref _showCompleteTick, value); }
         }
 
-        public ICommand AddWordToBoardCommand
+        public ICommand AddEnteredWordOnToBoardCommand
         {
-           get{return new DelegateCommand(LoadWordToBoard);} 
+           get{return new DelegateCommand(AddEnteredWordOnToBoard);} 
         }
 
         public ICommand GameCountUpCommand
@@ -263,16 +269,53 @@ namespace CrossPuzzleClient.ViewModels
 
         private void StartPauseGame()
         {
+            //Refactoring to use State Machine
+            var gameStateToBecome = CurrentGameState is GameNotStartedState
+                                               ? (IGameState) new GameInProgressState(this)
+                                               : new GamePauseState(this);
+            GameStateBecome(gameStateToBecome);
+
             //Pause by dispossing current Observable.
-            StopTime();
-            GameIsRunning = !_gameIsRunning;
+            //StopTime();
+            //GameIsRunning = !_gameIsRunning;
 
-            SetStartPauseDisplayCommand();
-            if(_gameIsRunning) GameCountUpCommand.Execute(null);
-
+            //SetStartPauseDisplayCommand();
+            //if(_gameIsRunning) GameCountUpCommand.Execute(null);
         }
 
-        private void StopTime()
+        public void GameStateBecome(IGameState newGameState)
+        {
+            if (CurrentGameState.CanBecome(newGameState))
+            {
+                SetGameStatusForNewState(newGameState);
+                newGameState.Become(CurrentGameState);
+
+                SetDisplayForAcrossAndDownControls();
+            }
+        }
+
+        private void SetDisplayForAcrossAndDownControls()
+        {
+            AcrossAndDownVisible = CurrentGameState is GameFinishedWithErrorsState ||
+                                   CurrentGameState is GameInProgressState || CurrentGameState is GameNotStartedState;
+        }
+
+        private void SetGameStatusForNewState(IGameState newGameState)
+        {
+            GameIsRunning = newGameState is GameInProgressState;
+        }
+
+        public void PauseTimer()
+        {
+            if (_counter != null)
+            {
+                using (_counter)
+                {
+                }
+            }
+        }
+
+        public void StopTime()
         {
             if (_gameIsRunning && _counter != null)
             {
@@ -323,8 +366,6 @@ namespace CrossPuzzleClient.ViewModels
                     GameCountDown = ConvertIntTwoUnitStringNumber(_hours) + ":" +
                                     ConvertIntTwoUnitStringNumber(_minutes) + ":" +
                                     ConvertIntTwoUnitStringNumber(_seconds);
-
-
                 }
                );
         }
@@ -336,7 +377,7 @@ namespace CrossPuzzleClient.ViewModels
             return number.ToString();
         }
 
-        private void LoadWordToBoard()
+        private void AddEnteredWordOnToBoard()
         {
             foreach (var cell in SelectedWord.Cells)
             {
@@ -344,7 +385,6 @@ namespace CrossPuzzleClient.ViewModels
             }
             SelectedWord.EnteredValueAddedToBoard = true;
             StopGameIfFinished();
-
         }
 
         public ObservableCollection<WordViewModel> WordsAcross
@@ -436,6 +476,8 @@ namespace CrossPuzzleClient.ViewModels
                     SelectedWordDown = null;
             }
         }
+
+        public GameState CurrentGameState { get; set; }
 
         private void RegisterForMessage()
         {
