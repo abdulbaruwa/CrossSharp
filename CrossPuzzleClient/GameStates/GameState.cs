@@ -24,7 +24,8 @@ namespace CrossPuzzleClient.GameStates
 
         public virtual bool CanBecome(IGameState newState)
         {
-            if (ValidStatesICanBecome.Any())
+            if(ValidStatesICanBecome == null) return false;
+            if ( ValidStatesICanBecome.Any())
             {
                 return ValidStatesICanBecome.Contains(newState.GetType());
             }

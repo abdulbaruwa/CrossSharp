@@ -291,9 +291,17 @@ namespace CrossPuzzleClient.ViewModels
         private void StartPauseGame()
         {
             //Refactoring to use State Machine
-            var gameStateToBecome = CurrentGameState is GameNotStartedState
-                                               ? (IGameState) new GameInProgressState(this)
-                                               : new GamePauseState(this);
+            IGameState gameStateToBecome = null;
+            if (CurrentGameState is GameNotStartedState || CurrentGameState is GamePauseState)
+            {
+                gameStateToBecome = new GameInProgressState(this);
+            }
+            else if(CurrentGameState is GameInProgressState)
+            {
+                gameStateToBecome = new GamePauseState(this);
+            }
+
+            if (gameStateToBecome == null) return;
             GameStateBecome(gameStateToBecome);
 
             //Pause by dispossing current Observable.

@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using CrossPuzzleClient.GameStates;
 using CrossPuzzleClient.ViewModels;
 using GalaSoft.MvvmLight.Messaging;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
@@ -68,7 +69,8 @@ namespace CrossPuzzleClientTests
             var puzzleBoardVm = GetDesignPuzzleBoardViewModelWithAllWordsInserted(new DesignPuzzleBoardViewModel());
 
             //Assert
-            Assert.IsFalse(puzzleBoardVm.GameIsRunning);
+            Assert.IsInstanceOfType(puzzleBoardVm.CurrentGameState, typeof(GameFinishedState));
+            //Assert.IsFalse(puzzleBoardVm.GameIsRunning);
         }
 
         private static DesignPuzzleBoardViewModel GetDesignPuzzleBoardViewModelWithAllWordsInserted(DesignPuzzleBoardViewModel puzzleBoardVm)
@@ -181,7 +183,7 @@ namespace CrossPuzzleClientTests
 
             //Arrange
             var puzzleBoardVm = new DesignPuzzleBoardViewModel();
-            puzzleBoardVm.GameIsRunning = true;
+            puzzleBoardVm.StartPauseCommand.Execute(null);
             puzzleBoardVm.SelectedWordDown = puzzleBoardVm.Words[1];
             var pvCells = puzzleBoardVm.SelectedWord.Cells.Select(x => new {Col = x.Col, Row = x.Row});
 
@@ -202,7 +204,8 @@ namespace CrossPuzzleClientTests
 
             //Arrange
             var puzzleBoardVm = new DesignPuzzleBoardViewModel();
-            puzzleBoardVm.GameIsRunning = true;
+            puzzleBoardVm.StartPauseCommand.Execute(null);
+
             puzzleBoardVm.SelectedWordDown = puzzleBoardVm.Words[1];
 
             foreach (var cell in puzzleBoardVm.SelectedWord.Cells)
@@ -272,7 +275,7 @@ namespace CrossPuzzleClientTests
             puzzleBoardVm.StartPauseCommand.Execute(null);
 
             //Assert
-            Assert.AreEqual(puzzleBoardVm.StartPauseButtonCaption,"Pause");
+            Assert.IsInstanceOfType(puzzleBoardVm.CurrentGameState, typeof(GamePauseState));
         }
 
         [TestMethod]

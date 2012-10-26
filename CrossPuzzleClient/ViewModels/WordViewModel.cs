@@ -82,7 +82,8 @@ namespace CrossPuzzleClient.ViewModels
 
         private bool GetWordAnswer()
         {
-            return _cells.All(cellEmptyViewModel => cellEmptyViewModel.EnteredValue.Equals(cellEmptyViewModel.Value,StringComparison.OrdinalIgnoreCase));
+            return _cells.All(cellEmptyViewModel =>
+                            cellEmptyViewModel.EnteredValue != null && cellEmptyViewModel.EnteredValue.Equals(cellEmptyViewModel.Value, StringComparison.OrdinalIgnoreCase));
         }
 
         public void AcceptCellValueChanges()
