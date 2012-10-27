@@ -187,6 +187,7 @@ namespace CrossPuzzleClient.ViewModels
             foreach (var cell in _selectedWord.Cells)
             {
                 var cell1 = cell;
+                var cel = Cells.First(x => x.Row == cell1.Row && x.Col == cell1.Col);
                 Cells.First(x => x.Row == cell1.Row && x.Col == cell1.Col).IsVisible = cellState;
             }
         }
