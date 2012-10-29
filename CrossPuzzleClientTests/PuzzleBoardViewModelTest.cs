@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using CrossPuzzleClient.GameStates;
 using CrossPuzzleClient.ViewModels;
 using GalaSoft.MvvmLight.Messaging;
@@ -54,24 +56,6 @@ namespace CrossPuzzleClientTests
             var puzzleBoardVm = new DesignPuzzleBoardViewModel();
             Messenger.Default.Register<GameCompleteMessage>(this, m => Assert.AreEqual(44, m.ScorePercentage));
             GetDesignPuzzleBoardViewModelWithAllWordsInsertedButSomeAnswersWrong(puzzleBoardVm);
-        }
-
-        [TestMethod]
-        public void Should_execute_GameFinishedEvent_with_100_percent_result_when_last_word_is_inserted_onto_the_board()
-        {
-            var puzzleBoardVm = new DesignPuzzleBoardViewModel();
-            Messenger.Default.Register<GameCompleteMessage>(this, m => Assert.AreEqual(100, m.ScorePercentage));
-            GetDesignPuzzleBoardViewModelWithAllWordsInserted(puzzleBoardVm);
-        }
-
-        [TestMethod]
-        public void Should_stop_running_game_when_last_word_is_inserted_onto_the_board()
-        {
-            var puzzleBoardVm = GetDesignPuzzleBoardViewModelWithAllWordsInserted(new DesignPuzzleBoardViewModel());
-
-            //Assert
-            Assert.IsInstanceOfType(puzzleBoardVm.CurrentGameState, typeof(GameFinishedState));
-            //Assert.IsFalse(puzzleBoardVm.GameIsRunning);
         }
 
         private static DesignPuzzleBoardViewModel GetDesignPuzzleBoardViewModelWithAllWordsInserted(DesignPuzzleBoardViewModel puzzleBoardVm)
@@ -337,18 +321,6 @@ namespace CrossPuzzleClientTests
             Assert.AreEqual(1,puzzleBoardVm.SelectedWord.Cells.Count(x => string.IsNullOrEmpty(x.EnteredValue)));
         }
 
-
-        [TestMethod]
-        public void When_a_delete_is_hit_should_remove_a_letter_from_entered_characters()
-        {
-            var puzzleBoardVm = new DesignPuzzleBoardViewModel();
-            puzzleBoardVm.SelectedWordAcross = puzzleBoardVm.Words.First();
-            Messenger.Default.Send(new KeyReceivedMessage { KeyChar = "t" });
-            Messenger.Default.Send(new KeyReceivedMessage { KeyChar = "t" });
-
-            Messenger.Default.Send(new KeyReceivedMessage { KeyCharType = KeyCharType.Delete });
-           Assert.AreEqual(puzzleBoardVm.SelectedWord.Cells.Count(x => x.EnteredValue == "t"), 1);
-        }
 
         [TestMethod]
         public void When_the_all_chars_entered_and_tick_button_is_clicked_Should_move_entered_word_on_to_the_Puzzle_Board()

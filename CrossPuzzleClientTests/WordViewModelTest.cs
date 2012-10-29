@@ -1,4 +1,6 @@
 ﻿using System.Collections.ObjectModel;
+using System.Linq;
+using CrossPuzzleClient.GameStates;
 using CrossPuzzleClient.ViewModels;
 using GalaSoft.MvvmLight.Messaging;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
@@ -37,5 +39,7 @@ namespace CrossPuzzleClientTests
 
             Assert.IsTrue(wordViewModel.IsWordAnswerCorrect);
         }
+
+   
     }
 }
