@@ -114,6 +114,7 @@
     <Compile Include="Common\RelayCommand.cs" />
     <Compile Include="Controls\CustomStackPanelRangeProvider.cs" />
     <Compile Include="Controls\CustomStackPanal.cs" />
+    <Compile Include="DataModel\PuzzleGroup.cs" />
     <Compile Include="GameStates\GameFinishedState.cs" />
     <Compile Include="GameStates\GameFinishedWithErrorsState.cs" />
     <Compile Include="GameStates\GameInProgressState.cs" />
@@ -143,6 +144,8 @@
     <Compile Include="Common\LayoutAwarePage.cs" />
     <Compile Include="Common\RichTextColumns.cs" />
     <Compile Include="Common\SuspensionManager.cs" />
+    <Compile Include="SQLite.cs" />
+    <Compile Include="SQLiteAsync.cs" />
     <Compile Include="ViewModels\CellEmptyViewModel.cs" />
     <Compile Include="ViewModels\DesignPuzzleBoardViewModel.cs" />
     <Compile Include="ViewModels\DesignTimeHelper.cs" />
@@ -193,6 +196,9 @@
     <Content Include="Assets\LightGray.png" />
     <Content Include="Assets\MediumGray.png" />
     <Content Include="Assets\DarkGray.png" />
+    <Content Include="sqlite3.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -252,6 +258,9 @@
     <Reference Include="Microsoft.Reactive.Testing">
       <HintPath>..\packages\Rx-Testing.2.0.20823\lib\WinRT45\Microsoft.Reactive.Testing.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.4.5.10\lib\winrt45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System.Reactive.Core">
       <HintPath>..\packages\Rx-Core.2.0.20823\lib\WinRT45\System.Reactive.Core.dll</HintPath>
     </Reference>
@@ -267,6 +276,11 @@
     <Reference Include="System.Reactive.Windows.Threading">
       <HintPath>..\packages\Rx-XAML.2.0.20823\lib\WinRT45\System.Reactive.Windows.Threading.dll</HintPath>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <SDKReference Include="Microsoft.VCLibs, Version=11.0">
+      <Name>Microsoft Visual C++ Runtime Package</Name>
+    </SDKReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0' ">
     <VisualStudioVersion>11.0</VisualStudioVersion>
