@@ -153,6 +153,7 @@
     <Compile Include="Observables\ISchedulerProvider.cs" />
     <Compile Include="ViewModels\ITimeCounter.cs" />
     <Compile Include="ViewModels\PuzzleBoardViewModel.cs" />
+    <Compile Include="ViewModels\PuzzleGroupViewModel.cs" />
     <Compile Include="ViewModels\PuzzlesService.cs" />
     <Compile Include="ViewModels\PuzzlesViewModel.cs" />
     <Compile Include="ViewModels\PuzzleViewModel.cs" />

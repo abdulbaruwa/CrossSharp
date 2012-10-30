@@ -56,12 +56,6 @@ namespace CrossPuzzleClient.ViewModels
         }
     }
 
-    public class PuzzleGroupViewModel
-    {
-        public string Category { get; set; }
-        public ObservableCollection<PuzzleViewModel> Puzzles { get; set; }
-    }
-
     public class DesignPuzzlesVM : BindableBase
     {
         public DesignPuzzlesVM()
