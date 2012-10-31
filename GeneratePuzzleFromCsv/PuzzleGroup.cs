@@ -14,14 +14,14 @@ namespace GeneratePuzzleFromCsv
     public class PuzzleSubGroup
     {
         public string Title { get; set; }
-        public int PuzzleGroupId { get; set; }
+        public int PuzzleSubGroupId { get; set; }
         public List<PuzzleGame> PuzzleGames { get; set; }
     }
 
     public class PuzzleGame
     {
         public int PuzzleGameId { get; set; }
-        public List<string> Words { get; set; }
+        public Dictionary<string,string> Words { get; set; }
     }
 
     public class PuzzleGroupData
