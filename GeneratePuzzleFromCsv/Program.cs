@@ -15,10 +15,12 @@ namespace GeneratePuzzleFromCsv
             string path = @"c:\documents";
             //Open CSV file
             //GetPuzzle();
-            Task<PuzzleGroupData> er = GetFirstPuzzleGame();
-            var result = er.Result;
+            //Task<PuzzleGroupData> er = GetFirstPuzzleGame();
+            //var result = er.Result;
+            var renew =new  GameDataSerializer().GetPuzzles();
+            var result = renew.Result;
 
-            var deserializeddata = JsonConvert.DeserializeObject<PuzzleGroup>(result.Data);
+            //var deserializeddata = JsonConvert.DeserializeObject<List<PuzzleGroup>>(result.Data);
         }
 
         private static List<PuzzleGroup> GetPuzzle()

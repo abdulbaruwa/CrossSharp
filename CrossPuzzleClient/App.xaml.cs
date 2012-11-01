@@ -1,8 +1,13 @@
-﻿using CrossPuzzleClient.Common;
+﻿using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using CrossPuzzleClient.Common;
 
 using System;
+using CrossPuzzleClient.DataModel;
 using CrossPuzzleClient.Infrastructure;
 using CrossPuzzleClient.Views;
+using SQLite;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
@@ -17,6 +22,8 @@ namespace CrossPuzzleClient
     /// </summary>
     sealed partial class App : Application
     {
+        private const string PuzzleDb = "Puzzle.db";
+
         /// <summary>
         /// Initializes the singleton Application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
@@ -28,7 +35,13 @@ namespace CrossPuzzleClient
         }
 
         public static NavigationService NavigationService;
-   
+
+        private async Task<bool> FileExistInStorageLocation(string fileName)
+        {
+            var storageFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
+            var files = await storageFolder.GetFilesAsync();
+            return files.Any(x => x.Name == fileName);
+        }
 
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
@@ -44,6 +57,16 @@ namespace CrossPuzzleClient
             {
                 Window.Current.Activate();
                 return;
+            }
+
+           // Create Database if it does not exists
+            if (! FileExistInStorageLocation(PuzzleDb).Result)
+            {
+                var databasePath = Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, PuzzleDb);
+                using (var db = new SQLiteConnection(databasePath))
+                {
+                    db.CreateTable<PuzzleGroupData>();
+                }
             }
 
             // Create a Frame to act as the navigation context and associate it with
