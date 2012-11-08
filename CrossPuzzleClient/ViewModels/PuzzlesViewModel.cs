@@ -10,28 +10,32 @@ namespace CrossPuzzleClient.ViewModels
     public sealed class PuzzlesViewModel : BindableBase
     {
 
-        private readonly NavigationService navigation;
-        private ObservableCollection<PuzzleGroupViewModel> _puzzles;
+        private readonly INavigationService navigation;
+        private readonly IPuzzleRepository _puzzleRepository;
+        private ObservableCollection<PuzzleGroupViewModel> _puzzles = new ObservableCollection<PuzzleGroupViewModel>();
 
-        public PuzzlesViewModel(NavigationService navigationService)
+        public PuzzlesViewModel(INavigationService navigationService, IPuzzleRepository puzzleRepository)
         {
             navigation = navigationService;
-            _puzzles = new ObservableCollection<PuzzleGroupViewModel>();
-            var sciencegroup = new PuzzleGroupViewModel() { Category = "Science", Puzzles = new ObservableCollection<PuzzleViewModel>() };
-            sciencegroup.Puzzles.Add(ViewModelHelper.FakePuzzleBuilder("Human Skeleton Puzzles"));
-            sciencegroup.Puzzles.Add(ViewModelHelper.FakePuzzleBuilder("Resperatory System"));
-            sciencegroup.Puzzles.Add(ViewModelHelper.FakePuzzleBuilder("Muscle System"));
-            PuzzleGroups.Add(sciencegroup);
-            var englishgroup = new PuzzleGroupViewModel() { Category = "English", Puzzles = new ObservableCollection<PuzzleViewModel>() };
-            englishgroup.Puzzles.Add(ViewModelHelper.FakePuzzleBuilder("English Vocabs Puzzles"));
-            englishgroup.Puzzles.Add(ViewModelHelper.FakePuzzleBuilder("Grammer"));
-            PuzzleGroups.Add(englishgroup);
-            var geographygroup = new PuzzleGroupViewModel() { Category = "Geography", Puzzles = new ObservableCollection<PuzzleViewModel>() };
-            geographygroup.Puzzles.Add(ViewModelHelper.FakePuzzleBuilder("Rivers Puzzles"));
-            geographygroup.Puzzles.Add(ViewModelHelper.FakePuzzleBuilder("Tectonic Plates Puzzles"));
-            geographygroup.Puzzles.Add(ViewModelHelper.FakePuzzleBuilder("Polution Puzzles"));
-            geographygroup.Puzzles.Add(ViewModelHelper.FakePuzzleBuilder("Volcanoes Puzzles"));
-            PuzzleGroups.Add(geographygroup);
+            _puzzleRepository = puzzleRepository;
+
+            //var sciencegroup = new PuzzleGroupViewModel() { Category = "Science", Puzzles = new ObservableCollection<PuzzleViewModel>() };
+            //sciencegroup.Puzzles.Add(ViewModelHelper.FakePuzzleBuilder("Human Skeleton Puzzles"));
+            //sciencegroup.Puzzles.Add(ViewModelHelper.FakePuzzleBuilder("Resperatory System"));
+            //sciencegroup.Puzzles.Add(ViewModelHelper.FakePuzzleBuilder("Muscle System"));
+            //PuzzleGroups.Add(sciencegroup);
+
+
+            //var englishgroup = new PuzzleGroupViewModel() { Category = "English", Puzzles = new ObservableCollection<PuzzleViewModel>() };
+            //englishgroup.Puzzles.Add(ViewModelHelper.FakePuzzleBuilder("English Vocabs Puzzles"));
+            //englishgroup.Puzzles.Add(ViewModelHelper.FakePuzzleBuilder("Grammer"));
+            //PuzzleGroups.Add(englishgroup);
+            //var geographygroup = new PuzzleGroupViewModel() { Category = "Geography", Puzzles = new ObservableCollection<PuzzleViewModel>() };
+            //geographygroup.Puzzles.Add(ViewModelHelper.FakePuzzleBuilder("Rivers Puzzles"));
+            //geographygroup.Puzzles.Add(ViewModelHelper.FakePuzzleBuilder("Tectonic Plates Puzzles"));
+            //geographygroup.Puzzles.Add(ViewModelHelper.FakePuzzleBuilder("Polution Puzzles"));
+            //geographygroup.Puzzles.Add(ViewModelHelper.FakePuzzleBuilder("Volcanoes Puzzles"));
+            //PuzzleGroups.Add(geographygroup);
         }
 
         public string CurrentUser { get; set; }
@@ -63,10 +67,14 @@ namespace CrossPuzzleClient.ViewModels
             _puzzles = new ObservableCollection<PuzzleGroupViewModel>();
             _currentUser = "Ademola Baruwa ";
             var sciencegroup = new PuzzleGroupViewModel(){Category = "Science", Puzzles = new ObservableCollection<PuzzleViewModel>()};
+
             sciencegroup.Puzzles.Add(ViewModelHelper.FakePuzzleBuilder("Human Skeleton Puzzles"));
             sciencegroup.Puzzles.Add(ViewModelHelper.FakePuzzleBuilder("Resperatory System"));
             sciencegroup.Puzzles.Add(ViewModelHelper.FakePuzzleBuilder("Muscle System"));
+
             PuzzleGroups.Add(sciencegroup);
+
+
             var  englishgroup = new PuzzleGroupViewModel() {Category = "English",Puzzles = new ObservableCollection<PuzzleViewModel>()};
             englishgroup.Puzzles.Add(ViewModelHelper.FakePuzzleBuilder("English Vocabs Puzzles"));
             englishgroup.Puzzles.Add(ViewModelHelper.FakePuzzleBuilder("Grammer"));

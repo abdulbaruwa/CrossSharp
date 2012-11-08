@@ -115,6 +115,9 @@
     <Compile Include="Controls\CustomStackPanelRangeProvider.cs" />
     <Compile Include="Controls\CustomStackPanal.cs" />
     <Compile Include="DataModel\PuzzleGroup.cs" />
+    <Compile Include="GameDataService\FakePuzzleWebApiService.cs" />
+    <Compile Include="GameDataService\GameDataService.cs" />
+    <Compile Include="GameDataService\PuzzleWebApiService.cs" />
     <Compile Include="GameStates\GameFinishedState.cs" />
     <Compile Include="GameStates\GameFinishedWithErrorsState.cs" />
     <Compile Include="GameStates\GameInProgressState.cs" />
@@ -128,9 +131,13 @@
     <Compile Include="GroupDetailPage.xaml.cs">
       <DependentUpon>GroupDetailPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GameDataService\IGameDataService.cs" />
+    <Compile Include="Infrastructure\IPuzzlesViewModelFactory.cs" />
     <Compile Include="Infrastructure\NavigationService.cs" />
     <Compile Include="Infrastructure\PreferredConstructorAttribute.cs" />
+    <Compile Include="Infrastructure\PuzzlesViewModelFactory.cs" />
     <Compile Include="Infrastructure\ViewModelLocator.cs" />
+    <Compile Include="GameDataService\IPuzzleWebApiService.cs" />
     <Compile Include="ItemDetailPage.xaml.cs">
       <DependentUpon>ItemDetailPage.xaml</DependentUpon>
     </Compile>

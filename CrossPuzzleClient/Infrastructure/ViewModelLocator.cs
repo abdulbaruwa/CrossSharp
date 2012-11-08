@@ -1,4 +1,5 @@
-﻿using CrossPuzzleClient.Observables;
+﻿using CrossPuzzleClient.GameDataService;
+using CrossPuzzleClient.Observables;
 using CrossPuzzleClient.ViewModels;
 using CrossPuzzleClient.Views;
 using GalaSoft.MvvmLight.Ioc;
@@ -23,13 +24,17 @@ namespace CrossPuzzleClient.Infrastructure
             SimpleIoc.Default.Register<PuzzlesViewModel>();
             SimpleIoc.Default.Register<IPuzzleRepository, FakePuzzleRepository>();
             SimpleIoc.Default.Register<IPuzzlesService, PuzzlesService>();
+            SimpleIoc.Default.Register<IPuzzleWebApiService, PuzzleWebApiService>();
+            SimpleIoc.Default.Register<IGameDataService, GameDataService.GameDataService>();
         }
 
         public PuzzlesViewModel PuzzlesViewModel
         {
             get
             {
-                return new PuzzlesViewModel(App.NavigationService); 
+
+                var puzzlesViewModelFactory = new PuzzlesViewModelFactory(SimpleIoc.Default.GetInstance<IPuzzleRepository>(),App.NavigationService);
+                return puzzlesViewModelFactory.CreateInstance();
             }
         }
 

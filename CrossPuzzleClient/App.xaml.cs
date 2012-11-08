@@ -1,13 +1,9 @@
 ﻿using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using CrossPuzzleClient.Common;
-
-using System;
-using CrossPuzzleClient.DataModel;
+using CrossPuzzleClient.GameDataService;
 using CrossPuzzleClient.Infrastructure;
 using CrossPuzzleClient.Views;
-using SQLite;
+using GalaSoft.MvvmLight.Ioc;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
@@ -36,12 +32,6 @@ namespace CrossPuzzleClient
 
         public static NavigationService NavigationService;
 
-        private async Task<bool> FileExistInStorageLocation(string fileName)
-        {
-            var storageFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
-            var files = await storageFolder.GetFilesAsync();
-            return files.Any(x => x.Name == fileName);
-        }
 
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
@@ -51,26 +41,18 @@ namespace CrossPuzzleClient
         /// <param name="args">Details about the launch request and process.</param>
         protected override async void OnLaunched(LaunchActivatedEventArgs args)
         {
-            // Do not repeat app initialization when already running, just ensure that
-            // the window is active
-            if (args.PreviousExecutionState == ApplicationExecutionState.Running)
+            //Create Database if it does not exists
+
+            //Do not repeat app initialization when already running, just ensure that window is active
+            if(args.PreviousExecutionState == ApplicationExecutionState.Running)
             {
                 Window.Current.Activate();
                 return;
             }
 
-           // Create Database if it does not exists
-            if (! FileExistInStorageLocation(PuzzleDb).Result)
-            {
-                var databasePath = Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, PuzzleDb);
-                using (var db = new SQLiteConnection(databasePath))
-                {
-                    db.CreateTable<PuzzleGroupData>();
-                }
-            }
-
             // Create a Frame to act as the navigation context and associate it with
             // a SuspensionManager key
+
             var rootFrame = new Frame();
             SuspensionManager.RegisterFrame(rootFrame, "AppFrame");
 
@@ -80,24 +62,18 @@ namespace CrossPuzzleClient
                 await SuspensionManager.RestoreAsync();
             }
 
-            //if (rootFrame.Content == null)
-            //{
-            //    // When the navigation stack isn't restored navigate to the first page,
-            //    // configuring the new page by passing required information as a navigation
-            //    // parameter
-            //    if (!rootFrame.Navigate(typeof(GroupedItemsPage), "AllGroups"))
-            //    {
-            //        throw new Exception("Failed to create initial page");
-            //    }
-            //}
-
             SplashScreen splashScreen = args.SplashScreen;
             var extendedSplashScreen = new ExtendedSplashView(splashScreen, false);
             splashScreen.Dismissed += splashScreen_Dismissed;
+
             // Place the frame in the current Window and ensure that it is active
             Window.Current.Content = extendedSplashScreen;
             Window.Current.Activate();
+            var gameDataService = SimpleIoc.Default.GetInstance<IGameDataService>();
+            await gameDataService.GetGameDataAndStoreInLocalDb(Windows.Storage.ApplicationData.Current.LocalFolder.Path);
+            
         }
+
 
         void splashScreen_Dismissed(SplashScreen sender, object args)
         {
