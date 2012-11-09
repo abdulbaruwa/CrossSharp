@@ -205,9 +205,6 @@
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="PuzzleGroup.xls">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="App_Data\PuzzleGroup.xls">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
