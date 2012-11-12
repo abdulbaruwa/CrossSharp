@@ -1,6 +1,6 @@
 using CrossPuzzleClient.ViewModels;
 
-namespace CrossPuzzleClient.Infrastructure
+namespace CrossPuzzleClient.Factories
 {
     public interface IPuzzlesViewModelFactory
     {

@@ -78,6 +78,7 @@ namespace CrossPuzzleClient.GameDataService
                 using (var db = new SQLiteConnection(Path.Combine(filePath,PuzzleDb)))
                 {
                     db.CreateTable<PuzzleGroupData>();
+                    db.CreateTable<PuzzleGroupData>();
                     db.InsertAll(puzzleGroupDatas);
                 }
             }

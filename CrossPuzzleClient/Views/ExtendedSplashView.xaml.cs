@@ -51,7 +51,7 @@ namespace CrossPuzzleClient.Views
             var rootFrame = new Frame();
             App.NavigationService = new NavigationService(rootFrame);
 
-            rootFrame.Navigate(typeof(PuzzlesView), puzzlesVm);
+            rootFrame.Navigate(typeof(PuzzlesView));
 
             // Place the frame in the current Window and ensure that it is active
             Window.Current.Content = rootFrame;

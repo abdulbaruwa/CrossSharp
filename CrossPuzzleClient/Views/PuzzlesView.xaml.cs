@@ -30,8 +30,8 @@ namespace CrossPuzzleClient.Views
         protected override void LoadState(Object navigationParameter, Dictionary<String, Object> pageState)
         {
             // TODO: Assign a collection of bindable groups to this.DefaultViewModel["Groups"]
-            var item = (DesignPuzzlesVM) navigationParameter;
-            DefaultViewModel["PuzzleVm"] = item.PuzzleGroups;
+            //var item = (DesignPuzzlesVM) navigationParameter;
+            //DefaultViewModel["PuzzleVm"] = item.PuzzleGroups;
         }
 
         private void Button_Click_1(object sender, Windows.UI.Xaml.RoutedEventArgs e)
@@ -39,7 +39,11 @@ namespace CrossPuzzleClient.Views
             //this.Frame.Navigate(typeof(PuzzleBoard));
             // Place the frame in the current Window and ensure that it is active
             //Window.Current.Activate();
+        }
 
+        private void itemGridView_ItemClick_1(object sender, ItemClickEventArgs e)
+        {
+            var source = e.OriginalSource;
         }
     }
 }

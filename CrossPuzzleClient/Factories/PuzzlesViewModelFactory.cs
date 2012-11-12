@@ -1,7 +1,8 @@
 using System.Collections.ObjectModel;
+using CrossPuzzleClient.Infrastructure;
 using CrossPuzzleClient.ViewModels;
 
-namespace CrossPuzzleClient.Infrastructure
+namespace CrossPuzzleClient.Factories
 {
     public class PuzzlesViewModelFactory : IPuzzlesViewModelFactory
     {

@@ -1,4 +1,7 @@
-﻿using CrossPuzzleClient.GameDataService;
+﻿using System.Collections.Generic;
+using CrossPuzzleClient.DataModel;
+using CrossPuzzleClient.Factories;
+using CrossPuzzleClient.GameDataService;
 using CrossPuzzleClient.Observables;
 using CrossPuzzleClient.ViewModels;
 using CrossPuzzleClient.Views;
@@ -13,6 +16,8 @@ namespace CrossPuzzleClient.Infrastructure
     /// </summary>
     public class ViewModelLocator
     {
+        private PuzzleGroupViewModel _selectedPuzzleGroupViewModel;
+
         /// <summary>
         /// Initializes a new instance of the ViewModelLocator class.
         /// </summary>

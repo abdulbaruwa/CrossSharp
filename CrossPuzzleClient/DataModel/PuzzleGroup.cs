@@ -21,12 +21,21 @@ namespace CrossPuzzleClient.DataModel
     public class PuzzleGame
     {
         public int PuzzleGameId { get; set; }
+        public bool GamePlayed { get; set; }
+        public int GameScore { get; set; }
         public Dictionary<string, string> Words { get; set; }
     }
 
     public class PuzzleGroupData
     {
         public int PuzzleGroupDataId { get; set; }
+        public string Data { get; set; }
+    }
+
+    public class PuzzleGroupGameData
+    {
+        public int PuzzleGroupDataId { get; set; }
+        public string GameUserName { get; set; }
         public string Data { get; set; }
     }
 }
