@@ -2,10 +2,8 @@
 using CrossPuzzleClient.Common;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using CrossPuzzleClient.DataModel;
 using CrossPuzzleClient.Infrastructure;
 using CrossPuzzleClient.Views;
-using Windows.UI.Xaml.Data;
 
 namespace CrossPuzzleClient.ViewModels
 {
