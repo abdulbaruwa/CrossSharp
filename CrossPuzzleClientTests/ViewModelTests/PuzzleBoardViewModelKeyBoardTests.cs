@@ -5,7 +5,7 @@ using CrossPuzzleClient.ViewModels;
 using GalaSoft.MvvmLight.Messaging;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 
-namespace CrossPuzzleClientTests
+namespace CrossPuzzleClientTests.ViewModelTests
 {
     [TestClass]
     public class PuzzleBoardViewModelKeyBoardTests

@@ -5,6 +5,8 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using CrossPuzzleClient.DataModel;
+using CrossPuzzleClient.Infrastructure;
+using GalaSoft.MvvmLight.Ioc;
 using Newtonsoft.Json;
 using SQLite;
 
@@ -41,8 +43,7 @@ namespace CrossPuzzleClient.GameDataService
             }
 
             var index = 1;
-            var result =
-                puzzleGroups.Select(puzzleGroupData => CreatePuzzleGroupData(puzzleGroupData, index++)).ToList();
+            var result = puzzleGroups.Select(puzzleGroupData => CreatePuzzleGroupData(puzzleGroupData, index++)).ToList();
             return result;
         }
 
@@ -69,19 +70,36 @@ namespace CrossPuzzleClient.GameDataService
 
         public async Task GetGameDataAndStoreInLocalDb(string filePath)
         {
+            var user = SimpleIoc.Default.GetInstance<IUserService>().GetCurrentUser();
             var fileExists = await FileExistInStorageLocation(filePath,PuzzleDb);
             if (!fileExists)
             {
                 var puzzleGroupDatasTaskResponse = GetPuzzleGroupDataFromServiceAsync();
                 var puzzleGroupDatas = await puzzleGroupDatasTaskResponse;
-
+                var puzzleGroupGameDatas = GenerateUserGameDataFromPuzzleGroupData(puzzleGroupDatas, user);
                 using (var db = new SQLiteConnection(Path.Combine(filePath,PuzzleDb)))
                 {
                     db.CreateTable<PuzzleGroupData>();
-                    db.CreateTable<PuzzleGroupData>();
+                    db.CreateTable<PuzzleGroupGameData>();
                     db.InsertAll(puzzleGroupDatas);
+                    db.InsertAll(puzzleGroupGameDatas);
                 }
             }
+        }
+
+        private static List<PuzzleGroupGameData> GenerateUserGameDataFromPuzzleGroupData(List<PuzzleGroupData> puzzleGroupDatas, string user)
+        {
+            var puzzleGroupGameDatas = new List<PuzzleGroupGameData>();
+            foreach (var puzzleGroupData in puzzleGroupDatas)
+            {
+                puzzleGroupGameDatas.Add(new PuzzleGroupGameData()
+                                             {
+                                                 Data = puzzleGroupData.Data,
+                                                 PuzzleGroupDataId = puzzleGroupData.PuzzleGroupDataId,
+                                                 GameUserName = user
+                                             });
+            }
+            return puzzleGroupGameDatas;
         }
     }
 }

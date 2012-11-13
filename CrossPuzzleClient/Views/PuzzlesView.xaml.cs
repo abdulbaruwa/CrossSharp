@@ -34,16 +34,15 @@ namespace CrossPuzzleClient.Views
             //DefaultViewModel["PuzzleVm"] = item.PuzzleGroups;
         }
 
-        private void Button_Click_1(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-        {
-            //this.Frame.Navigate(typeof(PuzzleBoard));
-            // Place the frame in the current Window and ensure that it is active
-            //Window.Current.Activate();
-        }
-
         private void itemGridView_ItemClick_1(object sender, ItemClickEventArgs e)
         {
-            var source = e.OriginalSource;
+            var sourceDataContext = (sender as FrameworkElement).DataContext;
+            if(sourceDataContext != null)
+            {
+               if(e.ClickedItem == null) return;
+               ((PuzzlesViewModel) sourceDataContext).SelectedPuzzleGroupViewModel = (PuzzleViewModel) e.ClickedItem;
+              ((PuzzlesViewModel )sourceDataContext).StartPuzzleCommand.Execute(null);
+            }
         }
     }
 }

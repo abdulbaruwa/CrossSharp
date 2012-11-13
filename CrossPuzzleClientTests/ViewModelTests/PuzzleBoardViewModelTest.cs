@@ -1,13 +1,12 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using CrossPuzzleClient.GameStates;
+using CrossPuzzleClient.Observables;
 using CrossPuzzleClient.ViewModels;
 using GalaSoft.MvvmLight.Messaging;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 
-namespace CrossPuzzleClientTests
+namespace CrossPuzzleClientTests.ViewModelTests
 {
     [TestClass]
     public class PuzzleBoardViewModelTest
@@ -38,6 +37,23 @@ namespace CrossPuzzleClientTests
 
         }
 
+        [TestMethod]
+        public void When_StartPuzzleMessage_is_received_should_get_from_PuzzleService_words_for_the_provided_puzzleId()
+        {
+            var fakePuzzleService = new FakePuzzlesService();
+
+            var puzzleBoardVm = new PuzzleBoardViewModel(fakePuzzleService, new SchedulerProvider());
+            fakePuzzleService.AddWords(new Dictionary<string, string>
+                                           {
+                                               {"Bamidele", "Adetoro's first name"},
+                                               {"station", "place where i fit get train"},
+                                               {"india", "Origin of my favourite curry"},
+                                           });
+
+            Messenger.Default.Send<StartPuzzleMessage>(new StartPuzzleMessage(){PuzzleId = 1});
+
+            Assert.AreEqual(3, puzzleBoardVm.Words.Count);
+        }
 
         [TestMethod]
         public void Should_show_game_finish_flyout_when_last_word_is_inserted_onto_the_board()

@@ -27,7 +27,8 @@ namespace CrossPuzzleClient.Infrastructure
             if (Windows.ApplicationModel.DesignMode.DesignModeEnabled) return;
 
             SimpleIoc.Default.Register<PuzzlesViewModel>();
-            SimpleIoc.Default.Register<IPuzzleRepository, FakePuzzleRepository>();
+            SimpleIoc.Default.Register<IUserService, UserService>();
+            SimpleIoc.Default.Register<IPuzzleRepository, PuzzleRepository>();
             SimpleIoc.Default.Register<IPuzzlesService, PuzzlesService>();
             SimpleIoc.Default.Register<IPuzzleWebApiService, PuzzleWebApiService>();
             SimpleIoc.Default.Register<IGameDataService, GameDataService.GameDataService>();
@@ -37,11 +38,12 @@ namespace CrossPuzzleClient.Infrastructure
         {
             get
             {
-
                 var puzzlesViewModelFactory = new PuzzlesViewModelFactory(SimpleIoc.Default.GetInstance<IPuzzleRepository>(),App.NavigationService);
-                return puzzlesViewModelFactory.CreateInstance();
+                return puzzlesViewModelFactory.CreateInstance(SimpleIoc.Default.GetInstance<IUserService>().GetCurrentUser());
             }
         }
+
+
 
         public PuzzleBoardViewModel PuzzleBoardViewModel
         {

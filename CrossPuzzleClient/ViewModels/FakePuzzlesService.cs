@@ -7,6 +7,9 @@ namespace CrossPuzzleClient.ViewModels
 {
     public class FakePuzzlesService : IPuzzlesService
     {
+        private IPuzzleRepository _repository = new FakePuzzleRepository();
+        private Dictionary<string, string> _words;
+
         public ObservableCollection<WordViewModel> GetOrdereredWordsForPuzzle(int puzzleId)
         {
             var wordviewmodels = GetWordsWordviewmodels();
@@ -44,23 +47,44 @@ namespace CrossPuzzleClient.ViewModels
             return sortedWordViewModel;
         }
 
+
+        public void AddWords(Dictionary<string, string> words)
+        {
+            _words = words;
+        }
+
         public List<WordViewModel> GetWordsWordviewmodels()
         {
-            var words = new List<string>();
-            words.Add("Bamidele");
-            words.Add("station");
-            words.Add("india");
-            words.Add("Adams");
-            words.Add("fards");
-            words.Add("novemb");
-            words.Add("belt");
-            words.Add("train");
-            words.Add("adeola");
-            words.Add("amoeba");
-            words.Add("moscow");
+
+            var words = _words ?? new Dictionary<string, string>
+                                 {
+                                     {"Bamidele", "Adetoro's first name"},
+                                     {"station", "place where i fit get train"},
+                                     {"india", "Origin of my favourite curry"},
+                                     {"Adams", "Captain Arsenal"},
+                                     {"fards", "show off"},
+                                     {"novemb", "like november"},
+                                     {"belt", "Tied around my waist"},
+                                     {"train", "Mode of transportation"},
+                                     {"adeola", "My sister"},
+                                     {"amoeba", "Single cell organism"},
+                                     {"moscow", "Cold city behind iron curtain"}
+                                 };
+            //var words = new List<string>();
+            //words.Add("Bamidele");
+            //words.Add("station");
+            //words.Add("india");
+            //words.Add("Adams");
+            //words.Add("fards");
+            //words.Add("novemb");
+            //words.Add("belt");
+            //words.Add("train");
+            //words.Add("adeola");
+            //words.Add("amoeba");
+            //words.Add("moscow");
 
             var board = CoreHorizontal.GetBoard(12, 12);
-            var result = (CoreVertical.AddWordsAttempts(words.ToArray(), board));
+            var result = (CoreVertical.AddWordsAttempts(words.Keys.ToArray(), board));
 
             var wordsInserted = result.Item1.Where(x => x.inserted);
             var wordviewmodels = new List<WordViewModel>();
@@ -68,12 +92,13 @@ namespace CrossPuzzleClient.ViewModels
             {
                 var position = (word.row * 12) + word.col;
 
+                CoreHorizontal.resultCell word1 = word;
                 var wordViewModel = new WordViewModel()
                                         {
                                             Cells = new ObservableCollection<CellEmptyViewModel>(),
                                             Direction = GetDirection(word.orientation),
                                             Word = word.word,
-                                            WordHint = " Hint for " + word.word,
+                                            WordHint = words.First(x => x.Key == word1.word).Value,
                                             WordLength = "(" + word.word.Length.ToString() + ")",
                                             Index = position
                                         };

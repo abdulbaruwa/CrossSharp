@@ -4,7 +4,6 @@
                         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:common="using:CrossPuzzleClient.Common"
                         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:data="using:CrossPuzzleClient.ViewModels"
-                        xmlns:Behaviours="using:CrossPuzzleClient.Behaviors" xmlns:WinRtBehaviors="using:WinRtBehaviors"
                         mc:Ignorable="d" Margin="0,2,0,-2">
 
     <Page.Resources>
@@ -59,16 +58,18 @@
 
         <!-- Horizontal scrolling grid used in most view states -->
         <GridView x:Name="itemGridView" AutomationProperties.AutomationId="ItemGridView"
-                  AutomationProperties.Name="Grouped Items" Grid.Row="1" Margin="0,3,0,0" Padding="116,0,40,46"
-                  ItemTemplate="{StaticResource PuzzleStandard150x150ItemTemplate}" ItemsSource="{Binding Source={StaticResource groupedItemsViewSource}}"
-                  SelectionMode="None"
+                  AutomationProperties.Name="Grouped Items" Grid.Row="1" Margin="0,0,0,3" Padding="116,0,40,46"
+                  ItemTemplate="{StaticResource PuzzleStandard150x150ItemTemplate}" 
+                  ItemsSource="{Binding Source={StaticResource groupedItemsViewSource}}"
+                  SelectedItem ="{Binding SelectedPuzzleGroupViewModel, Mode=TwoWay}"
                   IsItemClickEnabled="True"
                   ItemClick="itemGridView_ItemClick_1"
                   >
 
-            <WinRtBehaviors:Interaction.Behaviors>
+                
+            <!--<WinRtBehaviors:Interaction.Behaviors>
                 <Behaviours:EventToCommandBehavior Command="StartPuzzleCommand" Event="ItemClick"/>
-            </WinRtBehaviors:Interaction.Behaviors>
+            </WinRtBehaviors:Interaction.Behaviors>-->
                 
                 <GridView.ItemsPanel>
                 <ItemsPanelTemplate>

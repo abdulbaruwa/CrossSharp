@@ -2,7 +2,7 @@ using System;
 
 namespace CrossPuzzleClient.ViewModels
 {
-    internal class StartPuzzleMessage 
+    public class StartPuzzleMessage 
     {
         public int PuzzleId { get; set; }
     }

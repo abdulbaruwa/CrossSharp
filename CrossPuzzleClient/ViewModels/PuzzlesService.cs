@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using CrossPuzzleClient.Infrastructure;
 using CrossSharp.Core;
 
 namespace CrossPuzzleClient.ViewModels
@@ -8,15 +9,17 @@ namespace CrossPuzzleClient.ViewModels
     public class PuzzlesService : IPuzzlesService
     {
         private IPuzzleRepository puzzlesRepository;
+        private IUserService _userService;
 
-        public PuzzlesService(IPuzzleRepository puzzlesRepository)
+        public PuzzlesService(IPuzzleRepository puzzlesRepository, IUserService userService)
         {
             this.puzzlesRepository = puzzlesRepository;
+            _userService = userService;
         }
 
         public ObservableCollection<WordViewModel> GetOrdereredWordsForPuzzle(int puzzleId)
         {
-            var words = puzzlesRepository.GetPuzzleWithId(puzzleId);
+            var words = puzzlesRepository.GetPuzzleWithId(puzzleId, _userService.GetCurrentUser());
 
             var wordviewmodels = GetWordsWordviewmodels(words);
 

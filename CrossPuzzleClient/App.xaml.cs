@@ -52,7 +52,6 @@ namespace CrossPuzzleClient
 
             // Create a Frame to act as the navigation context and associate it with
             // a SuspensionManager key
-
             var rootFrame = new Frame();
             SuspensionManager.RegisterFrame(rootFrame, "AppFrame");
 
@@ -71,7 +70,6 @@ namespace CrossPuzzleClient
             Window.Current.Activate();
             var gameDataService = SimpleIoc.Default.GetInstance<IGameDataService>();
             await gameDataService.GetGameDataAndStoreInLocalDb(Windows.Storage.ApplicationData.Current.LocalFolder.Path);
-            
         }
 
 

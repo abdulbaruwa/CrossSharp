@@ -13,7 +13,7 @@ namespace CrossPuzzleClient.ViewModels
         private readonly INavigationService navigation;
         private readonly IPuzzleRepository _puzzleRepository;
         private ObservableCollection<PuzzleGroupViewModel> _puzzles = new ObservableCollection<PuzzleGroupViewModel>();
-        private object _selectedPuzzleViewModel;
+        private PuzzleViewModel _selectedPuzzleViewModel;
         private object _selectedValueBinding;
 
         public PuzzlesViewModel(INavigationService navigationService, IPuzzleRepository puzzleRepository)
@@ -33,10 +33,10 @@ namespace CrossPuzzleClient.ViewModels
 
         public ICommand StartPuzzleCommand
         {
-            get { return new DelegateCommand(() => StartPuzzle()); }
+            get { return new DelegateCommand (() => StartPuzzle()); }
         }
 
-        public object SelectedPuzzleGroupViewModel
+        public PuzzleViewModel SelectedPuzzleGroupViewModel
         {
             get { return _selectedPuzzleViewModel; }
             set
@@ -50,14 +50,14 @@ namespace CrossPuzzleClient.ViewModels
             get { return _selectedValueBinding; }
         }
 
-
         private void StartPuzzle()
         {
             object param = "parameter";
-            navigation.Navigate<PuzzleBoard>(param);
 
+            navigation.Navigate<PuzzleBoard>(param);
+            
             GalaSoft.MvvmLight.Messaging.Messenger.Default.Send<StartPuzzleMessage>(new StartPuzzleMessage() 
-            {PuzzleId = 0});
+            {PuzzleId = SelectedPuzzleGroupViewModel.PuzzleId});
         }
     }
 

@@ -118,6 +118,7 @@ namespace CrossPuzzleClient.ViewModels
             get { return _wordSelectedVisibility; }
             set { SetProperty(ref _wordSelectedVisibility, value); }
         }
+
         public bool IsBoardEnabled
         {
             get { return _isBoardEnabled; }
@@ -305,12 +306,6 @@ namespace CrossPuzzleClient.ViewModels
             if (gameStateToBecome == null) return;
             GameStateBecome(gameStateToBecome);
 
-            //Pause by dispossing current Observable.
-            //StopTime();
-            //GameIsRunning = !_gameIsRunning;
-
-            //SetStartPauseDisplayCommand();
-            //if(_gameIsRunning) GameCountUpCommand.Execute(null);
         }
 
         public void GameStateBecome(IGameState newGameState)

@@ -112,6 +112,10 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Behaviors\Behavior.cs" />
+    <Compile Include="Behaviors\BehaviorOfT.cs" />
+    <Compile Include="Behaviors\EventAsync.cs" />
+    <Compile Include="Behaviors\Interaction.cs" />
+    <Compile Include="Behaviors\MyBehavior.cs" />
     <Compile Include="Behaviors\ClickBehavior.cs" />
     <Compile Include="Common\RelayCommand.cs" />
     <Compile Include="Controls\CustomStackPanelRangeProvider.cs" />
@@ -135,9 +139,11 @@
     </Compile>
     <Compile Include="GameDataService\IGameDataService.cs" />
     <Compile Include="Factories\IPuzzlesViewModelFactory.cs" />
+    <Compile Include="Infrastructure\IUserService.cs" />
     <Compile Include="Infrastructure\NavigationService.cs" />
     <Compile Include="Infrastructure\PreferredConstructorAttribute.cs" />
     <Compile Include="Factories\PuzzlesViewModelFactory.cs" />
+    <Compile Include="Infrastructure\UserService.cs" />
     <Compile Include="Infrastructure\ViewModelLocator.cs" />
     <Compile Include="GameDataService\IPuzzleWebApiService.cs" />
     <Compile Include="ItemDetailPage.xaml.cs">
@@ -284,9 +290,6 @@
     </Reference>
     <Reference Include="System.Reactive.Windows.Threading">
       <HintPath>..\packages\Rx-XAML.2.0.20823\lib\WinRT45\System.Reactive.Windows.Threading.dll</HintPath>
-    </Reference>
-    <Reference Include="WinRtBehaviors">
-      <HintPath>..\packages\WinRtBehaviors.1.0.2\lib\winrt45\WinRtBehaviors.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

@@ -15,9 +15,9 @@ namespace CrossPuzzleClient.Factories
             _navigationService = navigationService;
         }
 
-        public PuzzlesViewModel CreateInstance()
+        public PuzzlesViewModel CreateInstance(string userName)
         {
-            var puzzleGroups = _puzzleRepository.GetPuzzles();
+            var puzzleGroups = _puzzleRepository.GetPuzzles(userName);
             var puzzlesViewModel = new PuzzlesViewModel(_navigationService, _puzzleRepository);
             foreach (var puzzleGroup in puzzleGroups)
             {

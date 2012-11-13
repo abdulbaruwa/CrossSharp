@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CrossPuzzleClient.GameDataService;
+using CrossPuzzleClient.ViewModels;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using Windows.Foundation;
 using Windows.Storage;
@@ -17,11 +18,11 @@ namespace CrossPuzzleClientTests
         {
             IPuzzleWebApiService puzzleWebApiService = new FakePuzzleWebApiService();
             IGameDataService gameDataService = new GameDataService(puzzleWebApiService);
-            string sss = ApplicationData.Current.TemporaryFolder.Path;
+            string path = ApplicationData.Current.TemporaryFolder.Path;
             Task resultTask = gameDataService.GetGameDataAndStoreInLocalDb(ApplicationData.Current.TemporaryFolder.Path);
             await resultTask;
 
-            bool fileExists = await FileExistInStorageLocation(sss, "Puzzle.db");
+            bool fileExists = await FileExistInStorageLocation(path, "Puzzle.db");
             Assert.IsTrue(fileExists);
         }
 
@@ -33,5 +34,8 @@ namespace CrossPuzzleClientTests
             IReadOnlyList<StorageFile> files = await filesTask;
             return files.Any(x => x.Name == fileName);
         }
+
+
+
     }
 }

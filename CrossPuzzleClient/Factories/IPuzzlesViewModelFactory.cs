@@ -4,6 +4,6 @@ namespace CrossPuzzleClient.Factories
 {
     public interface IPuzzlesViewModelFactory
     {
-        PuzzlesViewModel CreateInstance();
+        PuzzlesViewModel CreateInstance(string userName);
     }
 }
