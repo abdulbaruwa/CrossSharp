@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Runtime.Serialization.Json;
 using System.Threading.Tasks;
-using System.Web;
 using LinqToExcel;
 using LinqToExcel.Domain;
 using Newtonsoft.Json;
@@ -59,12 +56,28 @@ namespace CrossSharp.Api
                                                                     {
                                                                         Title = c["Title"],
                                                                         PuzzleSubGroupId = c["PuzzleSubGroupId"].Cast<int>(),
-                                                                        PuzzleGames = GetGamesFromPuzzleGameWorksheet(excel, c["PuzzleSubGroupId"].Cast<int>())
+                                                                        Words = GetWordsForSubGroupFromPuzzleGameWorksheet(excel, c["PuzzleSubGroupId"].Cast<int>())
+                                                                        //PuzzleGames = GetGamesFromPuzzleGameWorksheet(excel, c["PuzzleSubGroupId"].Cast<int>())
                                                                     };
 
             return puzzleSubGroups.ToList();
         }
 
+        private static Dictionary<string, string> GetWordsForSubGroupFromPuzzleGameWorksheet(ExcelQueryFactory excel, int puzzleSubGroupId)
+        {
+            //Get all games for a sub group
+            var games = from c in excel.Worksheet("PuzzleGame")
+                        where c["PuzzleSubGroupId"].Cast<int>() == puzzleSubGroupId
+                        select new 
+                                   {
+                                       Word = c["Word"].Cast<string>(),
+                                       Hint = c["Hint"].Cast<string>() 
+                                   };
+
+
+            return games.ToDictionary(game => game.Word, game => game.Hint);
+
+        }
         private static List<PuzzleGame> GetGamesFromPuzzleGameWorksheet(ExcelQueryFactory excel, int puzzleSubGroupId)
         {
             //Get all games for a sub group

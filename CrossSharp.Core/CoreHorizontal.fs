@@ -41,7 +41,7 @@ module CoreHorizontal =
 
     //Add the first word is added at the top left side of the board
     let AddFirstWord (word:string) (board:string[,]) = 
-        if(word.Length < Array2D.length2 board) then
+        if(word.Length <= Array2D.length2 board) then
             let wordChars = word.ToCharArray()
             for i in 0..word.Length-1 do
                 board.[0,i] <- wordChars.[i].ToString() 

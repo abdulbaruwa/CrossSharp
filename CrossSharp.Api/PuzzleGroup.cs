@@ -15,6 +15,7 @@ namespace CrossSharp.Api
     {
         public string Title { get; set; }
         public int PuzzleSubGroupId { get; set; }
+        public Dictionary<string, string> Words { get; set; }
         public List<PuzzleGame> PuzzleGames { get; set; }
     }
 

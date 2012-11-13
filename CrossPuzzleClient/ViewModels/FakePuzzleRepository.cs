@@ -23,7 +23,7 @@ namespace CrossPuzzleClient.ViewModels
             var res = from pgromp in puzzles
                       from subgroup in pgromp.Puzzles
                       where subgroup.PuzzleSubGroupId == puzzleId
-                      select subgroup.PuzzleGames.FirstOrDefault().Words;
+                      select subgroup.Words;
 
             return res.FirstOrDefault();
 
