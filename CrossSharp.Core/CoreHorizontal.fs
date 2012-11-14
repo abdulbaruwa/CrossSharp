@@ -64,15 +64,31 @@ module CoreHorizontal =
         hpos
 
 
+    
     //Second word section
     let horNeighboursAreNotEmpty (board:string[,]) row colpos = 
         let leftcell = colpos-1
         let rightcell = colpos+1
-        if((board.[row, leftcell].ToString() = emptyCell)
-                        && (board.[row, rightcell].ToString() = emptyCell)) then 
-            false
-        else
-            true     
+        let checkleft =
+            if(leftcell >= 0) then
+                not (board.[row, leftcell].ToString() = emptyCell)
+            else
+                false
+
+
+        let checkright = 
+            if(rightcell <= 11) then
+                board.[row, rightcell].ToString() = emptyCell
+            else
+                false
+
+        checkleft && checkright
+//
+//        if((board.[row, leftcell].ToString() = emptyCell)
+//                        && (board.[row, rightcell].ToString() = emptyCell)) then 
+//            false
+//        else
+//            true     
 
     let rec CanWordBeInsertedVertically(wordchars:char[]) (board:string[,]) (colpos:int) (pos:int) = 
         if(colpos < 0) then false
@@ -119,16 +135,19 @@ module CoreHorizontal =
         let newrow = row + 1
         let rowcount = Array2D.length1 board
         match row with
-        | row when row = newrow || row = 0 -> false
-        | _ ->  board.[newrow, (col- 1)] <> emptyCell
+        | row when   newrow >= rowcount || row = 0 -> false
+        | _ ->  board.[newrow, col] <> emptyCell
+        //| _ ->  board.[newrow, (col - 1)] <> emptyCell
 
     //Given a board cell, check if cell vertically up is empty
     let hastopchar (board:string[,]) (row:int) (col:int) = 
-            match row with
-            | row when row < 1 -> false
-            | _ -> 
-                    let rowabove = row - 1
-                    board.[rowabove, (col - 1)] <> emptyCell
+        let rowcount = Array2D.length1 board
+        match row with
+        | row when row >= rowcount || row < 1 -> false
+        | _ -> 
+                 let rowabove = row - 1
+                 board.[rowabove, col] <> emptyCell
+                 //board.[rowabove, (col - 1)] <> emptyCell
 
     //Walk the board horizontally and return result in last param (matchingCell tuple). 
     //Validation is done only on matching chars, so a positive result may yet not be valid. 
@@ -138,10 +157,8 @@ module CoreHorizontal =
            if board.[startrow,colIterator] = wordchars.[letterindex].ToString() then
                 //Match or emptry cell
                 //Does letter have any vertical neighbours ?
-                let noInvalidcharAbove = hastopchar board startrow colIterator
-                let noInvalidcharBelow = hasbottomchar board startrow colIterator
                 let noHorCharBeforeOrAfter = horNeighboursAreNotEmpty board startrow colIterator
-                if(noInvalidcharAbove = false && noInvalidcharBelow = false && noHorCharBeforeOrAfter = false) then
+                if(noHorCharBeforeOrAfter = false) then
 
                     let isfound = fst result 
                     let cells = snd result

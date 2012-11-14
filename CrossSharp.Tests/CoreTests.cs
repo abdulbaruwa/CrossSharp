@@ -36,12 +36,31 @@ namespace CrossSharp.Tests
         }
 
         [Test]
+        public void Give_a_cell_on_a_board_check_if_the_cell_directly_below_it_is_empty()
+        {
+            var board = GetBoardWithFirstWord("Bamidele");
+            Assert.IsFalse(CoreHorizontal.hasbottomchar(board, 1, 0));
+            Assert.IsFalse(CoreHorizontal.hasbottomchar(board, 0, 0));
+            Assert.IsFalse(CoreHorizontal.hasbottomchar(board, 1, 0));
+            Assert.IsFalse(CoreHorizontal.hasbottomchar(board, 11, 0));
+            Assert.IsTrue(CoreHorizontal.hastopchar(board, 1, 0));
+            Assert.IsFalse(CoreHorizontal.hastopchar(board, 0, 0));
+            Assert.IsFalse(CoreHorizontal.hastopchar(board, 11, 0));
+
+            board[4, 0] = "x";
+            Assert.IsTrue(CoreHorizontal.hastopchar(board, 5, 0));
+            Assert.IsTrue(CoreHorizontal.hasbottomchar(board, 3, 0));
+
+        }
+
+        [Test]
         public void When_told_to_add_the_second_word_to_a_board_with_first_word_of_12_chars_inserted_Should_add_the_word_as_expected()
         {
             var board = GetBoardWithFirstWord("Confectioner");
 
             var result = CoreHorizontal.AddSecondWord("Rhubarb", board);
-
+            PrintBoard(board);
+            Assert.IsTrue(result.Item1);
 
         }
         
@@ -299,7 +318,6 @@ namespace CrossSharp.Tests
 
             var board = CoreHorizontal.GetBoard(12, 12);
             var result = (CoreVertical.AddWordsAttempts(words.ToArray(), board));
-            PrintBoard(result.Item2);
             foreach (var s in result.Item1)
             {
                 Assert.IsTrue(s.inserted);
@@ -307,21 +325,19 @@ namespace CrossSharp.Tests
 
             PrintBoard(result.Item2);
 
-            //B A m i d e l e _ _ _ _ _ _ _ 
-            //_ d _ n _ _ _ _ _ _ _ _ _ _ _ 
-            //f a r d s _ _ _ _ _ _ _ _ _ _ 
-            //_ m _ i _ _ n _ _ _ _ _ _ _ _ 
-            //_ s t a t i o n _ _ _ _ _ _ _ 
-            //_ _ _ _ _ _ v _ _ _ _ _ _ _ _ 
-            //_ _ _ _ _ b e l t _ _ _ _ _ _ 
-            //_ _ _ _ _ _ m _ r _ _ _ _ _ _ 
-            //_ _ _ _ _ _ b _ a d e o l a _ 
-            //_ _ _ _ _ _ _ _ i _ _ _ _ _ _ 
-            //_ _ _ _ _ _ _ _ n _ _ _ _ _ _ 
-            //_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-            //_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-            //_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-            //_ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+            //B a m i d e l e _ _ _ _ 
+            //_ _ _ n _ _ _ _ _ _ _ _ 
+            //_ _ A d a m s _ _ _ _ _ 
+            //_ _ _ i _ _ _ _ _ _ _ _ 
+            //_ s t a t i o n _ _ _ _ 
+            //_ _ _ _ _ _ _ o _ _ _ _ 
+            //_ _ _ _ _ _ _ v _ _ _ _ 
+            //_ _ _ _ _ _ _ e _ _ _ _ 
+            //_ _ _ _ _ _ _ m _ _ _ _ 
+            //_ _ _ _ _ _ _ b _ _ _ _ 
+            //_ _ _ _ _ _ _ _ _ _ _ _ 
+            //_ _ _ _ _ _ _ _ _ _ _ _ 
         }
 
 

@@ -36,7 +36,6 @@ module CoreVertical =
     let rec findVerticalMatch (wordchars:char[]) (board:string[,]) rowIterator (startcell:(int*int)) letterindex  (result: (bool * matchingCell[])) =
         let startcol = snd startcell
         if (letterindex < wordchars.Length && (fst startcell + wordchars.Length) <= board.GetLength(1) && rowIterator < board.GetLength(1)) then
-        //if (letterindex < wordchars.Length &&  (startrow + wordchars.Length) < board.GetLength(1)) then 
             match board.[rowIterator,startcol] with
             | x when x.Equals (wordchars.[letterindex].ToString(), StringComparison.OrdinalIgnoreCase) -> 
                         let noInvalidcharAbove = hastopchar board rowIterator startcol
@@ -46,7 +45,6 @@ module CoreVertical =
                         if(noInvalidcharAbove = false && noInvalidcharBelow = false && noVerCharBeforeOrAfter = false) then
                             cells.[letterindex] <- {matchingCell.row = rowIterator; matchingCell.col = startcol; matchingCell.letterindex = letterindex}
                             findVerticalMatch wordchars board (rowIterator + 1) startcell (letterindex + 1)  (true, cells)
-                            //findHorizontalMatch wordchars board (colIterator + 1) startcell (letterindex + 1) (true, cells)
                         else
                             result
             | x when x = emptyCell -> findVerticalMatch wordchars board (rowIterator + 1) startcell (letterindex + 1) result
@@ -63,7 +61,6 @@ module CoreVertical =
         match acell with
         | x when x.col = 0 -> false
         | x when x.col >= (Array2D.length2 board) -> false
-       // | x ->  board.[x.row, x.col] != emptyCell
         | x -> (board.[(x.row), (x.col - 1)] = emptyCell) && (board.[(x.row), (x.col + 1)] = emptyCell)
         
 
