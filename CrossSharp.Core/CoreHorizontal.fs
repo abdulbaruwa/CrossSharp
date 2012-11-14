@@ -55,7 +55,7 @@ module CoreHorizontal =
         let rec GetLocationIfExists letter board len index =
             if(index = Array2D.length1 board) then
                 -1
-            elif (board.[0,index].ToString() = letter) then
+            elif board.[0,index].ToString().Equals(letter,StringComparison.CurrentCultureIgnoreCase) then
                 index
             else
                 let newindex = index+1
@@ -79,7 +79,7 @@ module CoreHorizontal =
         elif(pos = wordchars.Length ) then 
             true
         else
-            if(wordchars.[pos].ToString() = board.[pos, colpos] ||  board.[pos, colpos] = emptyCell) then
+            if(wordchars.[pos].ToString().Equals(board.[pos, colpos], StringComparison.CurrentCultureIgnoreCase)  ||  board.[pos, colpos] = emptyCell) then
                 let hasneighbours = horNeighboursAreNotEmpty board pos colpos 
                 if(hasneighbours = false) then
                     let newPos = pos+1

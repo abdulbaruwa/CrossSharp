@@ -35,7 +35,16 @@ namespace CrossSharp.Tests
             return board;
         }
 
+        [Test]
+        public void When_told_to_add_the_second_word_to_a_board_with_first_word_of_12_chars_inserted_Should_add_the_word_as_expected()
+        {
+            var board = GetBoardWithFirstWord("Confectioner");
 
+            var result = CoreHorizontal.AddSecondWord("Rhubarb", board);
+
+
+        }
+        
         [Test]
         public void Given_board_with_first_word_and_word_with_matching_first_letter_Should_return_position_of_matching_first_letter()
         {
