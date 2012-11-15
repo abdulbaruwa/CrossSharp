@@ -15,6 +15,7 @@ module CoreHorizontal =
 
     //Cell record type
     type matchingCell = {row:int; col:int; letterindex:int}
+    type cell = {row:int; col:int}
     type resultCell = {row:int; col:int; word:string; inserted:bool; orientation:Orientation}
 
     
@@ -183,26 +184,30 @@ module CoreHorizontal =
             hasAbove && hasBelow
 
 
-    let rec HasNoHorizontalCellsHaveVertNeighbours (board:string[,]) (cells:matchingCell[]) index =
+    let rec HasNoHorizontalCellsWithVerticalNeighbours (board:string[,]) (cells:matchingCell[]) index =
         if(cells.Length = (index + 1)) then
             true
         elif(not(cellHasVertNeighbours board cells.[index])) then
             false
         else
-            HasNoHorizontalCellsHaveVertNeighbours board cells (index + 1)
+            HasNoHorizontalCellsWithVerticalNeighbours board cells (index + 1)
 
-    let HorizontalWordHasNoLetterAtStartOrEnd (board:string[,]) (firstcell:matchingCell) = 
-        let rightcell = firstcell.col+1
-        let leftcell = firstcell.col-1
+    let HorizontalWordHasNoLetterAtStartOrEnd (board:string[,]) (firstcell:cell) (wordlength:int)= 
+        let rightcell = firstcell.col + wordlength
+        let leftcell = firstcell.col - 1
         let boardLength = (board |> Array2D.length1)
 
-        //if(rightcell <= 0 && leftcell >= (board |> Array2D.length1.Length)) then
-        if(rightcell <  boardLength-1 &&  board.[firstcell.row, rightcell+1] = emptyCell) then
-            false
-        elif(leftcell > 0 && board.[firstcell.row, leftcell-1] = emptyCell) then 
-            false
-        else
-            true
+        let rightsideok =  
+            match rightcell with
+            | rightcell when rightcell >=  boardLength -> true
+            | _ -> board.[firstcell.row, rightcell] = emptyCell
+
+        let leftsideok =
+            match leftcell with
+            | leftcell when leftcell < 0 -> true
+            |_ -> board.[firstcell.row, leftcell] = emptyCell
+
+        rightsideok && leftsideok
 
     //Validate that entire word does not trip over any other on the board.
     let validForHorizontal (result: (bool * matchingCell[])) (wordchars:char[]) (board:string[,])= 
@@ -214,10 +219,10 @@ module CoreHorizontal =
             let placeholderarray = Array.zeroCreate(wordchars.Length)
 
             let firstmatchedcell =  cells |> Array.find(fun x -> x.letterindex >= 0)
-            let thefirstmatchingcoll = firstmatchedcell.col - firstmatchedcell.letterindex
+            let thefirstmatchingcol = firstmatchedcell.col - firstmatchedcell.letterindex
             cells |> Array.iteri(fun i x -> 
                                         if(x.letterindex = -1 ) then
-                                            let currentcol = thefirstmatchingcoll  + i 
+                                            let currentcol = thefirstmatchingcol  + i 
                                             let cell = {matchingCell.row = firstmatchedcell.row; matchingCell.col = currentcol; matchingCell.letterindex = i}
                                             placeholderarray.[i] <- cell
                                         else
@@ -226,9 +231,9 @@ module CoreHorizontal =
 
             //At this point placeholderarray will contain position for chars that have not been matched against.
             let unmatchedCharsCells = placeholderarray |> Array.filter(fun x -> x.row >= 0 )
-                   
-            let firstAndLastCellPrefixCheck = HorizontalWordHasNoLetterAtStartOrEnd board firstmatchedcell
-            let matchedWordHasNoCellsAboveOrBelowCheck =  HasNoHorizontalCellsHaveVertNeighbours board unmatchedCharsCells 0
+            let firstcell = {cell.row = firstmatchedcell.row; cell.col = thefirstmatchingcol}
+            let firstAndLastCellPrefixCheck = HorizontalWordHasNoLetterAtStartOrEnd board firstcell wordchars.Length
+            let matchedWordHasNoCellsAboveOrBelowCheck =  HasNoHorizontalCellsWithVerticalNeighbours board unmatchedCharsCells 0
             matchedWordHasNoCellsAboveOrBelowCheck && firstAndLastCellPrefixCheck
 
     let getStartPosFromRecordResult (cells:matchingCell[]) direction =

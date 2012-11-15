@@ -36,6 +36,29 @@ namespace CrossSharp.Tests
         }
 
         [Test]
+        public void Cell_validation_should_fail_for_word_if_prefix_or_post_fix_of_target_location_contains_a_cell_with_a_character_in_it()
+        {
+            var board = GetBoardWithFirstWord("Bamidele");
+
+            board[5, 0] = "x";
+            var shouldBeFalse = CoreHorizontal.HorizontalWordHasNoLetterAtStartOrEnd(board, new CoreHorizontal.cell(5, 1), 4);
+
+            Assert.IsFalse(shouldBeFalse);
+            board[7, 6] = "x";
+            
+            var shouldBeTrue = CoreHorizontal.HorizontalWordHasNoLetterAtStartOrEnd(board, new CoreHorizontal.cell(7, 0), 6);
+            Assert.IsFalse(shouldBeTrue);
+
+            Assert.IsTrue(CoreHorizontal.HorizontalWordHasNoLetterAtStartOrEnd(board, new CoreHorizontal.cell(8, 1), 11));
+
+            board[9, 0] = "x";
+            Assert.IsFalse(CoreHorizontal.HorizontalWordHasNoLetterAtStartOrEnd(board, new CoreHorizontal.cell(9, 1), 11));
+
+            board[11, 11] = "x";
+            Assert.IsFalse(CoreHorizontal.HorizontalWordHasNoLetterAtStartOrEnd(board, new CoreHorizontal.cell(11, 1), 10));
+        }
+
+        [Test]
         public void Give_a_cell_on_a_board_check_if_the_cell_directly_below_it_is_empty()
         {
             var board = GetBoardWithFirstWord("Bamidele");
