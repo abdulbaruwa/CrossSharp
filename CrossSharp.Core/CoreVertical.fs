@@ -35,7 +35,7 @@ module CoreVertical =
     //let rec findVerticalMatch ( wordchars:char[]) (board:string[,]) startrow startcol letterindex (result: (bool * matchingCell[])) =
     let rec findVerticalMatch (wordchars:char[]) (board:string[,]) rowIterator (startcell:(int*int)) letterindex  (result: (bool * matchingCell[])) =
         let startcol = snd startcell
-        if (letterindex < wordchars.Length && (fst startcell + wordchars.Length) <= board.GetLength(1) && rowIterator < board.GetLength(1)) then
+        if (letterindex < wordchars.Length && (fst startcell + wordchars.Length) < board.GetLength(1) && rowIterator < board.GetLength(1)) then
             match board.[rowIterator,startcol] with
             | x when x.Equals (wordchars.[letterindex].ToString(), StringComparison.OrdinalIgnoreCase) -> 
                         let noInvalidcharAbove = hastopchar board rowIterator startcol

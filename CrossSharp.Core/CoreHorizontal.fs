@@ -191,6 +191,19 @@ module CoreHorizontal =
         else
             HasNoHorizontalCellsHaveVertNeighbours board cells (index + 1)
 
+    let HorizontalWordHasNoLetterAtStartOrEnd (board:string[,]) (firstcell:matchingCell) = 
+        let rightcell = firstcell.col+1
+        let leftcell = firstcell.col-1
+        let boardLength = (board |> Array2D.length1)
+
+        //if(rightcell <= 0 && leftcell >= (board |> Array2D.length1.Length)) then
+        if(rightcell <  boardLength-1 &&  board.[firstcell.row, rightcell+1] = emptyCell) then
+            false
+        elif(leftcell > 0 && board.[firstcell.row, leftcell-1] = emptyCell) then 
+            false
+        else
+            true
+
     //Validate that entire word does not trip over any other on the board.
     let validForHorizontal (result: (bool * matchingCell[])) (wordchars:char[]) (board:string[,])= 
         if not (fst result) then 
@@ -214,8 +227,9 @@ module CoreHorizontal =
             //At this point placeholderarray will contain position for chars that have not been matched against.
             let unmatchedCharsCells = placeholderarray |> Array.filter(fun x -> x.row >= 0 )
                    
-            HasNoHorizontalCellsHaveVertNeighbours board unmatchedCharsCells 0
-
+            let firstAndLastCellPrefixCheck = HorizontalWordHasNoLetterAtStartOrEnd board firstmatchedcell
+            let matchedWordHasNoCellsAboveOrBelowCheck =  HasNoHorizontalCellsHaveVertNeighbours board unmatchedCharsCells 0
+            matchedWordHasNoCellsAboveOrBelowCheck && firstAndLastCellPrefixCheck
 
     let getStartPosFromRecordResult (cells:matchingCell[]) direction =
         let firstcell = cells |> Array.find(fun x -> x.letterindex >= 0 )              
