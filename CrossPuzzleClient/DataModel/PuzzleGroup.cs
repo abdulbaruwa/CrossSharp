@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using SQLite;
 
 namespace CrossPuzzleClient.DataModel
 {
@@ -15,6 +16,8 @@ namespace CrossPuzzleClient.DataModel
     {
         public string Title { get; set; }
         public int PuzzleSubGroupId { get; set; }
+        public bool GamePlayed { get; set; }
+        public int GameScore { get; set; }
         public Dictionary<string, string> Words { get; set; }
         public List<PuzzleGame> PuzzleGames { get; set; }
     }
@@ -35,6 +38,7 @@ namespace CrossPuzzleClient.DataModel
 
     public class PuzzleGroupGameData
     {
+        [PrimaryKey]
         public int PuzzleGroupDataId { get; set; }
         public string GameUserName { get; set; }
         public string Data { get; set; }

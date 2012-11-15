@@ -1,7 +1,10 @@
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using CrossPuzzleClient.DataModel;
 
 namespace CrossPuzzleClient.GameDataService
 {
@@ -18,5 +21,7 @@ namespace CrossPuzzleClient.GameDataService
                                };
             return await response.Content.ReadAsStreamAsync();
         }
+
+
     }
 }

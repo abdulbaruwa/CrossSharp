@@ -28,6 +28,8 @@ namespace CrossPuzzleClient.Factories
                 }
                 puzzlesViewModel.PuzzleGroups.Add(group);
             }
+
+            puzzlesViewModel.PuzzleGroupData = puzzleGroups;
             return puzzlesViewModel;
         }
     }

@@ -1,26 +1,49 @@
-﻿using System.Windows.Input;
+﻿using System.Linq;
+using System.Windows.Input;
 using CrossPuzzleClient.Common;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using CrossPuzzleClient.DataModel;
 using CrossPuzzleClient.Infrastructure;
 using CrossPuzzleClient.Views;
+using GalaSoft.MvvmLight.Messaging;
 
 namespace CrossPuzzleClient.ViewModels
 {
     public sealed class PuzzlesViewModel : BindableBase
     {
-
         private readonly INavigationService navigation;
         private readonly IPuzzleRepository _puzzleRepository;
         private ObservableCollection<PuzzleGroupViewModel> _puzzles = new ObservableCollection<PuzzleGroupViewModel>();
         private PuzzleViewModel _selectedPuzzleViewModel;
         private object _selectedValueBinding;
+        private List<PuzzleGroup> _puzzleGroupData = new List<PuzzleGroup>();
 
         public PuzzlesViewModel(INavigationService navigationService, IPuzzleRepository puzzleRepository)
         {
             navigation = navigationService;
             _puzzleRepository = puzzleRepository;
-            
+            RegisterForMessage();
+        }
+
+        private void RegisterForMessage()
+        {
+            Messenger.Default.Register<GameCompleteMessage>(this, m => SaveGameDataFromGameCompleteMessage(m));
+        }
+
+        private void SaveGameDataFromGameCompleteMessage(GameCompleteMessage gameCompleteMessage)
+        {
+            var puzzleGame = (from p in PuzzleGroupData
+                             from ps in p.Puzzles
+                             where ps.PuzzleSubGroupId == gameCompleteMessage.GameId
+                             select ps).FirstOrDefault();
+            if (puzzleGame != null)
+            {
+                puzzleGame.GameScore = gameCompleteMessage.ScorePercentage;
+            }
+
+            _puzzleRepository.UpdateGameData(PuzzleGroupData, new UserService().GetCurrentUser());
+
         }
 
         public string CurrentUser { get; set; }
@@ -50,13 +73,20 @@ namespace CrossPuzzleClient.ViewModels
             get { return _selectedValueBinding; }
         }
 
+        public List<PuzzleGroup> PuzzleGroupData
+        {
+            get { return _puzzleGroupData; }
+            set { SetProperty(ref _puzzleGroupData, value); }
+        }
+
+
         private void StartPuzzle()
         {
             object param = "parameter";
 
             navigation.Navigate<PuzzleBoard>(param);
             
-            GalaSoft.MvvmLight.Messaging.Messenger.Default.Send<StartPuzzleMessage>(new StartPuzzleMessage() 
+            Messenger.Default.Send<StartPuzzleMessage>(new StartPuzzleMessage() 
             {PuzzleId = SelectedPuzzleGroupViewModel.PuzzleId});
         }
     }

@@ -21,6 +21,13 @@ namespace CrossPuzzleClientTests.ViewModelTests
         }
 
         [TestMethod]
+        public void Should_save_game_score_when_last_word_is_inserted_into_board_and_GameFinishedState_is_entered()
+        {
+            var puzzleBoardVm = GetDesignPuzzleBoardViewModelWithAllWordsInserted(new DesignPuzzleBoardViewModel());
+            
+                        
+        }
+        [TestMethod]
         public void Should_execute_GameFinishedEvent_with_100_percent_result_when_last_word_is_inserted_onto_the_board()
         {
             var puzzleBoardVm = new DesignPuzzleBoardViewModel();
