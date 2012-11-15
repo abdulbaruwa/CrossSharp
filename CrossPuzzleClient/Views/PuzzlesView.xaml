@@ -63,6 +63,7 @@
                   ItemsSource="{Binding Source={StaticResource groupedItemsViewSource}}"
                   SelectedItem ="{Binding SelectedPuzzleGroupViewModel, Mode=TwoWay}"
                   IsItemClickEnabled="True"
+                  SelectionMode="None"
                   ItemClick="itemGridView_ItemClick_1"
                   >
 
