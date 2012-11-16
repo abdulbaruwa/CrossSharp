@@ -31,7 +31,7 @@ namespace CrossPuzzleClient.GameDataService
             return files.Any(x => x.Name == fileName);
         }
 
-        private async Task<List<PuzzleGroupData>> GetPuzzleGroupDataFromServiceAsync()
+        private async Task<PuzzleGroupData> GetPuzzleGroupDataFromServiceAsync()
         {
             var responseStreamTask = _puzzleWebApiService.GetPuzzleDataFromApi();
             var responseStream = await responseStreamTask;
@@ -42,18 +42,10 @@ namespace CrossPuzzleClient.GameDataService
                 puzzleGroups = CreatePuzzleGroupFromJson(responseStream);
             }
 
-            var index = 1;
-            var result = puzzleGroups.Select(puzzleGroupData => CreatePuzzleGroupData(puzzleGroupData, index++)).ToList();
-            return result;
-        }
-
-        private PuzzleGroupData CreatePuzzleGroupData(PuzzleGroup puzzleGroupData, int i)
-        {
-            return new PuzzleGroupData()
-                       {
-                           PuzzleGroupDataId = i,
-                           Data = JsonConvert.SerializeObject(puzzleGroupData)
-                       };
+            var puzzleGroupData = new PuzzleGroupData();
+            puzzleGroupData.Data = JsonConvert.SerializeObject(puzzleGroups);
+            puzzleGroupData.PuzzleGroupDataId = 1;
+            return puzzleGroupData;
         }
 
         private List<PuzzleGroup> CreatePuzzleGroupFromJson(Stream responseStream)
@@ -81,25 +73,22 @@ namespace CrossPuzzleClient.GameDataService
                 {
                     db.CreateTable<PuzzleGroupData>();
                     db.CreateTable<PuzzleGroupGameData>();
-                    db.InsertAll(puzzleGroupDatas);
-                    db.InsertAll(puzzleGroupGameDatas);
+                    db.Insert(puzzleGroupDatas);
+                    db.Insert(puzzleGroupGameDatas);
                 }
             }
         }
 
-        private static List<PuzzleGroupGameData> GenerateUserGameDataFromPuzzleGroupData(List<PuzzleGroupData> puzzleGroupDatas, string user)
+        private static PuzzleGroupGameData GenerateUserGameDataFromPuzzleGroupData(PuzzleGroupData puzzleGroupData, string user)
         {
-            var puzzleGroupGameDatas = new List<PuzzleGroupGameData>();
-            foreach (var puzzleGroupData in puzzleGroupDatas)
-            {
-                puzzleGroupGameDatas.Add(new PuzzleGroupGameData()
+   
+              return new PuzzleGroupGameData()
                                              {
                                                  Data = puzzleGroupData.Data,
                                                  PuzzleGroupDataId = puzzleGroupData.PuzzleGroupDataId,
                                                  GameUserName = user
-                                             });
-            }
-            return puzzleGroupGameDatas;
+                                             };
+            
         }
     }
 }

@@ -1,8 +1,8 @@
-using System.Collections.Generic;
+using SQLite;
 using System.IO;
 using System.Linq;
 using CrossPuzzleClient.DataModel;
-using SQLite;
+using System.Collections.Generic;
 
 namespace CrossPuzzleClient.ViewModels
 {
@@ -26,7 +26,6 @@ namespace CrossPuzzleClient.ViewModels
                       select subgroup.Words;
 
             return res.FirstOrDefault();
-
         }
 
 
@@ -47,21 +46,14 @@ namespace CrossPuzzleClient.ViewModels
         
         public List<PuzzleGroup> GetPuzzles(string userName)
         {
-            var puzzleGroups = new List<PuzzleGroup>();
             var path = GetDatabasePath();
             using (var db = new SQLiteConnection(Path.Combine(path, "Puzzle.db")))
             {
 
-                foreach (var tabledata in db.Table<PuzzleGroupGameData>().Where(x => x.GameUserName == userName))
-                {
-                    var puzzleGroup =
-                        Newtonsoft.Json.JsonConvert.DeserializeObject<PuzzleGroup>(tabledata.Data);
-                    puzzleGroups.Add(puzzleGroup);
-                }
+                var puzzleGroupData = db.Table<PuzzleGroupGameData>().FirstOrDefault(x => x.GameUserName == userName);
+
+                return Newtonsoft.Json.JsonConvert.DeserializeObject<List<PuzzleGroup>>(puzzleGroupData.Data);
             }
-
-            return puzzleGroups;
-
         }
 
         private string GetDatabasePath()
