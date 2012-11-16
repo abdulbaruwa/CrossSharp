@@ -24,7 +24,7 @@ namespace CrossPuzzleClient.Factories
                 var group = new PuzzleGroupViewModel() { Category = puzzleGroup.Name, Puzzles = new ObservableCollection<PuzzleViewModel>() };
                 foreach (var puzzle in puzzleGroup.Puzzles)
                 {
-                    group.Puzzles.Add(new PuzzleViewModel() { Title = puzzle.Title, PuzzleId = puzzle.PuzzleSubGroupId });
+                    group.Puzzles.Add(new PuzzleViewModel() { Title = puzzle.Title, PuzzleId = puzzle.PuzzleSubGroupId, GameScore = puzzle.GameScore});
                 }
                 puzzlesViewModel.PuzzleGroups.Add(group);
             }

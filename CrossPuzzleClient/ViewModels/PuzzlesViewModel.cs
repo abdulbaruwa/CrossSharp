@@ -43,10 +43,10 @@ namespace CrossPuzzleClient.ViewModels
             }
 
             _puzzleRepository.UpdateGameData(PuzzleGroupData, new UserService().GetCurrentUser());
-
         }
 
         public string CurrentUser { get; set; }
+
         public ObservableCollection<PuzzleGroupViewModel> PuzzleGroups
         {
             get { return _puzzles; }

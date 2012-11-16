@@ -53,6 +53,25 @@ namespace CrossPuzzleClientTests.ViewModelTests
             Messenger.Default.Send<StartPuzzleMessage>(new StartPuzzleMessage(){PuzzleId = 1});
 
             Assert.AreEqual(3, puzzleBoardVm.Words.Count);
+        }        
+        
+        [TestMethod]
+        public void When_StartPuzzleMessage_is_received_Should_set_the_GameId_property_on_the_PuzzleBoardViewModel()
+        {
+            var fakePuzzleService = new FakePuzzlesService();
+
+            var puzzleBoardVm = new PuzzleBoardViewModel(fakePuzzleService, new SchedulerProvider());
+            fakePuzzleService.AddWords(new Dictionary<string, string>
+                                           {
+                                               {"Bamidele", "Adetoro's first name"},
+                                               {"station", "place where i fit get train"},
+                                               {"india", "Origin of my favourite curry"},
+                                           });
+
+            var startMessage = new StartPuzzleMessage() {PuzzleId = 1};
+            Messenger.Default.Send<StartPuzzleMessage>(startMessage);
+
+            Assert.AreEqual(startMessage.PuzzleId, puzzleBoardVm.GameId);
         }
 
         [TestMethod]
@@ -314,7 +333,7 @@ namespace CrossPuzzleClientTests.ViewModelTests
             puzzleBoardVm.SelectedWordAcross = puzzleBoardVm.Words.First();
             Messenger.Default.Send(new KeyReceivedMessage {KeyChar = "t"});
             Messenger.Default.Send(new KeyReceivedMessage {KeyChar = "t"});
-
+            
             Messenger.Default.Send(new KeyReceivedMessage { KeyCharType = KeyCharType.BackSpace });
             Assert.AreEqual(puzzleBoardVm.SelectedWord.Cells.Count(x => x.EnteredValue == "t"), 1);
         }

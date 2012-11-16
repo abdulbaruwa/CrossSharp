@@ -214,8 +214,10 @@ namespace CrossPuzzleClient.ViewModels
         public void FireGameCompleteMessage()
         {
             var score = Convert.ToInt32(GetGameScore());
-            Messenger.Default.Send(new GameCompleteMessage(){ScorePercentage = score, UserName= "Abdul"});
+            Messenger.Default.Send(new GameCompleteMessage(){ScorePercentage = score, UserName= "Abdul", GameId = GameId});
         }
+
+        public int GameId { get; set; }
 
         private double GetGameScore()
         {
@@ -546,6 +548,7 @@ namespace CrossPuzzleClient.ViewModels
 
         private void LoadPuzzleBoardForSelectedPuzzleId(int puzzleId)
         {
+            GameId = puzzleId;
             Words = _puzzlesService.GetOrdereredWordsForPuzzle(puzzleId);
             AddWordsToBoard();
         }

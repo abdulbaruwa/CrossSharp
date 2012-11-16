@@ -1047,7 +1047,11 @@
     <DataTemplate x:Key="PuzzleStandard150x150ItemTemplate">
         <Grid HorizontalAlignment="Left" Width="150" Height="150">
             <Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}">
-                <Image Source="{Binding Image}" Stretch="UniformToFill"/>
+                <!--<Image Source="{Binding Image}" Stretch="UniformToFill"/>-->
+                <StackPanel>
+                    <TextBlock Text ="Score" HorizontalAlignment="Center" FontSize="20"/>
+                    <TextBlock Text ="{Binding GameScoreDisplay}" HorizontalAlignment="Center" FontSize="20"/>
+                </StackPanel>
             </Border>
             <StackPanel VerticalAlignment="Bottom" Background="{StaticResource ListViewItemOverlayBackgroundThemeBrush}">
                 <TextBlock Text="{Binding Title}" Foreground="{StaticResource ListViewItemOverlayForegroundThemeBrush}" Style="{StaticResource TitleTextStyle}" Height="60" Margin="15,0,15,0"/>
