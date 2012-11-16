@@ -88,6 +88,7 @@ namespace CrossPuzzleClient.ViewModels
 
         public void AcceptCellValueChanges()
         {
+            RejectCellValueChanges(); //Unregister first as we may already be registered. (Multiple registration for same object instance seems to fire twice) 
             Messenger.Default.Register<CellValueChangedMessage>(this, m => HandleChangedCellValue(m));
         }
 

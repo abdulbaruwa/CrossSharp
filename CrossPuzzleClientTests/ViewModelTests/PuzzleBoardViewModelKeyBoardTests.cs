@@ -25,8 +25,8 @@ namespace CrossPuzzleClientTests.ViewModelTests
         {
             var puzzleBoardVm = GetDesignPuzzleBoardViewModelWithAllWordsInserted(new DesignPuzzleBoardViewModel());
             
-                        
         }
+
         [TestMethod]
         public void Should_execute_GameFinishedEvent_with_100_percent_result_when_last_word_is_inserted_onto_the_board()
         {
@@ -34,6 +34,7 @@ namespace CrossPuzzleClientTests.ViewModelTests
             Messenger.Default.Register<GameCompleteMessage>(this, m => Assert.AreEqual(100, m.ScorePercentage));
             GetDesignPuzzleBoardViewModelWithAllWordsInserted(puzzleBoardVm);
         }
+
 
         [TestMethod]
         public void When_a_delete_is_hit_should_remove_a_letter_from_entered_characters()
