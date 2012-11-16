@@ -47,7 +47,9 @@ namespace CrossPuzzleClient.ViewModels
 
         public string WordHint
         {
-            get { return _wordHint; }
+            get 
+            { return string.Format("{0} {1}",_wordHint, WordLength); 
+            }
             set { SetProperty(ref _wordHint, value); }
         }
 
