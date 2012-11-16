@@ -162,7 +162,6 @@ namespace CrossPuzzleClient.ViewModels
                 if (_selectedWord != null )
                 {
                     SetBackgroundColourFlagForWordCellsTo(CellState.IsUsed);
-                    _selectedWord.RejectCellValueChanges();
                 }
                 SetProperty(ref _selectedWord, value);
 
