@@ -58,9 +58,9 @@ namespace CrossPuzzleClient.ViewModels
 
             var words = _words ?? new Dictionary<string, string>
                                  {
-                                     {"Bamidele", "Adetoro's first name"},
+                                     {"Bamidele", "Adetoro's first name. Rashedat omo Abdulrahaman Adedayo Baruwa and Rasheedat Patience Binta OluwaFunmilayo Baruwa. Sister to Abdulrasheed Ademola Dabira Adedayo Baruwa "},
                                      {"station", "place where i fit get train"},
-                                     {"india", "Origin of my favourite curry"},
+                                     {"india", "Origin of my favourite curry, spicy hot tropical country. With loads and loads of people. Probably the second most populated country Origin of my favourite curry, spicy hot tropical country. With loads and loads of people. Probably the second most populated country"},
                                      {"Adams", "Captain Arsenal"},
                                      {"fards", "show off"},
                                      {"novemb", "like november"},

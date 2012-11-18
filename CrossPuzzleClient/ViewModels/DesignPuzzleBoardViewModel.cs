@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Diagnostics;
 using CrossPuzzleClient.Observables;
@@ -15,7 +16,7 @@ namespace CrossPuzzleClient.ViewModels
             Words = _puzzlesService.GetOrdereredWordsForPuzzle(0);
 
             SelectedWord = (from word in Words
-                               where word.Cells.Count == Words.Max(x => x.Cells.Count)
+                               where word.Word.Equals("india",StringComparison.OrdinalIgnoreCase)
                                select word).FirstOrDefault();
 
             GameIsRunning = true;
@@ -25,6 +26,8 @@ namespace CrossPuzzleClient.ViewModels
             StartPauseButtonCaption = "Pause";
 
             GameCountDown = "00:00:00";
+
+            AcrossAndDownVisible = true;
             
             AddWordsToBoard();
 
