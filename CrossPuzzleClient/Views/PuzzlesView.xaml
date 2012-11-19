@@ -4,7 +4,7 @@
                         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:common="using:CrossPuzzleClient.Common"
                         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:data="using:CrossPuzzleClient.ViewModels"
-                        mc:Ignorable="d" Margin="0,2,0,-2">
+                        mc:Ignorable="d" Margin="0,-2,0,-2">
 
     <Page.Resources>
         <!--DataContext="{Binding DefaultViewModel, RelativeSource={RelativeSource Self}}"-->
@@ -24,6 +24,9 @@
         * Row 1 contains the rest of the page layout
     -->
     <Grid Style="{StaticResource LayoutRootStyle}">
+        <Grid.Background>
+            <ImageBrush ImageSource="ms-appx:///Assets/Landscapes30.png"/>
+        </Grid.Background>
         <Grid.Resources>
             <DataTemplate x:Key="puzzleTemplate">
                 <Grid Margin="10,0,6,10">

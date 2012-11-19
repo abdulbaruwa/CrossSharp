@@ -4,7 +4,7 @@
                         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="using:CrossPuzzleClient.Views"
                         xmlns:common="using:CrossPuzzleClient.Common" xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                        xmlns:ViewModels="using:CrossPuzzleClient.ViewModels" mc:Ignorable="d" Margin="0,-2,0,2" FontFamily="Global User Interface">
+                        xmlns:ViewModels="using:CrossPuzzleClient.ViewModels" mc:Ignorable="d" Margin="0,-2,0,-2" FontFamily="Global User Interface">
 
     <Page.Resources>
         <common:BooleanToCellShadeConverter x:Key="BoolToCellShade" />
