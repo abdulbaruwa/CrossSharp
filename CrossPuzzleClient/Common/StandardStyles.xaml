@@ -1042,7 +1042,7 @@
     </Style>
 
     <!-- Item templates -->
-
+    <SolidColorBrush x:Key="PuzzleItemBackground" Color="#FF9AAFCA" />
     <!-- Grid-appropriate 150 pixel square item template as seen in the GroupedItemsPage and ItemsPage -->
     <DataTemplate x:Key="PuzzleStandard150x150ItemTemplate">
         <Grid HorizontalAlignment="Left" Width="150" Height="150">

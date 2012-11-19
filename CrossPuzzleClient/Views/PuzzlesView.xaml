@@ -68,16 +68,11 @@
                   IsItemClickEnabled="True"
                   SelectionMode="None"
                   ItemClick="itemGridView_ItemClick_1"
-                  >
+                  Opacity=".70">
 
-                
-            <!--<WinRtBehaviors:Interaction.Behaviors>
-                <Behaviours:EventToCommandBehavior Command="StartPuzzleCommand" Event="ItemClick"/>
-            </WinRtBehaviors:Interaction.Behaviors>-->
-                
                 <GridView.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <VirtualizingStackPanel Orientation="Horizontal" />
+                    <VirtualizingStackPanel Orientation="Horizontal"/>
                 </ItemsPanelTemplate>
             </GridView.ItemsPanel>
 
