@@ -18,7 +18,7 @@
 
             <!-- Application-specific resources -->
 
-            <x:String x:Key="AppName">CrossPuzzleClient</x:String>
+            <x:String x:Key="AppName">Junior Crosswords</x:String>
             <Infrastructure:ViewModelLocator x:Key="ViewModelLocator"/>
 
         </ResourceDictionary>
