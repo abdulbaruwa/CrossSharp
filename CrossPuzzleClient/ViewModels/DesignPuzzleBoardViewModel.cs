@@ -21,7 +21,7 @@ namespace CrossPuzzleClient.ViewModels
 
             GameIsRunning = true;
 
-            UserName = "Abdul";
+            UserName = "Abdulrahaman";
 
             StartPauseButtonCaption = "Pause";
 
