@@ -26,11 +26,11 @@ namespace CrossPuzzleClient.Views
             this.splash = splashScreen;
             this.dismissed = dismissed;
 
-            // Position the extended splash screen image in the same location as the splash screen image.
-            this.extendedSplashImage.SetValue(Canvas.LeftProperty, this.splashImageCoordinates.X);
-            this.extendedSplashImage.SetValue(Canvas.TopProperty, this.splashImageCoordinates.Y);
-            this.extendedSplashImage.Height = this.splashImageCoordinates.Height;
-            this.extendedSplashImage.Width = this.splashImageCoordinates.Width;
+            //// Position the extended splash screen image in the same location as the splash screen image.
+            //this.extendedSplashImage.SetValue(Canvas.LeftProperty, this.splashImageCoordinates.X);
+            //this.extendedSplashImage.SetValue(Canvas.TopProperty, this.splashImageCoordinates.Y);
+            //this.extendedSplashImage.Height = this.splashImageCoordinates.Height;
+            //this.extendedSplashImage.Width = this.splashImageCoordinates.Width;
 
             LoadPuzzle.Click += StartButton_Click;
             Window.Current.SizeChanged += ExtendedSplash_OnResize;
@@ -68,11 +68,11 @@ namespace CrossPuzzleClient.Views
             {
                 this.splashImageCoordinates = this.splash.ImageLocation;
 
-                // Re-position the extended splash screen image due to window resize event.
-                this.extendedSplashImage.SetValue(Canvas.LeftProperty, this.splashImageCoordinates.X);
-                this.extendedSplashImage.SetValue(Canvas.TopProperty, this.splashImageCoordinates.Y);
-                this.extendedSplashImage.Height = this.splashImageCoordinates.Height;
-                this.extendedSplashImage.Width = this.splashImageCoordinates.Width;
+                //// Re-position the extended splash screen image due to window resize event.
+                //this.extendedSplashImage.SetValue(Canvas.LeftProperty, this.splashImageCoordinates.X);
+                //this.extendedSplashImage.SetValue(Canvas.TopProperty, this.splashImageCoordinates.Y);
+                //this.extendedSplashImage.Height = this.splashImageCoordinates.Height;
+                //this.extendedSplashImage.Width = this.splashImageCoordinates.Width;
             }
         }
     }

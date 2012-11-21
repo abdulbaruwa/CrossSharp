@@ -202,16 +202,38 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\CrossWordIcon.png" />
     <Content Include="Assets\Landscapes30.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\Logo.png" />
+    <Content Include="Assets\LongCrossLogo_1.png" />
+    <Content Include="Assets\LongCrossLogo_3.png" />
+    <Content Include="Assets\PlainBackground.png" />
+    <Content Include="Assets\SmallGameLogo.png" />
     <Content Include="Assets\SmallLogo.png" />
     <Content Include="Assets\SplashScreen.png" />
     <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\LightGray.png" />
     <Content Include="Assets\MediumGray.png" />
     <Content Include="Assets\DarkGray.png" />
+    <Content Include="Assets\TinyLogo.png" />
+    <Content Include="Assets\ToroSoftware.png" />
+    <Content Include="Assets\WideLogo.png" />
+    <Content Include="Copy of Assets\CrossWordIcon.png" />
+    <Content Include="Copy of Assets\DarkGray.png" />
+    <Content Include="Copy of Assets\Landscapes30.png" />
+    <Content Include="Copy of Assets\LightGray.png" />
+    <Content Include="Copy of Assets\Logo.png" />
+    <Content Include="Copy of Assets\LongCrossLogo_3.png" />
+    <Content Include="Copy of Assets\MediumGray.png" />
+    <Content Include="Copy of Assets\PlainBackground.png" />
+    <Content Include="Copy of Assets\SmallGameLogo.png" />
+    <Content Include="Copy of Assets\SmallLogo.png" />
+    <Content Include="Copy of Assets\SplashScreen.png" />
+    <Content Include="Copy of Assets\StoreLogo.png" />
+    <Content Include="Copy of Assets\TinyLogo.png" />
+    <Content Include="Copy of Assets\ToroSoftware.png" />
     <Content Include="sqlite3.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

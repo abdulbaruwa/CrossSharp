@@ -8,14 +8,14 @@
     mc:Ignorable="d">
 
     <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="ms-appx:///Assets/Landscapes30.png" />
+        </Grid.Background>
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="180"/>
         </Grid.RowDefinitions>
 
-        <Canvas Grid.Row="0">
-            <Image x:Name="extendedSplashImage" Source="../Assets/SplashScreen.png"/>
-        </Canvas>
         <StackPanel Grid.Row="1" HorizontalAlignment="Center">
             <Button  x:Name="LoadPuzzle" Content="Load Puzzle" HorizontalAlignment="Center"/> 
         </StackPanel>
