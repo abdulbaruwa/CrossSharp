@@ -41,7 +41,7 @@ namespace CrossPuzzleClientTests.ViewModelTests
         [TestMethod]
         public async Task When_GameCompleteMessage_is_received_should_save_the_game_score_for_the_selected_user_in_the_database()
         {
-            var puzzlesViewModel = new PuzzlesViewModel(new FakeNavigationService(), new FakePuzzleRepository());
+            var puzzlesViewModel = new PuzzlesViewModel(new FakeNavigationService(), new FakePuzzleRepository(), new UserService());
 
 
             var gameCompleteMessage = new GameCompleteMessage()

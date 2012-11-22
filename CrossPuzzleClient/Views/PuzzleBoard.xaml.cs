@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using CrossPuzzleClient.Common;
 using CrossPuzzleClient.ViewModels;
 using GalaSoft.MvvmLight.Messaging;
 using Windows.System;
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234237
@@ -14,7 +11,7 @@ namespace CrossPuzzleClient.Views
     /// <summary>
     /// A basic page that provides characteristics common to most applications.
     /// </summary>
-    public sealed partial class PuzzleBoard : ViewBase
+    public sealed partial class PuzzleBoard : ViewBase 
     {
         public PuzzleBoard()
         {

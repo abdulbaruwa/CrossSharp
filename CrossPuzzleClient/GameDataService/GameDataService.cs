@@ -62,7 +62,7 @@ namespace CrossPuzzleClient.GameDataService
 
         public async Task GetGameDataAndStoreInLocalDb(string filePath)
         {
-            var user = SimpleIoc.Default.GetInstance<IUserService>().GetCurrentUser();
+            var user = await SimpleIoc.Default.GetInstance<IUserService>().GetCurrentUser();
             var fileExists = await FileExistInStorageLocation(filePath,PuzzleDb);
             if (!fileExists)
             {

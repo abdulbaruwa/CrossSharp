@@ -1,7 +1,11 @@
+using System.Threading.Tasks;
+using Windows.UI.Xaml.Media.Imaging;
+
 namespace CrossPuzzleClient.Infrastructure
 {
     public interface IUserService
     {
-        string GetCurrentUser();
+        Task<BitmapImage> LoadUserImage();
+        Task<string> GetCurrentUser();
     }
 }

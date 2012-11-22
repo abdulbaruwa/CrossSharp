@@ -15,7 +15,7 @@ namespace CrossPuzzleClientTests.ViewModelTests
         [TestMethod]
         public void TestMethod()
         {
-            //var puzzleBoardVm = new DesignPuzzleBoardViewModel();
+            var puzzleBoardVm = new DesignPuzzleBoardViewModel();
             //puzzleBoardVm.StartPauseButtonCaption = "Start";
 
             //((TestScheduler)puzzleBoardVm.SchedulerProvider.ThreadPool).AdvanceBy(2);

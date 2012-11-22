@@ -1,7 +1,5 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using CrossPuzzleClient.Common;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,7 +7,7 @@ using CrossPuzzleClient.DataModel;
 using CrossPuzzleClient.Infrastructure;
 using CrossPuzzleClient.Views;
 using GalaSoft.MvvmLight.Messaging;
-using Windows.System.UserProfile;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace CrossPuzzleClient.ViewModels
 {
@@ -17,32 +15,55 @@ namespace CrossPuzzleClient.ViewModels
     {
         private readonly INavigationService navigation;
         private readonly IPuzzleRepository _puzzleRepository;
+        private readonly IUserService _userService;
         private ObservableCollection<PuzzleGroupViewModel> _puzzles = new ObservableCollection<PuzzleGroupViewModel>();
         private PuzzleViewModel _selectedPuzzleViewModel;
         private object _selectedValueBinding;
         private List<PuzzleGroup> _puzzleGroupData = new List<PuzzleGroup>();
+        private string _currentUser;
+        private BitmapImage _smallImage;
 
-        public PuzzlesViewModel(INavigationService navigationService, IPuzzleRepository puzzleRepository)
+        public PuzzlesViewModel(INavigationService navigationService, IPuzzleRepository puzzleRepository, IUserService userService)
         {
             navigation = navigationService;
             _puzzleRepository = puzzleRepository;
+            _userService = userService;
+
             RegisterForMessage();
             StartPuzzleCommand = new RelayCommand<PuzzleViewModel>(StartPuzzle);
         }
+
         public override async void LoadState(object navParameter, Dictionary<string, object> viewModelState)
         {
+            CurrentUser = await _userService.GetCurrentUser();
+            SmallImage = await _userService.LoadUserImage();
             PuzzleGroupViewModels = await GetPuzzleGroup();
         }
 
-        public async void LoadState()
+
+        //public async void LoadUserImage()
+        //{
+        //    var image = UserInformation.GetAccountPicture(AccountPictureKind.SmallImage) as StorageFile;
+        //    if (image != null)
+        //    {
+        //        var imageStream = await image.OpenReadAsync();
+        //        var bitmapImage = new BitmapImage();
+        //        bitmapImage.SetSource(imageStream);
+        //        SmallImage = bitmapImage;
+        //    }
+        //}
+
+
+        public BitmapImage SmallImage
         {
-            PuzzleGroupViewModels =  await GetPuzzleGroup();
+            get { return _smallImage; }
+            set { SetProperty(ref _smallImage, value); }
         }
+
 
         public async Task<ObservableCollection<PuzzleGroupViewModel>> GetPuzzleGroup()
         {
-            var user = await UserInformation.GetFirstNameAsync();
-            var puzzleGroups = _puzzleRepository.GetPuzzles(user);
+            var puzzleGroups = _puzzleRepository.GetPuzzles(CurrentUser);
             var puzzleGroupViewModels = new ObservableCollection<PuzzleGroupViewModel>();
             foreach (var puzzleGroup in puzzleGroups)
             {
@@ -73,10 +94,14 @@ namespace CrossPuzzleClient.ViewModels
                 puzzleGame.GameScore = gameCompleteMessage.ScorePercentage;
             }
 
-            _puzzleRepository.UpdateGameData(PuzzleGroupData, new UserService().GetCurrentUser());
+            _puzzleRepository.UpdateGameData(PuzzleGroupData,CurrentUser);
         }
 
-        public string CurrentUser { get; set; }
+        public string CurrentUser
+        {
+            get { return _currentUser; }
+            set { SetProperty(ref _currentUser, value); }
+        }
 
         public ObservableCollection<PuzzleGroupViewModel> PuzzleGroupViewModels
         {

@@ -139,11 +139,9 @@
       <DependentUpon>GroupDetailPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="GameDataService\IGameDataService.cs" />
-    <Compile Include="Factories\IPuzzlesViewModelFactory.cs" />
     <Compile Include="Infrastructure\IUserService.cs" />
     <Compile Include="Infrastructure\NavigationService.cs" />
     <Compile Include="Infrastructure\PreferredConstructorAttribute.cs" />
-    <Compile Include="Factories\PuzzlesViewModelFactory.cs" />
     <Compile Include="Infrastructure\UserService.cs" />
     <Compile Include="Infrastructure\ViewModelLocator.cs" />
     <Compile Include="GameDataService\IPuzzleWebApiService.cs" />
@@ -223,20 +221,6 @@
     <Content Include="Assets\DarkGray.png" />
     <Content Include="Assets\TinyLogo.png" />
     <Content Include="Assets\ToroSoftware.png" />
-    <Content Include="Copy of Assets\CrossWordIcon.png" />
-    <Content Include="Copy of Assets\DarkGray.png" />
-    <Content Include="Copy of Assets\Landscapes30.png" />
-    <Content Include="Copy of Assets\LightGray.png" />
-    <Content Include="Copy of Assets\Logo.png" />
-    <Content Include="Copy of Assets\LongCrossLogo_3.png" />
-    <Content Include="Copy of Assets\MediumGray.png" />
-    <Content Include="Copy of Assets\PlainBackground.png" />
-    <Content Include="Copy of Assets\SmallGameLogo.png" />
-    <Content Include="Copy of Assets\SmallLogo.png" />
-    <Content Include="Copy of Assets\SplashScreen.png" />
-    <Content Include="Copy of Assets\StoreLogo.png" />
-    <Content Include="Copy of Assets\TinyLogo.png" />
-    <Content Include="Copy of Assets\ToroSoftware.png" />
     <Content Include="sqlite3.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

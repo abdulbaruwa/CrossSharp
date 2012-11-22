@@ -6,9 +6,11 @@ using System.Reactive.Linq;
 using System.Windows.Input;
 using CrossPuzzleClient.Common;
 using CrossPuzzleClient.GameStates;
+using CrossPuzzleClient.Infrastructure;
 using CrossPuzzleClient.Observables;
 using GalaSoft.MvvmLight.Messaging;
 using Windows.System.UserProfile;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace CrossPuzzleClient.ViewModels
 {
@@ -36,6 +38,7 @@ namespace CrossPuzzleClient.ViewModels
         private ICommand _gameCountUp;
         private IDisposable _counter;
         private ISchedulerProvider _scheduler;
+        private readonly IUserService _userService;
         private CellEmptyViewModel _currentSelectedCell;
         private ObservableCollection<CellEmptyViewModel> _currentSelectedCells;
         private bool _isBoardEnabled;
@@ -43,24 +46,34 @@ namespace CrossPuzzleClient.ViewModels
         private string _gameScoreDisplay;
         private bool _acrossAndDownVisible;
         private bool _wordSelectedVisibility;
-        private string _userName;
+        private string _currentUser;
+        private BitmapImage _smallImage;
 
-        public PuzzleBoardViewModel(IPuzzlesService puzzlesService, ISchedulerProvider scheduler)
+        public PuzzleBoardViewModel(IPuzzlesService puzzlesService, ISchedulerProvider scheduler, IUserService userService)
         {
             _cells = new ObservableCollection<CellEmptyViewModel>();
             _words = new ObservableCollection<WordViewModel>();
             _scheduler = scheduler;
+            _userService = userService;
             _puzzlesService = puzzlesService;
+            CreateCellsForBoard();
+
         }
 
         public override async void LoadState(object navParameter, Dictionary<string, object> viewModelState)
         {
-            CreateCellsForBoard();
             RegisterForMessage();
             CurrentGameState = new GameNotStartedState(this);
-            UserName = await UserInformation.GetFirstNameAsync();
+            CurrentUser = await _userService.GetCurrentUser();
+            SmallImage = await _userService.LoadUserImage();
             var puzzleViewModel =  navParameter as PuzzleViewModel;
             if (puzzleViewModel != null) LoadPuzzleBoardForSelectedPuzzleId(puzzleViewModel.PuzzleId);
+        }
+
+        public BitmapImage SmallImage
+        {
+            get { return _smallImage; }
+            set { SetProperty(ref  _smallImage, value); }
         }
 
         public ISchedulerProvider SchedulerProvider
@@ -256,10 +269,10 @@ namespace CrossPuzzleClient.ViewModels
             set { SetProperty(ref _startPauseButtonCaption,value); }
         }
 
-        public string UserName
+        public string CurrentUser
         {
-            get { return _userName; }
-            set { SetProperty(ref _userName,value);}
+            get { return _currentUser; }
+            set { SetProperty(ref _currentUser,value);}
         }
 
         public bool ShowCompleteTick
@@ -554,7 +567,7 @@ namespace CrossPuzzleClient.ViewModels
         private void LoadPuzzleBoardForSelectedPuzzleId(int puzzleId)
         {
             GameId = puzzleId;
-            Words = _puzzlesService.GetOrdereredWordsForPuzzle(puzzleId);
+            Words = _puzzlesService.GetOrdereredWordsForPuzzle(puzzleId,CurrentUser);
             AddWordsToBoard();
         }
 
@@ -584,9 +597,8 @@ namespace CrossPuzzleClient.ViewModels
                     int cellPositionOnBoard = (cell.Row*12) + cell.Col;
                     if (!firstCellVisited) startPositionForWordOnBoard = wordViewModel.Index.ToString();
                     firstCellVisited = true;
-
-                    Cells[cellPositionOnBoard] = new CellViewModel(cell.Col, cell.Row, cell.Value, wordViewModel,
-                                                                   startPositionForWordOnBoard);
+         
+                    Cells[cellPositionOnBoard] = new CellViewModel(cell.Col, cell.Row, cell.Value, wordViewModel, startPositionForWordOnBoard);
                 }
             }
         }

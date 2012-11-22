@@ -17,9 +17,9 @@ namespace CrossPuzzleClient.ViewModels
             _userService = userService;
         }
 
-        public ObservableCollection<WordViewModel> GetOrdereredWordsForPuzzle(int puzzleId)
+        public ObservableCollection<WordViewModel> GetOrdereredWordsForPuzzle(int puzzleId, string user)
         {
-            var words = puzzlesRepository.GetPuzzleWithId(puzzleId, _userService.GetCurrentUser());
+            var words = puzzlesRepository.GetPuzzleWithId(puzzleId, user);
 
             var wordviewmodels = GetWordsWordviewmodels(words);
 

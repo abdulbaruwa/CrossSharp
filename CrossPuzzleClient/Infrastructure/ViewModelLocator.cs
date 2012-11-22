@@ -30,14 +30,23 @@ namespace CrossPuzzleClient.Infrastructure
         {
             get
             {
-                return new PuzzlesViewModel(App.NavigationService, SimpleIoc.Default.GetInstance<IPuzzleRepository>());
+                return new PuzzlesViewModel(App.NavigationService, SimpleIoc.Default.GetInstance<IPuzzleRepository>(), SimpleIoc.Default.GetInstance<IUserService>());
             }
         }
 
-
         public PuzzleBoardViewModel PuzzleBoardViewModel
         {
-            get{return new PuzzleBoardViewModel(SimpleIoc.Default.GetInstance<IPuzzlesService>(), new SchedulerProvider());}
+            get{return new PuzzleBoardViewModel(SimpleIoc.Default.GetInstance<IPuzzlesService>(), new SchedulerProvider(), SimpleIoc.Default.GetInstance<IUserService>());}
+        }
+
+        public  DesignPuzzlesVm DesignPuzzlesVm
+        {
+            get{return new DesignPuzzlesVm();}
+        }
+
+        public DesignPuzzleBoardViewModel DesignPuzzleBoardViewModel
+        {
+            get { return new DesignPuzzleBoardViewModel(); }
         }
 
         public static void Cleanup()

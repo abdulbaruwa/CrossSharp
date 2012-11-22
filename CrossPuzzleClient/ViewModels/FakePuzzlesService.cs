@@ -10,7 +10,7 @@ namespace CrossPuzzleClient.ViewModels
         private IPuzzleRepository _repository = new FakePuzzleRepository();
         private Dictionary<string, string> _words;
 
-        public ObservableCollection<WordViewModel> GetOrdereredWordsForPuzzle(int puzzleId)
+        public ObservableCollection<WordViewModel> GetOrdereredWordsForPuzzle(int puzzleId, string user)
         {
             var wordviewmodels = GetWordsWordviewmodels();
 

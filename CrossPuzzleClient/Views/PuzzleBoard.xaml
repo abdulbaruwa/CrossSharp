@@ -1,5 +1,6 @@
 ﻿<local:ViewBase x:Name="pageRoot" x:Class="CrossPuzzleClient.Views.PuzzleBoard"
                         DataContext="{Binding PuzzleBoardViewModel, Source={StaticResource ViewModelLocator}}"
+                        d:DataContext="{Binding DesignPuzzleBoardViewModel, Source={d:DesignInstance Type=infrastructure:ViewModelLocator, IsDesignTimeCreatable=True}}"
                         IsTabStop="false"
                         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -7,7 +8,8 @@
                         xmlns:common="using:CrossPuzzleClient.Common"
                         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                        xmlns:ViewModels="using:CrossPuzzleClient.ViewModels" mc:Ignorable="d" Margin="0,-2,0,-2"
+                        xmlns:ViewModels="using:CrossPuzzleClient.ViewModels"
+                xmlns:infrastructure="using:CrossPuzzleClient.Infrastructure" mc:Ignorable="d" Margin="0,-2,0,-2"
                         FontFamily="Global User Interface">
 
     <Page.Resources>
@@ -80,7 +82,6 @@
     -->
     <Grid>
         <Grid Style="{StaticResource LayoutRootStyle}"
-              d:DataContext="{Binding Source={d:DesignInstance Type=ViewModels:DesignPuzzleBoardViewModel, IsDesignTimeCreatable=True}}"
               Visibility="Collapsed"
               x:Name="landscapeGrid">
 
@@ -118,8 +119,11 @@
                         x:Name="startPauseButton" Grid.Column="3" Content="{Binding Path=StartPauseButtonCaption}"
                         Height="35"
                         HorizontalAlignment="Right" Margin="0,27,50,18" />
-                <TextBlock x:Name="userName" Grid.Column="4" Text="{Binding Path=UserName}"
-                           Style="{StaticResource SubHeaderTextStyle}" HorizontalAlignment="Right" Margin="0,0,60,26" />
+                <StackPanel Grid.Column="4" Margin="0,0,40,26" Orientation="Horizontal">
+                    <TextBlock x:Name="userName" Text="{Binding Path=CurrentUser}" Style="{StaticResource SubHeaderTextStyle}" FontSize="18" HorizontalAlignment="Right"  />
+                    <Image x:Name="smallImage1" Grid.Column="1" Margin="10,0,0,0" Visibility="Visible" AutomationProperties.Name="SmallImage placeholder1" Width="46" Height="46"  
+                           HorizontalAlignment="Left" Source="{Binding SmallImage, Mode=TwoWay}" />
+                </StackPanel>
 
             </Grid>
 
@@ -128,7 +132,7 @@
             <Grid Opacity="100" VerticalAlignment="Top" Margin="0,0,0,0" Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="2">
 
                 <Grid Name="FullBoard" Margin="20,0,20,7"
-                      d:DataContext="{Binding Source={d:DesignInstance Type=ViewModels:DesignPuzzleBoardViewModel, IsDesignTimeCreatable=True}}">
+                      >
 
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -423,7 +427,7 @@
                                 Command="{Binding StartPauseCommand}"
                                 Grid.Column="1" Content="{Binding Path=StartPauseButtonCaption}" Height="35"
                                 HorizontalAlignment="Right" Margin="0,0,-36,-5" VerticalAlignment="Bottom" Grid.ColumnSpan="3" />
-                            <TextBlock Text="{Binding Path=UserName}" Grid.Column="3"
+                            <TextBlock Text="{Binding Path=CurrentUser}" Grid.Column="3"
                                    Style="{StaticResource SubHeaderTextStyle}" HorizontalAlignment="Right" Margin="0,-6,-371,6"
                                     />
     

@@ -9,7 +9,7 @@ namespace CrossPuzzleClient.ViewModels
         public DesignPuzzlesVm()
         {
             _puzzles = new ObservableCollection<PuzzleGroupViewModel>();
-            _currentUser = "Ademola Baruwa ";
+            CurrentUser = "Ademola Baruwa ";
             var sciencegroup = new PuzzleGroupViewModel(){Category = "Science", Puzzles = new ObservableCollection<PuzzleViewModel>()};
 
             sciencegroup.Puzzles.Add(ViewModelHelper.FakePuzzleBuilder("Human Skeleton Puzzles"));
@@ -32,13 +32,14 @@ namespace CrossPuzzleClient.ViewModels
             
         }
 
-        private string _currentUser;
+        private string _currentUser = "BAruwa";
         private ObservableCollection<PuzzleGroupViewModel> _puzzles;
         private PuzzleGroupViewModel _selectedPuzzleViewModel;
 
         public string CurrentUser
         {
             get { return _currentUser; }
+            set { SetProperty(ref _currentUser, value); }
 
         }
 

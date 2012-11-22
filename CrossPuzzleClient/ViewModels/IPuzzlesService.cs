@@ -4,6 +4,6 @@ namespace CrossPuzzleClient.ViewModels
 {
     public interface IPuzzlesService
     {
-        ObservableCollection<WordViewModel> GetOrdereredWordsForPuzzle(int puzzleId);
+        ObservableCollection<WordViewModel> GetOrdereredWordsForPuzzle(int puzzleId, string user);
     }
 }
