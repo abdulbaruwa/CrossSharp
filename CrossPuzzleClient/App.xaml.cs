@@ -1,5 +1,4 @@
-﻿using System.IO;
-using CrossPuzzleClient.Common;
+﻿using CrossPuzzleClient.Common;
 using CrossPuzzleClient.GameDataService;
 using CrossPuzzleClient.Infrastructure;
 using CrossPuzzleClient.Views;
@@ -41,7 +40,6 @@ namespace CrossPuzzleClient
         /// <param name="args">Details about the launch request and process.</param>
         protected override async void OnLaunched(LaunchActivatedEventArgs args)
         {
-            //Create Database if it does not exists
 
             //Do not repeat app initialization when already running, just ensure that window is active
             if(args.PreviousExecutionState == ApplicationExecutionState.Running)

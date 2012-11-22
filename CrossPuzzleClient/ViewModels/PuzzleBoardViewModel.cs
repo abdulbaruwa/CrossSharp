@@ -8,10 +8,11 @@ using CrossPuzzleClient.Common;
 using CrossPuzzleClient.GameStates;
 using CrossPuzzleClient.Observables;
 using GalaSoft.MvvmLight.Messaging;
+using Windows.System.UserProfile;
 
 namespace CrossPuzzleClient.ViewModels
 {
-    public class PuzzleBoardViewModel : BindableBase
+    public class PuzzleBoardViewModel : ViewModelBase
     {
         private readonly ObservableCollection<CellEmptyViewModel> _cells;
         private int _cols;
@@ -24,7 +25,6 @@ namespace CrossPuzzleClient.ViewModels
         private WordViewModel _selectedWordDown;
         private ObservableCollection<WordViewModel> _words;
         private bool _showCompleteTick;
-        private string _userName = "Abdul";
         private string _startPauseButtonCaption = "Start";
         private string _gameCountDown = "00:00:00";
         private bool _gameIsRunning;
@@ -43,6 +43,7 @@ namespace CrossPuzzleClient.ViewModels
         private string _gameScoreDisplay;
         private bool _acrossAndDownVisible;
         private bool _wordSelectedVisibility;
+        private string _userName;
 
         public PuzzleBoardViewModel(IPuzzlesService puzzlesService, ISchedulerProvider scheduler)
         {
@@ -50,11 +51,17 @@ namespace CrossPuzzleClient.ViewModels
             _words = new ObservableCollection<WordViewModel>();
             _scheduler = scheduler;
             _puzzlesService = puzzlesService;
+        }
+
+        public override async void LoadState(object navParameter, Dictionary<string, object> viewModelState)
+        {
             CreateCellsForBoard();
             RegisterForMessage();
             CurrentGameState = new GameNotStartedState(this);
+            UserName = await UserInformation.GetFirstNameAsync();
+            var puzzleViewModel =  navParameter as PuzzleViewModel;
+            if (puzzleViewModel != null) LoadPuzzleBoardForSelectedPuzzleId(puzzleViewModel.PuzzleId);
         }
-
 
         public ISchedulerProvider SchedulerProvider
         {
@@ -508,7 +515,6 @@ namespace CrossPuzzleClient.ViewModels
 
         private void RegisterForMessage()
         {
-            Messenger.Default.Register<StartPuzzleMessage>(this, m => LoadPuzzleBoardForSelectedPuzzleId(m.PuzzleId));
             Messenger.Default.Register<KeyReceivedMessage>(this, m => HandleKeyEvent(m));
             Messenger.Default.Register<GameCompleteMessage>(this, m => GameComplete(m));
         }

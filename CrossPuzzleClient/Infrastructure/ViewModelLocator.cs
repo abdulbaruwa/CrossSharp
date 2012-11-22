@@ -1,10 +1,6 @@
-﻿using System.Collections.Generic;
-using CrossPuzzleClient.DataModel;
-using CrossPuzzleClient.Factories;
-using CrossPuzzleClient.GameDataService;
+﻿using CrossPuzzleClient.GameDataService;
 using CrossPuzzleClient.Observables;
 using CrossPuzzleClient.ViewModels;
-using CrossPuzzleClient.Views;
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
 
@@ -16,8 +12,6 @@ namespace CrossPuzzleClient.Infrastructure
     /// </summary>
     public class ViewModelLocator
     {
-        private PuzzleGroupViewModel _selectedPuzzleGroupViewModel;
-
         /// <summary>
         /// Initializes a new instance of the ViewModelLocator class.
         /// </summary>
@@ -25,8 +19,6 @@ namespace CrossPuzzleClient.Infrastructure
         {
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
             if (Windows.ApplicationModel.DesignMode.DesignModeEnabled) return;
-
-            SimpleIoc.Default.Register<PuzzlesViewModel>();
             SimpleIoc.Default.Register<IUserService, UserService>();
             SimpleIoc.Default.Register<IPuzzleRepository, PuzzleRepository>();
             SimpleIoc.Default.Register<IPuzzlesService, PuzzlesService>();
@@ -38,11 +30,9 @@ namespace CrossPuzzleClient.Infrastructure
         {
             get
             {
-                var puzzlesViewModelFactory = new PuzzlesViewModelFactory(SimpleIoc.Default.GetInstance<IPuzzleRepository>(),App.NavigationService);
-                return puzzlesViewModelFactory.CreateInstance(SimpleIoc.Default.GetInstance<IUserService>().GetCurrentUser());
+                return new PuzzlesViewModel(App.NavigationService, SimpleIoc.Default.GetInstance<IPuzzleRepository>());
             }
         }
-
 
 
         public PuzzleBoardViewModel PuzzleBoardViewModel

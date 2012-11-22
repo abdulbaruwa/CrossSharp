@@ -47,7 +47,7 @@ namespace CrossPuzzleClient.Views
 
         void StartButton_Click(object sender, RoutedEventArgs e)
         {
-            var puzzlesVm = new DesignPuzzlesVM();
+            var puzzlesVm = new DesignPuzzlesVm();
             var rootFrame = new Frame();
             App.NavigationService = new NavigationService(rootFrame);
 

@@ -1,4 +1,4 @@
-﻿<common:LayoutAwarePage x:Name="pageRoot" x:Class="CrossPuzzleClient.Views.PuzzlesView"
+﻿<views:ViewBase x:Name="pageRoot" x:Class="CrossPuzzleClient.Views.PuzzlesView"
                         DataContext="{Binding PuzzlesViewModel, Source={StaticResource ViewModelLocator}}"
                         IsTabStop="false"
                         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -6,19 +6,23 @@
                         xmlns:common="using:CrossPuzzleClient.Common"
                         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                        xmlns:data="using:CrossPuzzleClient.ViewModels"
-                        mc:Ignorable="d" Margin="0,-2,0,-2">
+                        xmlns:data="using:CrossPuzzleClient.ViewModels" xmlns:views="using:CrossPuzzleClient.Views"
+                xmlns:behaviors="using:CrossPuzzleClient.Behaviors"
+                mc:Ignorable="d" Margin="0,-2,0,-2">
 
-    <Page.Resources>
+
+
+        <Page.Resources>
+        
         <!--DataContext="{Binding DefaultViewModel, RelativeSource={RelativeSource Self}}"-->
         <!--DataContext="{Binding PuzzlesViewModel, Source={StaticResource ViewModelLocator}}"-->
         <!--
             Collection of grouped items displayed by this page, bound to a subset
             of the complete item list because items in groups cannot be virtualized
         -->
-        <CollectionViewSource x:Name="groupedItemsViewSource" Source="{Binding PuzzleGroups}" IsSourceGrouped="true"
+        <CollectionViewSource x:Name="groupedItemsViewSource" Source="{Binding PuzzleGroupViewModels}" IsSourceGrouped="true"
                               ItemsPath="Puzzles"
-                              d:Source="{Binding PuzzleGroups, Source={d:DesignInstance Type=data:DesignPuzzlesVM, IsDesignTimeCreatable=True}}" />
+                              d:Source="{Binding PuzzleGroups, Source={d:DesignInstance Type=data:DesignPuzzlesVm, IsDesignTimeCreatable=True}}" />
     </Page.Resources>
 
     <!--
@@ -72,7 +76,7 @@
                       SelectedItem="{Binding SelectedPuzzleGroupViewModel, Mode=TwoWay}"
                       IsItemClickEnabled="True"
                       SelectionMode="None"
-                      ItemClick="itemGridView_ItemClick_1"
+                      behaviors:ItemClickCommandBehavior.Command="{Binding StartPuzzleCommand}"
                       Opacity=".70">
 
                 <GridView.ItemsPanel>
@@ -213,4 +217,4 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
     </Grid>
-</common:LayoutAwarePage>
+</views:ViewBase>

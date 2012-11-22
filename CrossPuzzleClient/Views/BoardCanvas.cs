@@ -7,8 +7,6 @@ namespace CrossPuzzleClient.Views
 {
     public class BoardCanvas : Panel
     {
-    
-
         protected override Size MeasureOverride(Size availableSize)
         {
             // Get the collection of children
@@ -48,14 +46,11 @@ namespace CrossPuzzleClient.Views
 
                 // Arrange child
                 // Get desired height and width. This will not be larger than 100x100 as set in MeasureOverride.
-                //var contentPresenter = mychildren[i] as ContentPresenter;
               //  var cellViewModel = contentPresenter.DataContext as CellViewModel;
                 double dw = mychildren[i].DesiredSize.Width;
                 double dh = mychildren[i].DesiredSize.Height;
 
                 mychildren[i].Arrange(new Rect(cellOrigin.X, cellOrigin.Y, dw, dh));
-                //Canvas.SetLeft(mychildren[i], CalculateLeft(cellViewModel.Column));
-                //Canvas.SetTop(mychildren[i], CalculateLeft(cellViewModel.Row));
             }
 
             // Return final size of the panel
@@ -89,26 +84,26 @@ namespace CrossPuzzleClient.Views
             get { return (int)Math.Floor(base.ActualHeight / BubbleSize); }
         }
 
-        internal double CalculateLeft(FrameworkElement bubbleContainer)
+        internal double CalculateLeft(FrameworkElement cellContainer)
         {
-            if (bubbleContainer == null)
+            if (cellContainer == null)
                 throw new ArgumentNullException("cellContainer");
 
-            var bubble = bubbleContainer.DataContext as CellViewModel;
+            var bubble = cellContainer.DataContext as CellViewModel;
             if (bubble == null)
-                throw new ArgumentException("Element does not have a CellEmptyViewModel as its DataContext.", "bubbleContainer");
+                throw new ArgumentException("Element does not have a CellEmptyViewModel as its DataContext.", "cellContainer");
 
             return this.CalculateLeft(bubble.Col);
         }
 
-        internal double CalculateTop(FrameworkElement bubbleContainer)
+        internal double CalculateTop(FrameworkElement cellContainer)
         {
-            if (bubbleContainer == null)
+            if (cellContainer == null)
                 throw new ArgumentNullException("cellContainer");
 
-            var bubble = bubbleContainer.DataContext as CellViewModel;
+            var bubble = cellContainer.DataContext as CellViewModel;
             if (bubble == null)
-                throw new ArgumentException("Element does not have a CellEmptyViewModel as its DataContext.", "bubbleContainer");
+                throw new ArgumentException("Element does not have a CellEmptyViewModel as its DataContext.", "cellContainer");
 
             return this.CalculateTop(bubble.Row);
         }

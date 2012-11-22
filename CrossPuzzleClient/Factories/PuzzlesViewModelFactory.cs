@@ -26,7 +26,7 @@ namespace CrossPuzzleClient.Factories
                 {
                     group.Puzzles.Add(new PuzzleViewModel() { Title = puzzle.Title, PuzzleId = puzzle.PuzzleSubGroupId, GameScore = puzzle.GameScore});
                 }
-                puzzlesViewModel.PuzzleGroups.Add(group);
+                puzzlesViewModel.PuzzleGroupViewModels.Add(group);
             }
 
             puzzlesViewModel.PuzzleGroupData = puzzleGroups;

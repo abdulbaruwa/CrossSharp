@@ -115,6 +115,7 @@
     <Compile Include="Behaviors\BehaviorOfT.cs" />
     <Compile Include="Behaviors\EventAsync.cs" />
     <Compile Include="Behaviors\Interaction.cs" />
+    <Compile Include="Behaviors\ItemClickCommandBehavior.cs" />
     <Compile Include="Behaviors\MyBehavior.cs" />
     <Compile Include="Behaviors\ClickBehavior.cs" />
     <Compile Include="Common\RelayCommand.cs" />
@@ -163,6 +164,7 @@
     <Compile Include="SQLiteAsync.cs" />
     <Compile Include="ViewModels\CellEmptyViewModel.cs" />
     <Compile Include="ViewModels\DesignPuzzleBoardViewModel.cs" />
+    <Compile Include="ViewModels\DesignPuzzlesVm.cs" />
     <Compile Include="ViewModels\DesignTimeHelper.cs" />
     <Compile Include="ViewModels\FakePuzzleRepository.cs" />
     <Compile Include="ViewModels\FakePuzzlesService.cs" />
@@ -177,6 +179,7 @@
     <Compile Include="ViewModels\PuzzlesViewModel.cs" />
     <Compile Include="ViewModels\PuzzleViewModel.cs" />
     <Compile Include="ViewModels\StartPuzzleMessage.cs" />
+    <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="ViewModels\WordViewModel.cs" />
     <Compile Include="Views\BoardCanvas.cs" />
     <Compile Include="Views\BoardCell.xaml.cs">
@@ -192,6 +195,7 @@
     <Compile Include="Views\PuzzlesView.xaml.cs">
       <DependentUpon>PuzzlesView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ViewBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -219,7 +223,6 @@
     <Content Include="Assets\DarkGray.png" />
     <Content Include="Assets\TinyLogo.png" />
     <Content Include="Assets\ToroSoftware.png" />
-    <Content Include="Assets\WideLogo.png" />
     <Content Include="Copy of Assets\CrossWordIcon.png" />
     <Content Include="Copy of Assets\DarkGray.png" />
     <Content Include="Copy of Assets\Landscapes30.png" />

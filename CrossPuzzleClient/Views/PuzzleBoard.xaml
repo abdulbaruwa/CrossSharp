@@ -1,4 +1,4 @@
-﻿<common:LayoutAwarePage x:Name="pageRoot" x:Class="CrossPuzzleClient.Views.PuzzleBoard"
+﻿<local:ViewBase x:Name="pageRoot" x:Class="CrossPuzzleClient.Views.PuzzleBoard"
                         DataContext="{Binding PuzzleBoardViewModel, Source={StaticResource ViewModelLocator}}"
                         IsTabStop="false"
                         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -754,4 +754,4 @@
         </VisualStateManager.VisualStateGroups>
     </Grid>
 
-</common:LayoutAwarePage>
+</local:ViewBase>

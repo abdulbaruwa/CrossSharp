@@ -37,42 +37,42 @@ namespace CrossPuzzleClientTests.ViewModelTests
 
         }
 
-        [TestMethod]
-        public void When_StartPuzzleMessage_is_received_should_get_from_PuzzleService_words_for_the_provided_puzzleId()
-        {
-            var fakePuzzleService = new FakePuzzlesService();
+        //[TestMethod]
+        //public void When_StartPuzzleMessage_is_received_should_get_from_PuzzleService_words_for_the_provided_puzzleId()
+        //{
+        //    var fakePuzzleService = new FakePuzzlesService();
 
-            var puzzleBoardVm = new PuzzleBoardViewModel(fakePuzzleService, new SchedulerProvider());
-            fakePuzzleService.AddWords(new Dictionary<string, string>
-                                           {
-                                               {"Bamidele", "Adetoro's first name"},
-                                               {"station", "place where i fit get train"},
-                                               {"india", "Origin of my favourite curry"},
-                                           });
+        //    var puzzleBoardVm = new PuzzleBoardViewModel(fakePuzzleService, new SchedulerProvider());
+        //    fakePuzzleService.AddWords(new Dictionary<string, string>
+        //                                   {
+        //                                       {"Bamidele", "Adetoro's first name"},
+        //                                       {"station", "place where i fit get train"},
+        //                                       {"india", "Origin of my favourite curry"},
+        //                                   });
 
-            Messenger.Default.Send<StartPuzzleMessage>(new StartPuzzleMessage(){PuzzleId = 1});
+        //    Messenger.Default.Send<StartPuzzleMessage>(new StartPuzzleMessage(){PuzzleId = 1});
 
-            Assert.AreEqual(3, puzzleBoardVm.Words.Count);
-        }        
+        //    Assert.AreEqual(3, puzzleBoardVm.Words.Count);
+        //}        
         
-        [TestMethod]
-        public void When_StartPuzzleMessage_is_received_Should_set_the_GameId_property_on_the_PuzzleBoardViewModel()
-        {
-            var fakePuzzleService = new FakePuzzlesService();
+        //[TestMethod]
+        //public void When_StartPuzzleMessage_is_received_Should_set_the_GameId_property_on_the_PuzzleBoardViewModel()
+        //{
+        //    var fakePuzzleService = new FakePuzzlesService();
 
-            var puzzleBoardVm = new PuzzleBoardViewModel(fakePuzzleService, new SchedulerProvider());
-            fakePuzzleService.AddWords(new Dictionary<string, string>
-                                           {
-                                               {"Bamidele", "Adetoro's first name"},
-                                               {"station", "place where i fit get train"},
-                                               {"india", "Origin of my favourite curry"},
-                                           });
+        //    var puzzleBoardVm = new PuzzleBoardViewModel(fakePuzzleService, new SchedulerProvider());
+        //    fakePuzzleService.AddWords(new Dictionary<string, string>
+        //                                   {
+        //                                       {"Bamidele", "Adetoro's first name"},
+        //                                       {"station", "place where i fit get train"},
+        //                                       {"india", "Origin of my favourite curry"},
+        //                                   });
 
-            var startMessage = new StartPuzzleMessage() {PuzzleId = 1};
-            Messenger.Default.Send<StartPuzzleMessage>(startMessage);
+        //    var startMessage = new StartPuzzleMessage() {PuzzleId = 1};
+        //    Messenger.Default.Send<StartPuzzleMessage>(startMessage);
 
-            Assert.AreEqual(startMessage.PuzzleId, puzzleBoardVm.GameId);
-        }
+        //    Assert.AreEqual(startMessage.PuzzleId, puzzleBoardVm.GameId);
+        //}
 
         [TestMethod]
         public void Should_show_game_finish_flyout_when_last_word_is_inserted_onto_the_board()
