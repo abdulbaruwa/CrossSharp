@@ -119,10 +119,10 @@
                         x:Name="startPauseButton" Grid.Column="3" Content="{Binding Path=StartPauseButtonCaption}"
                         Height="35"
                         HorizontalAlignment="Right" Margin="0,27,50,18" />
-                <StackPanel Grid.Column="4" Margin="0,0,40,26" Orientation="Horizontal">
-                    <TextBlock x:Name="userName" Text="{Binding Path=CurrentUser}" Style="{StaticResource SubHeaderTextStyle}" FontSize="18" HorizontalAlignment="Right"  />
+                <StackPanel Grid.Column="4" Margin="0,10,10,26" Orientation="Horizontal" HorizontalAlignment="Right">
+                    <TextBlock x:Name="userName" Text="{Binding Path=CurrentUser}" FontSize="18" HorizontalAlignment="Right" VerticalAlignment="Top"/>
                     <Image x:Name="smallImage1" Grid.Column="1" Margin="10,0,0,0" Visibility="Visible" AutomationProperties.Name="SmallImage placeholder1" Width="46" Height="46"  
-                           HorizontalAlignment="Left" Source="{Binding SmallImage, Mode=TwoWay}" />
+                           HorizontalAlignment="Right" Source="{Binding SmallImage, Mode=TwoWay}" />
                 </StackPanel>
 
             </Grid>
