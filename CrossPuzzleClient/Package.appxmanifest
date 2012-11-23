@@ -3,7 +3,7 @@
   <Identity Name="dc9671c4-859c-499e-9a01-a7379a4cc2d5" Publisher="CN=Abdul" Version="1.0.0.0" />
   <Properties>
     <DisplayName>ToroSoftwareCrosswords</DisplayName>
-    <PublisherDisplayName>Abdul</PublisherDisplayName>
+    <PublisherDisplayName>Toro Software</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
   <Prerequisites>
