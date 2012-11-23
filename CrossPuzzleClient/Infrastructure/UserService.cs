@@ -27,4 +27,19 @@ namespace CrossPuzzleClient.Infrastructure
             return bitmapImage;
         }
     }
+
+    public class FakeUserSevice : IUserService
+
+    {
+        public async Task<BitmapImage> LoadUserImage()
+        {
+            return null;
+        }
+
+        public async Task<string> GetCurrentUser()
+        {
+            return "Abdul";
+        }
+    }
+
 }

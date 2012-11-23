@@ -9,7 +9,7 @@ namespace CrossPuzzleClient.ViewModels
     public class DesignPuzzleBoardViewModel : PuzzleBoardViewModel
     {
         public DesignPuzzleBoardViewModel()
-            : base(new FakePuzzlesService(), new TestSchedulers(), new UserService())
+            : base(new FakePuzzlesService(), new TestSchedulers(), new FakeUserSevice())
         {
             Debug.WriteLine("Username {0}", CurrentUser);
             Debug.WriteLine("StartPauseButtonCaption {0}", StartPauseButtonCaption);
