@@ -4,7 +4,7 @@ using System.Linq;
 using CrossPuzzleClient.DataModel;
 using System.Collections.Generic;
 
-namespace CrossPuzzleClient.ViewModels
+namespace CrossPuzzleClient.Services
 {
     public class PuzzleRepository : IPuzzleRepository
     {

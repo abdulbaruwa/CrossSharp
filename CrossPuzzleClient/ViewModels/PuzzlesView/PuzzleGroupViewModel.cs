@@ -1,6 +1,6 @@
 using System.Collections.ObjectModel;
 
-namespace CrossPuzzleClient.ViewModels
+namespace CrossPuzzleClient.ViewModels.PuzzlesView
 {
     public class PuzzleGroupViewModel
     {

@@ -1,10 +1,11 @@
 using System;
-using System.Collections.ObjectModel;
 using System.Linq;
 using CrossPuzzleClient.Common;
+using System.Collections.ObjectModel;
+using CrossPuzzleClient.ViewModels.PuzzleBoardView;
 using GalaSoft.MvvmLight.Messaging;
 
-namespace CrossPuzzleClient.ViewModels
+namespace CrossPuzzleClient.ViewModels.PuzzlesView
 {
     public class SelectedWordViewModel : WordViewModel
     {

@@ -1,6 +1,7 @@
 ﻿using System;
 using CrossPuzzleClient.Infrastructure;
 using CrossPuzzleClient.ViewModels;
+using CrossPuzzleClient.ViewModels.DesignTime;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.UI.Xaml;

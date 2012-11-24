@@ -5,11 +5,13 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using CrossPuzzleClient.DataModel;
 using CrossPuzzleClient.Infrastructure;
+using CrossPuzzleClient.Services;
+using CrossPuzzleClient.ViewModels.PuzzleBoardView;
 using CrossPuzzleClient.Views;
 using GalaSoft.MvvmLight.Messaging;
 using Windows.UI.Xaml.Media.Imaging;
 
-namespace CrossPuzzleClient.ViewModels
+namespace CrossPuzzleClient.ViewModels.PuzzlesView
 {
     public sealed class PuzzlesViewModel : ViewModelBase
     {

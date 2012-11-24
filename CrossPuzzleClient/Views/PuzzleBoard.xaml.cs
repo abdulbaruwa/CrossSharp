@@ -1,5 +1,6 @@
 ﻿using System;
 using CrossPuzzleClient.ViewModels;
+using CrossPuzzleClient.ViewModels.PuzzleBoardView;
 using GalaSoft.MvvmLight.Messaging;
 using Windows.System;
 using Windows.UI.Xaml.Input;

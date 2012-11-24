@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using CrossPuzzleClient.ViewModels;
+using CrossPuzzleClient.ViewModels.PuzzleBoardView;
 
 namespace CrossPuzzleClient.GameStates
 {

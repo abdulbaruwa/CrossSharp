@@ -9,7 +9,8 @@
                         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                         xmlns:ViewModels="using:CrossPuzzleClient.ViewModels"
-                xmlns:infrastructure="using:CrossPuzzleClient.Infrastructure" mc:Ignorable="d" Margin="0,-2,0,-2"
+                xmlns:infrastructure="using:CrossPuzzleClient.Infrastructure"
+                xmlns:designTime="using:CrossPuzzleClient.ViewModels.DesignTime" mc:Ignorable="d" Margin="0,-2,0,-2"
                         FontFamily="Global User Interface">
 
     <Page.Resources>
@@ -68,6 +69,63 @@
                                            Stroke="{StaticResource FocusVisualBlackStrokeThemeBrush}"
                                            StrokeDashArray="1,1" Style="{StaticResource RectangleStyle1}" />
                             </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="ListBoxStyle1" TargetType="ListBox">
+            <Setter Property="Foreground" Value="{StaticResource ListBoxForegroundThemeBrush}"/>
+            <Setter Property="Background"  Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="{StaticResource ListBoxBorderThemeBrush}"/>
+            <Setter Property="BorderThickness" Value="{StaticResource ListBoxBorderThemeThickness}"/>
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Disabled"/>
+            <Setter Property="ScrollViewer.IsHorizontalRailEnabled" Value="True"/>
+            <Setter Property="ScrollViewer.VerticalScrollMode" Value="Enabled"/>
+            <Setter Property="ScrollViewer.IsVerticalRailEnabled" Value="True"/>
+            <Setter Property="ScrollViewer.ZoomMode" Value="Disabled"/>
+            <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False"/>
+            <Setter Property="ScrollViewer.BringIntoViewOnFocusChange" Value="True"/>
+            <Setter Property="IsTabStop" Value="False"/>
+            <Setter Property="TabNavigation" Value="Once"/>
+            <Setter Property="FontFamily" Value="{StaticResource ContentControlThemeFontFamily}"/>
+            <Setter Property="FontSize" Value="{StaticResource ControlContentThemeFontSize}"/>
+            <Setter Property="ItemsPanel">
+                <Setter.Value>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel/>
+                    </ItemsPanelTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBox">
+                        <Border x:Name="LayoutRoot" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <!--<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="LayoutRoot">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="Transparent"/>
+                                            </ObjectAnimationUsingKeyFrames>-->
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="LayoutRoot">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ListBoxDisabledForegroundThemeBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="FocusStates">
+                                    <VisualState x:Name="Focused"/>
+                                        
+                                    <VisualState x:Name="Unfocused"/>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <ScrollViewer x:Name="ScrollViewer" BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}" HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}" HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}" IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}" IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}" IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}" Padding="{TemplateBinding Padding}" TabNavigation="{TemplateBinding TabNavigation}" VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}" VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}" ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}">
+                                <ItemsPresenter/>
+                            </ScrollViewer>
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
@@ -203,9 +261,10 @@
                             </Border>
                         </Popup>
                         <ListBox x:Name="itemsTwo" ItemsSource="{Binding Cells}" Opacity="0.85"
-                                 IsEnabled="{Binding AcrossAndDownVisible,Mode=TwoWay}"
+                                 IsEnabled ="{Binding AcrossAndDownVisible,Mode=TwoWay}"
                                  ItemContainerStyle="{StaticResource ListBoxItemStyle3}"
-                                 SelectedItem="{Binding CurrentSelectedCell, Mode=TwoWay}">
+                                 SelectedItem="{Binding CurrentSelectedCell, Mode=TwoWay}"
+                                 Background="Transparent" Style="{StaticResource ListBoxStyle1}">
                             <ListBox.ItemContainerTransitions>
                                 <TransitionCollection>
                                     <RepositionThemeTransition />
@@ -385,7 +444,7 @@
         <!--Portrait View-->
         <Grid Style="{StaticResource LayoutRootStyle}"
                       x:Name="portraitGrid"
-                      d:DataContext="{Binding Source={d:DesignInstance Type=ViewModels:DesignPuzzleBoardViewModel, 
+                      d:DataContext="{Binding Source={d:DesignInstance Type=designTime:DesignPuzzleBoardViewModel, 
                       IsDesignTimeCreatable=True}}"
                       Visibility="Collapsed">
 

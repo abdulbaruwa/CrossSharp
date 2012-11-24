@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using System.IO;
 using CrossPuzzleClient.DataModel;
+using CrossPuzzleClient.Services;
 using SQLite;
 
-namespace CrossPuzzleClient.ViewModels
+namespace CrossPuzzleClient.ViewModels.DesignTime
 {
     public class FakePuzzleRepository : IPuzzleRepository
     {

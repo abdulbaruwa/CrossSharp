@@ -8,11 +8,12 @@ using CrossPuzzleClient.Common;
 using CrossPuzzleClient.GameStates;
 using CrossPuzzleClient.Infrastructure;
 using CrossPuzzleClient.Observables;
+using CrossPuzzleClient.Services;
+using CrossPuzzleClient.ViewModels.PuzzlesView;
 using GalaSoft.MvvmLight.Messaging;
-using Windows.System.UserProfile;
 using Windows.UI.Xaml.Media.Imaging;
 
-namespace CrossPuzzleClient.ViewModels
+namespace CrossPuzzleClient.ViewModels.PuzzleBoardView
 {
     public class PuzzleBoardViewModel : ViewModelBase
     {

@@ -4,7 +4,11 @@ using System.Threading.Tasks;
 using CrossPuzzleClient.GameStates;
 using CrossPuzzleClient.Infrastructure;
 using CrossPuzzleClient.Observables;
+using CrossPuzzleClient.Services;
 using CrossPuzzleClient.ViewModels;
+using CrossPuzzleClient.ViewModels.DesignTime;
+using CrossPuzzleClient.ViewModels.PuzzleBoardView;
+using CrossPuzzleClient.ViewModels.PuzzlesView;
 using GalaSoft.MvvmLight.Messaging;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 

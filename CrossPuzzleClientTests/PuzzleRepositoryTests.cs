@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using CrossPuzzleClient.GameDataService;
+using CrossPuzzleClient.Services;
 using CrossPuzzleClient.ViewModels;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using Windows.Storage;

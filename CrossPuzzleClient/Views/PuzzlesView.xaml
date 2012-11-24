@@ -9,6 +9,7 @@
                         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                         xmlns:data="using:CrossPuzzleClient.ViewModels" xmlns:views="using:CrossPuzzleClient.Views"
                 xmlns:behaviors="using:CrossPuzzleClient.Behaviors" xmlns:infrastructure="using:CrossPuzzleClient.Infrastructure"
+                xmlns:designTime="using:CrossPuzzleClient.ViewModels.DesignTime"
                 mc:Ignorable="d" Margin="0,-2,0,-2">
 
 
@@ -23,7 +24,7 @@
         -->
         <CollectionViewSource x:Name="groupedItemsViewSource" Source="{Binding PuzzleGroupViewModels}" IsSourceGrouped="true"
                               ItemsPath="Puzzles"
-                              d:Source="{Binding PuzzleGroups, Source={d:DesignInstance Type=data:DesignPuzzlesVm, IsDesignTimeCreatable=True}}" />
+                              d:Source="{Binding PuzzleGroups, Source={d:DesignInstance Type=designTime:DesignPuzzlesVm, IsDesignTimeCreatable=True}}" />
     </Page.Resources>
 
     <!--

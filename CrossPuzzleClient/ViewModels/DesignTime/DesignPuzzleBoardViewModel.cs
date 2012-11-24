@@ -3,8 +3,9 @@ using System.Linq;
 using System.Diagnostics;
 using CrossPuzzleClient.Infrastructure;
 using CrossPuzzleClient.Observables;
+using CrossPuzzleClient.ViewModels.PuzzleBoardView;
 
-namespace CrossPuzzleClient.ViewModels
+namespace CrossPuzzleClient.ViewModels.DesignTime
 {
     public class DesignPuzzleBoardViewModel : PuzzleBoardViewModel
     {

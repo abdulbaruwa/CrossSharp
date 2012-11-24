@@ -1,8 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 using CrossPuzzleClient.Common;
+using CrossPuzzleClient.ViewModels.PuzzlesView;
 
-namespace CrossPuzzleClient.ViewModels
+namespace CrossPuzzleClient.ViewModels.DesignTime
 {
     public class DesignPuzzlesVm : BindableBase
     {

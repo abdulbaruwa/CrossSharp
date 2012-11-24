@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using CrossPuzzleClient.DataModel;
 
-namespace CrossPuzzleClient.ViewModels
+namespace CrossPuzzleClient.Services
 {
     public interface IPuzzleRepository
     {

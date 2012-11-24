@@ -1,5 +1,6 @@
 using CrossPuzzleClient.Common;
 using CrossPuzzleClient.ViewModels;
+using CrossPuzzleClient.ViewModels.DesignTime;
 
 namespace CrossPuzzleClient.Views
 {

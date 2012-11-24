@@ -1,10 +1,9 @@
 ﻿using System;
-using CrossPuzzleClient.ViewModels;
 using Windows.UI;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;
+using CrossPuzzleClient.ViewModels.PuzzleBoardView;
 
 namespace CrossPuzzleClient.Common
 {

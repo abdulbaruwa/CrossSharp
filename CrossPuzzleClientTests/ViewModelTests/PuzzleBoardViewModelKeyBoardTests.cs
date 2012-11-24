@@ -2,6 +2,8 @@
 using System.Linq;
 using CrossPuzzleClient.GameStates;
 using CrossPuzzleClient.ViewModels;
+using CrossPuzzleClient.ViewModels.DesignTime;
+using CrossPuzzleClient.ViewModels.PuzzleBoardView;
 using GalaSoft.MvvmLight.Messaging;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 

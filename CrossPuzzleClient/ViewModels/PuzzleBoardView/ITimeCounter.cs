@@ -1,4 +1,4 @@
-namespace CrossPuzzleClient.ViewModels
+namespace CrossPuzzleClient.ViewModels.PuzzleBoardView
 {
     public interface ITimeCounter
     {

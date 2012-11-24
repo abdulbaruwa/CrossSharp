@@ -1,5 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using CrossPuzzleClient.ViewModels;
+using CrossPuzzleClient.ViewModels.PuzzleBoardView;
+using CrossPuzzleClient.ViewModels.PuzzlesView;
 using GalaSoft.MvvmLight.Messaging;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 

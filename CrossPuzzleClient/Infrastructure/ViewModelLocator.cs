@@ -1,6 +1,9 @@
 ﻿using CrossPuzzleClient.GameDataService;
 using CrossPuzzleClient.Observables;
-using CrossPuzzleClient.ViewModels;
+using CrossPuzzleClient.Services;
+using CrossPuzzleClient.ViewModels.DesignTime;
+using CrossPuzzleClient.ViewModels.PuzzleBoardView;
+using CrossPuzzleClient.ViewModels.PuzzlesView;
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
 

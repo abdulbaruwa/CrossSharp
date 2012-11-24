@@ -1,20 +1,32 @@
+using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
+using CrossPuzzleClient.Infrastructure;
+using CrossPuzzleClient.ViewModels.PuzzleBoardView;
+using CrossPuzzleClient.ViewModels.PuzzlesView;
 using CrossSharp.Core;
 
-namespace CrossPuzzleClient.ViewModels
+namespace CrossPuzzleClient.Services
 {
-    public class FakePuzzlesService : IPuzzlesService
+    public class PuzzlesService : IPuzzlesService
     {
-        private IPuzzleRepository _repository = new FakePuzzleRepository();
-        private Dictionary<string, string> _words;
+        private IPuzzleRepository puzzlesRepository;
+        private IUserService _userService;
+
+        public PuzzlesService(IPuzzleRepository puzzlesRepository, IUserService userService)
+        {
+            this.puzzlesRepository = puzzlesRepository;
+            _userService = userService;
+        }
 
         public ObservableCollection<WordViewModel> GetOrdereredWordsForPuzzle(int puzzleId, string user)
         {
-            var wordviewmodels = GetWordsWordviewmodels();
+            var words = puzzlesRepository.GetPuzzleWithId(puzzleId, user);
+
+            var wordviewmodels = GetWordsWordviewmodels(words);
 
             return SortWordsByPositionOnBoard(wordviewmodels);
+
         }
 
         private ObservableCollection<WordViewModel> SortWordsByPositionOnBoard(List<WordViewModel> wordviewmodels)
@@ -47,30 +59,10 @@ namespace CrossPuzzleClient.ViewModels
             return sortedWordViewModel;
         }
 
-
-        public void AddWords(Dictionary<string, string> words)
-        {
-            _words = words;
-        }
-
-        public List<WordViewModel> GetWordsWordviewmodels()
+        public List<WordViewModel> GetWordsWordviewmodels(Dictionary<string,string> words)
         {
 
-            var words = _words ?? new Dictionary<string, string>
-                                 {
-                                     {"Bamidele", "Adetoro's first name. Rashedat omo Abdulrahaman Adedayo Baruwa and Rasheedat Patience Binta OluwaFunmilayo Baruwa. Sister to Abdulrasheed Ademola Dabira Adedayo Baruwa "},
-                                     {"station", "place where i fit get train"},
-                                     {"india", "Origin of my favourite curry, spicy hot tropical country. With loads and loads of people. Probably the second most populated country Origin of my favourite curry, spicy hot tropical country. With loads and loads of people. Probably the second most populated country"},
-                                     {"Adams", "Captain Arsenal"},
-                                     {"fards", "show off"},
-                                     {"novemb", "like november"},
-                                     {"belt", "Tied around my waist"},
-                                     {"train", "Mode of transportation"},
-                                     {"adeola", "My sister"},
-                                     {"amoeba", "Single cell organism"},
-                                     {"moscow", "Cold city behind iron curtain"}
-                                 };
-            //var words = new List<string>();
+            ////var words = new List<string>();
             //words.Add("Bamidele");
             //words.Add("station");
             //words.Add("india");
@@ -82,8 +74,8 @@ namespace CrossPuzzleClient.ViewModels
             //words.Add("adeola");
             //words.Add("amoeba");
             //words.Add("moscow");
-
             var board = CoreHorizontal.GetBoard(12, 12);
+            //var wordKeys = words. .Select(x => x.Key).ToArray();
             var result = (CoreVertical.AddWordsAttempts(words.Keys.ToArray(), board));
 
             var wordsInserted = result.Item1.Where(x => x.inserted);
@@ -91,17 +83,16 @@ namespace CrossPuzzleClient.ViewModels
             foreach (var word in wordsInserted)
             {
                 var position = (word.row * 12) + word.col;
-
                 CoreHorizontal.resultCell word1 = word;
                 var wordViewModel = new WordViewModel()
-                                        {
-                                            Cells = new ObservableCollection<CellEmptyViewModel>(),
-                                            Direction = GetDirection(word.orientation),
-                                            Word = word.word,
-                                            WordHint = words.First(x => x.Key == word1.word).Value,
-                                            WordLength = "(" + word.word.Length.ToString() + ")",
-                                            Index = position
-                                        };
+                {
+                    Cells = new ObservableCollection<CellEmptyViewModel>(),
+                    Direction = GetDirection(word.orientation),
+                    Word = word.word,
+                    WordHint = words.First(x =>x.Key == word1.word).Value,
+                    WordLength = "(" + word.word.Length.ToString() + ")",
+                    Index = position
+                };
 
                 var row = word.row;
                 var col = word.col;
@@ -124,6 +115,7 @@ namespace CrossPuzzleClient.ViewModels
         {
             return orientation == CoreHorizontal.Orientation.horizontal ? Direction.Across : Direction.Down;
         }
+
 
     }
 }

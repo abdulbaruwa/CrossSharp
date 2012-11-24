@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
+using CrossPuzzleClient.ViewModels.PuzzlesView;
 
-namespace CrossPuzzleClient.ViewModels
+namespace CrossPuzzleClient.Services
 {
     public interface IPuzzlesService
     {

@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using CrossPuzzleClient.ViewModels;
+using CrossPuzzleClient.ViewModels.PuzzleBoardView;
 
 namespace CrossPuzzleClient.GameStates
 {

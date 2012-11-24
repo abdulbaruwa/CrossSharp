@@ -1,6 +1,6 @@
 using System;
 
-namespace CrossPuzzleClient.Infrastructure.CrossPuzzleClient.Infrastructure
+namespace CrossPuzzleClient.Infrastructure
 {
     /// <summary>
     /// When used with the SimpleIoc container, specifies which constructor
