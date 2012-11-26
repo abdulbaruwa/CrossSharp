@@ -42,20 +42,6 @@ namespace CrossPuzzleClient.ViewModels.PuzzlesView
             PuzzleGroupViewModels = await GetPuzzleGroup();
         }
 
-
-        //public async void LoadUserImageAsync()
-        //{
-        //    var image = UserInformation.GetAccountPicture(AccountPictureKind.SmallImage) as StorageFile;
-        //    if (image != null)
-        //    {
-        //        var imageStream = await image.OpenReadAsync();
-        //        var bitmapImage = new BitmapImage();
-        //        bitmapImage.SetSource(imageStream);
-        //        SmallImage = bitmapImage;
-        //    }
-        //}
-
-
         public BitmapImage SmallImage
         {
             get { return _smallImage; }
@@ -134,15 +120,9 @@ namespace CrossPuzzleClient.ViewModels.PuzzlesView
             set { SetProperty(ref _puzzleGroupData, value); }
         }
 
-
         private void StartPuzzle(PuzzleViewModel puzzleViewModel)
         {
             navigation.Navigate<PuzzleBoard>(puzzleViewModel);
-            
-            //Messenger.Default.Send<StartPuzzleMessage>(new StartPuzzleMessage() 
-            //{PuzzleId = SelectedPuzzleGroupViewModel.PuzzleId});
         }
     }
-
-
 }

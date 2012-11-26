@@ -140,6 +140,7 @@
     </Compile>
     <Compile Include="GameDataService\IGameDataService.cs" />
     <Compile Include="Infrastructure\IUserService.cs" />
+    <Compile Include="Infrastructure\JsonUtility.cs" />
     <Compile Include="Infrastructure\NavigationService.cs" />
     <Compile Include="Infrastructure\PreferredConstructorAttribute.cs" />
     <Compile Include="Infrastructure\UserService.cs" />

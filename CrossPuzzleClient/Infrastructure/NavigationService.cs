@@ -39,7 +39,7 @@ namespace CrossPuzzleClient.Infrastructure
 
         public bool Navigate(Type source, object parameter = null)
         {
-            return frame.Navigate(source, parameter);
+            return frame.Navigate(source,  parameter != null ? JsonUtility.ToJson(parameter) : null);
         }
     }
 

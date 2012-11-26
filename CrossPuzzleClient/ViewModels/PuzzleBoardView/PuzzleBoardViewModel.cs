@@ -64,11 +64,12 @@ namespace CrossPuzzleClient.ViewModels.PuzzleBoardView
 
         public override async void LoadState(object navParameter, Dictionary<string, object> viewModelState)
         {
+            var puzzleViewModelSerialized = JsonUtility.FromJson<PuzzleViewModel>(navParameter.ToString());
             var loadUserImageAsyncTask = _userService.LoadUserImageAsync();
             RegisterForMessage();
             CurrentUser = await _userService.GetCurrentUserAsync();
             CurrentGameState = new GameNotStartedState(this);
-            var puzzleViewModel =  navParameter as PuzzleViewModel;
+            var puzzleViewModel = puzzleViewModelSerialized as PuzzleViewModel;
             if (puzzleViewModel != null) LoadPuzzleBoardForSelectedPuzzleId(puzzleViewModel.PuzzleId);
 
             SmallImage = await loadUserImageAsyncTask;

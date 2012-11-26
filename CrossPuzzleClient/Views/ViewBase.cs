@@ -18,9 +18,9 @@ namespace CrossPuzzleClient.Views
             if(vm!= null)vm.SaveState(pageState);
         }
 
-        protected override void OnNavigatedFrom(Windows.UI.Xaml.Navigation.NavigationEventArgs e)
+        protected override void OnNavigatedTo(Windows.UI.Xaml.Navigation.NavigationEventArgs e)
         {
-            base.OnNavigatedFrom(e);
+            base.OnNavigatedTo(e);
         }
     }
 }

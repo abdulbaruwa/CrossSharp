@@ -1,6 +1,9 @@
 ﻿using CrossPuzzleClient.Common;
 using CrossPuzzleClient.GameDataService;
+using CrossPuzzleClient.GameStates;
 using CrossPuzzleClient.Infrastructure;
+using CrossPuzzleClient.ViewModels.PuzzleBoardView;
+using CrossPuzzleClient.ViewModels.PuzzlesView;
 using CrossPuzzleClient.Views;
 using GalaSoft.MvvmLight.Ioc;
 using Windows.ApplicationModel;
@@ -40,7 +43,7 @@ namespace CrossPuzzleClient
         /// <param name="args">Details about the launch request and process.</param>
         protected override async void OnLaunched(LaunchActivatedEventArgs args)
         {
-
+            bool isRestarting = false;
             //Do not repeat app initialization when already running, just ensure that window is active
             if(args.PreviousExecutionState == ApplicationExecutionState.Running)
             {
@@ -53,21 +56,43 @@ namespace CrossPuzzleClient
             var rootFrame = new Frame();
             SuspensionManager.RegisterFrame(rootFrame, "AppFrame");
 
-            if (args.PreviousExecutionState == ApplicationExecutionState.Terminated)
+
+            //SuspensionManager.KnownTypes.AddRange(new[]{typeof(PuzzleBoardViewModel), typeof(PuzzleViewModel), typeof(PuzzlesViewModel), typeof(PuzzleGroupViewModel),
+            //    typeof(WordViewModel),typeof(CellViewModel) , typeof(CellEmptyViewModel),typeof(GameState),
+            //    typeof(GameFinishedState),
+            //    typeof(GameFinishedWithErrorsState),
+            //    typeof(GameNotStartedState),
+            //    typeof(GamePauseState)});
+
+            if (args.PreviousExecutionState == ApplicationExecutionState.Terminated ||
+                args.PreviousExecutionState == ApplicationExecutionState.ClosedByUser)
             {
                 // Restore the saved session state only when appropriate
                 await SuspensionManager.RestoreAsync();
+                if (rootFrame.Content != null) isRestarting = true;
             }
+            
+            if (isRestarting)
+            {
+                App.NavigationService = new NavigationService(rootFrame);
+                Window.Current.Content = rootFrame;
+            }
+            else
+            {
+                
+                //SplashScreen splashScreen = args.SplashScreen;
+                //var extendedSplashScreen = new ExtendedSplashView(splashScreen, false);
+                //splashScreen.Dismissed += splashScreen_Dismissed;
+                App.NavigationService = new NavigationService(rootFrame);
 
-            SplashScreen splashScreen = args.SplashScreen;
-            var extendedSplashScreen = new ExtendedSplashView(splashScreen, false);
-            splashScreen.Dismissed += splashScreen_Dismissed;
+                rootFrame.Navigate(typeof(PuzzlesView));
+                Window.Current.Content = rootFrame;
 
-            // Place the frame in the current Window and ensure that it is active
-            Window.Current.Content = extendedSplashScreen;
+                var gameDataService = SimpleIoc.Default.GetInstance<IGameDataService>();
+                await gameDataService.GetGameDataAndStoreInLocalDb(Windows.Storage.ApplicationData.Current.LocalFolder.Path);
+
+            }
             Window.Current.Activate();
-            var gameDataService = SimpleIoc.Default.GetInstance<IGameDataService>();
-            await gameDataService.GetGameDataAndStoreInLocalDb(Windows.Storage.ApplicationData.Current.LocalFolder.Path);
         }
 
 
