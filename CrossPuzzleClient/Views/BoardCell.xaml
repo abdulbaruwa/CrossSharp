@@ -5,7 +5,8 @@
     xmlns:local="using:CrossPuzzleClient.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:Common="using:CrossPuzzleClient.Common" mc:Ignorable="d"
+    xmlns:Common="using:CrossPuzzleClient.Common" xmlns:designTime="using:CrossPuzzleClient.ViewModels.DesignTime"
+    mc:Ignorable="d"
     d:DesignHeight="50"
     d:DesignWidth="50">
     
@@ -15,7 +16,7 @@
 
     <Border BorderThickness=".5">
         <Grid  Background="WhiteSmoke"
-        d:DataContext="{Binding Source={d:DesignInstance Type=local:DesignCellViewModel, IsDesignTimeCreatable=True}}">
+        d:DataContext="{Binding Source={d:DesignInstance Type=designTime:DesignCellViewModel, IsDesignTimeCreatable=True}}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>

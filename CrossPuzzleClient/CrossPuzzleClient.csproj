@@ -169,6 +169,7 @@
     <Compile Include="Services\IPuzzleRepository.cs" />
     <Compile Include="Services\IPuzzlesService.cs" />
     <Compile Include="Observables\ISchedulerProvider.cs" />
+    <Compile Include="ViewModels\PuzzleBoardView\DesignCellViewModel.cs" />
     <Compile Include="ViewModels\PuzzleBoardView\ITimeCounter.cs" />
     <Compile Include="ViewModels\PuzzleBoardView\CellValueChangedMessage.cs" />
     <Compile Include="ViewModels\PuzzleBoardView\CellViewModel.cs" />
@@ -188,6 +189,7 @@
       <DependentUpon>BoardCell.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\CellViewModel.cs" />
+    <Compile Include="ViewModels\DesignTime\DesignCellViewModel.cs" />
     <Compile Include="Views\ExtendedSplashView.xaml.cs">
       <DependentUpon>ExtendedSplashView.xaml</DependentUpon>
     </Compile>

@@ -8,13 +8,19 @@ namespace CrossPuzzleClient.Views
         protected override void LoadState(object navigationParameter, System.Collections.Generic.Dictionary<string, object> pageState)
         {
             var vm = DataContext as ViewModelBase;
-            if (vm != null) vm.LoadState(navigationParameter,pageState);
+            if (vm != null) 
+                vm.LoadState(navigationParameter,pageState);
         }
 
         protected override void SaveState(System.Collections.Generic.Dictionary<string, object> pageState)
         {
             var vm = DataContext as ViewModelBase;
             if(vm!= null)vm.SaveState(pageState);
+        }
+
+        protected override void OnNavigatedFrom(Windows.UI.Xaml.Navigation.NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
         }
     }
 }

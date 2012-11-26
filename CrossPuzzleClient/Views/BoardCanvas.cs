@@ -1,4 +1,5 @@
 ﻿using System;
+using CrossPuzzleClient.ViewModels.PuzzleBoardView;
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;

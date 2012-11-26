@@ -5,7 +5,7 @@ namespace CrossPuzzleClient.Infrastructure
 {
     public interface IUserService
     {
-        Task<BitmapImage> LoadUserImage();
-        Task<string> GetCurrentUser();
+        Task<BitmapImage> LoadUserImageAsync();
+        Task<string> GetCurrentUserAsync();
     }
 }

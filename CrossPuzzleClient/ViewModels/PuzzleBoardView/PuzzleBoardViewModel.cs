@@ -12,9 +12,10 @@ using CrossPuzzleClient.Services;
 using CrossPuzzleClient.ViewModels.PuzzlesView;
 using GalaSoft.MvvmLight.Messaging;
 using Windows.UI.Xaml.Media.Imaging;
-
+using System.Runtime.Serialization;
 namespace CrossPuzzleClient.ViewModels.PuzzleBoardView
 {
+    //[System.Runtime.Serialization]
     public class PuzzleBoardViewModel : ViewModelBase
     {
         private readonly ObservableCollection<CellEmptyViewModel> _cells;
@@ -63,12 +64,14 @@ namespace CrossPuzzleClient.ViewModels.PuzzleBoardView
 
         public override async void LoadState(object navParameter, Dictionary<string, object> viewModelState)
         {
+            var loadUserImageAsyncTask = _userService.LoadUserImageAsync();
             RegisterForMessage();
+            CurrentUser = await _userService.GetCurrentUserAsync();
             CurrentGameState = new GameNotStartedState(this);
-            CurrentUser = await _userService.GetCurrentUser();
-            SmallImage = await _userService.LoadUserImage();
             var puzzleViewModel =  navParameter as PuzzleViewModel;
             if (puzzleViewModel != null) LoadPuzzleBoardForSelectedPuzzleId(puzzleViewModel.PuzzleId);
+
+            SmallImage = await loadUserImageAsyncTask;
         }
 
         public BitmapImage SmallImage

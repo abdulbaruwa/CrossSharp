@@ -1,4 +1,5 @@
 ﻿using System;
+using CrossPuzzleClient.Common;
 using CrossPuzzleClient.Infrastructure;
 using CrossPuzzleClient.ViewModels;
 using CrossPuzzleClient.ViewModels.DesignTime;
@@ -50,6 +51,7 @@ namespace CrossPuzzleClient.Views
         {
             var puzzlesVm = new DesignPuzzlesVm();
             var rootFrame = new Frame();
+            SuspensionManager.RegisterFrame(rootFrame, "PuzzlesViewFrame");
             App.NavigationService = new NavigationService(rootFrame);
 
             rootFrame.Navigate(typeof(PuzzlesView));

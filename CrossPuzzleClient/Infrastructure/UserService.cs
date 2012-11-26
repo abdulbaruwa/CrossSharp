@@ -9,20 +9,23 @@ namespace CrossPuzzleClient.Infrastructure
     public class UserService : IUserService
     {
 
-        public async Task<string> GetCurrentUser()
+        public async Task<string> GetCurrentUserAsync()
         {
             return await UserInformation.GetFirstNameAsync();
         }
 
-        public async Task<BitmapImage> LoadUserImage()
+        public async Task<BitmapImage> LoadUserImageAsync()
         {
             var bitmapImage = new BitmapImage();
 
             var image = UserInformation.GetAccountPicture(AccountPictureKind.SmallImage) as StorageFile;
             if (image != null)
             {
-                var imageStream = await image.OpenReadAsync();
-                bitmapImage.SetSource(imageStream);
+                using (var stream = await image.OpenReadAsync())
+                {
+                    await bitmapImage.SetSourceAsync(stream);
+                }
+                //var imageStream = await image.OpenReadAsync();
             }
             return bitmapImage;
         }
@@ -31,12 +34,12 @@ namespace CrossPuzzleClient.Infrastructure
     public class FakeUserSevice : IUserService
 
     {
-        public async Task<BitmapImage> LoadUserImage()
+        public async Task<BitmapImage> LoadUserImageAsync()
         {
             return null;
         }
 
-        public async Task<string> GetCurrentUser()
+        public async Task<string> GetCurrentUserAsync()
         {
             return "Abdul";
         }

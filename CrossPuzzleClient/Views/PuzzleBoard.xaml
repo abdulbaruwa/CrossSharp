@@ -216,7 +216,7 @@
                                    HorizontalAlignment="Left" FontSize="20" />
                         <ListView
                             ItemsSource="{Binding Path=WordsDown}"
-                            SelectedItem="{Binding Path=SelectedWordDown, Mode=TwoWay}"
+                            SelectedItem="{Binding Path=SelectedWordDown}"
                             Margin="0,-30,0,0" HorizontalAlignment="Stretch" VerticalContentAlignment="Stretch"
                             ItemContainerStyle="{StaticResource PuzzleWordsListViewItemStyle}" SelectionMode="Single"
                             Padding="0"

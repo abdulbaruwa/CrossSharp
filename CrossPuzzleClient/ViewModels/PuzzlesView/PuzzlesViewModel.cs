@@ -37,13 +37,13 @@ namespace CrossPuzzleClient.ViewModels.PuzzlesView
 
         public override async void LoadState(object navParameter, Dictionary<string, object> viewModelState)
         {
-            CurrentUser = await _userService.GetCurrentUser();
-            SmallImage = await _userService.LoadUserImage();
+            CurrentUser = await _userService.GetCurrentUserAsync();
+            SmallImage = await _userService.LoadUserImageAsync();
             PuzzleGroupViewModels = await GetPuzzleGroup();
         }
 
 
-        //public async void LoadUserImage()
+        //public async void LoadUserImageAsync()
         //{
         //    var image = UserInformation.GetAccountPicture(AccountPictureKind.SmallImage) as StorageFile;
         //    if (image != null)
