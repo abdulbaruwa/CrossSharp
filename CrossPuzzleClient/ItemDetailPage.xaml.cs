@@ -1,4 +1,5 @@
-﻿using CrossPuzzleClient.Data;
+﻿using CrossPuzzleClient.Common;
+using CrossPuzzleClient.Data;
 
 using System;
 using System.Collections.Generic;

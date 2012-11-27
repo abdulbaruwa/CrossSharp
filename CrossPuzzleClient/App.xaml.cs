@@ -56,7 +56,6 @@ namespace CrossPuzzleClient
             var rootFrame = new Frame();
             SuspensionManager.RegisterFrame(rootFrame, "AppFrame");
 
-
             //SuspensionManager.KnownTypes.AddRange(new[]{typeof(PuzzleBoardViewModel), typeof(PuzzleViewModel), typeof(PuzzlesViewModel), typeof(PuzzleGroupViewModel),
             //    typeof(WordViewModel),typeof(CellViewModel) , typeof(CellEmptyViewModel),typeof(GameState),
             //    typeof(GameFinishedState),
@@ -79,7 +78,9 @@ namespace CrossPuzzleClient
             }
             else
             {
-                
+                var gameDataService = SimpleIoc.Default.GetInstance<IGameDataService>();
+                await gameDataService.GetGameDataAndStoreInLocalDb(Windows.Storage.ApplicationData.Current.LocalFolder.Path);
+
                 //SplashScreen splashScreen = args.SplashScreen;
                 //var extendedSplashScreen = new ExtendedSplashView(splashScreen, false);
                 //splashScreen.Dismissed += splashScreen_Dismissed;
@@ -88,8 +89,7 @@ namespace CrossPuzzleClient
                 rootFrame.Navigate(typeof(PuzzlesView));
                 Window.Current.Content = rootFrame;
 
-                var gameDataService = SimpleIoc.Default.GetInstance<IGameDataService>();
-                await gameDataService.GetGameDataAndStoreInLocalDb(Windows.Storage.ApplicationData.Current.LocalFolder.Path);
+
 
             }
             Window.Current.Activate();

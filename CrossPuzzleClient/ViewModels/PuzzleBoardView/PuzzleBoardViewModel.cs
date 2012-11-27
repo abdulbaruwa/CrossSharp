@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Reactive.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using CrossPuzzleClient.Common;
 using CrossPuzzleClient.GameStates;
@@ -12,10 +13,8 @@ using CrossPuzzleClient.Services;
 using CrossPuzzleClient.ViewModels.PuzzlesView;
 using GalaSoft.MvvmLight.Messaging;
 using Windows.UI.Xaml.Media.Imaging;
-using System.Runtime.Serialization;
 namespace CrossPuzzleClient.ViewModels.PuzzleBoardView
 {
-    //[System.Runtime.Serialization]
     public class PuzzleBoardViewModel : ViewModelBase
     {
         private readonly ObservableCollection<CellEmptyViewModel> _cells;
@@ -64,6 +63,7 @@ namespace CrossPuzzleClient.ViewModels.PuzzleBoardView
 
         public override async void LoadState(object navParameter, Dictionary<string, object> viewModelState)
         {
+
             var puzzleViewModelSerialized = JsonUtility.FromJson<PuzzleViewModel>(navParameter.ToString());
             var loadUserImageAsyncTask = _userService.LoadUserImageAsync();
             RegisterForMessage();
@@ -71,8 +71,68 @@ namespace CrossPuzzleClient.ViewModels.PuzzleBoardView
             CurrentGameState = new GameNotStartedState(this);
             var puzzleViewModel = puzzleViewModelSerialized as PuzzleViewModel;
             if (puzzleViewModel != null) LoadPuzzleBoardForSelectedPuzzleId(puzzleViewModel.PuzzleId);
-
+            if (viewModelState != null && viewModelState.ContainsKey("Cells") && viewModelState.ContainsKey("Words"))
+            {
+                DeserializeAndUpdateWordsAndCellsData(viewModelState);
+            }
             SmallImage = await loadUserImageAsyncTask;
+        }
+
+        private async void DeserializeAndUpdateWordsAndCellsData(Dictionary<string, object> viewModelState)
+        {
+            var cells = await Task.Run(() =>  JsonUtility.FromJson<List<CellEmptyViewModel>>(viewModelState["Cells"].ToString()));
+            var words = await Task.Run(() => JsonUtility.FromJson<List<KeyValuePair<string,bool>>>(viewModelState["Words"].ToString()));
+            
+            UpdateCellsAndWordCellsEnteredValuesWithValuesFrom(cells);
+            await Task.Run(() =>
+                               {
+                                   (from w in words
+                                           from y in Words
+                                           where w.Key == y.Word
+                                           select y.EnteredValueAddedToBoard = w.Value).ToArray();
+
+  
+                               }
+                );
+        }
+
+        private void UpdateCellsAndWordCellsEnteredValuesWithValuesFrom(List<CellEmptyViewModel> cells)
+        {
+            foreach (var cell in cells)
+            {
+                var cellref = Cells.FirstOrDefault(x => x.Row == cell.Row && x.Col == cell.Col);
+                if (cellref != null)
+                {
+                    cellref.EnteredValue = cell.EnteredValue;
+                    //Words also have Cells. Now these cells may have values in their 'EnteredValue' field
+                    //so we update also to match the session values
+                    //Get from Words in viewmodel the matching cell and update it's EnteredValue
+
+                    
+                    foreach(var wordWithCellRef in Words.Where(x => x.Cells.Any(y => y.Col == cellref.Col && y.Row == cellref.Row)))
+                    {
+                        var wordCellRef = wordWithCellRef.Cells.FirstOrDefault(z => z.Col == cellref.Col && z.Row == cellref.Row);
+                        if (wordCellRef != null)
+                        {
+                            wordCellRef.EnteredValue = cell.EnteredValue;
+                        }
+                    }
+                }
+            }
+        }
+
+
+        public override void SaveState(Dictionary<string, object> viewModelState)
+        {
+            if (viewModelState != null)
+            {
+                var cells = Cells.Select(x =>new CellEmptyViewModel(x.Col, x.Row, x.Value) {EnteredValue = x.EnteredValue}
+                    ).ToArray();
+                viewModelState["Cells"] = JsonUtility.ToJson(cells);
+
+                var wordsEnteredOnBoard = Words.Select(x => new KeyValuePair<string, bool>(x.Word,x.EnteredValueAddedToBoard)).ToArray();
+                viewModelState["Words"] = JsonUtility.ToJson(wordsEnteredOnBoard);
+            }
         }
 
         public BitmapImage SmallImage
@@ -212,7 +272,6 @@ namespace CrossPuzzleClient.ViewModels.PuzzleBoardView
             foreach (var cell in _selectedWord.Cells)
             {
                 var cell1 = cell;
-                var cel = Cells.First(x => x.Row == cell1.Row && x.Col == cell1.Col);
                 Cells.First(x => x.Row == cell1.Row && x.Col == cell1.Col).IsVisible = cellState;
             }
         }
@@ -229,9 +288,7 @@ namespace CrossPuzzleClient.ViewModels.PuzzleBoardView
 
                 if(CurrentGameState.CanBecome(finishedGameState)) GameStateBecome(finishedGameState);
 
-                //StopGame();
                 GameIsRunning = false;
-                //FireGameCompleteMessage();
             }
         }
 
@@ -431,12 +488,21 @@ namespace CrossPuzzleClient.ViewModels.PuzzleBoardView
 
         private void AddEnteredWordOnToBoard()
         {
-            foreach (var cell in SelectedWord.Cells)
-            {
-                Cells.First(x => x.Row == cell.Row && x.Col == cell.Col).EnteredValue = cell.EnteredValue;
-            }
+            UpdateCellsEnteredValuesWithValuesFrom(SelectedWord.Cells);
             SelectedWord.EnteredValueAddedToBoard = true;
             StopGameIfFinished();
+        }
+
+        private void UpdateCellsEnteredValuesWithValuesFrom(IEnumerable<CellEmptyViewModel> cells)
+        {
+            foreach (var cell in cells )
+            {
+                var cellref = Cells.FirstOrDefault(x => x.Row == cell.Row && x.Col == cell.Col);
+                if (cellref != null)
+                {
+                    cellref.EnteredValue = cell.EnteredValue;
+                }
+            }
         }
 
         public ObservableCollection<WordViewModel> WordsAcross
