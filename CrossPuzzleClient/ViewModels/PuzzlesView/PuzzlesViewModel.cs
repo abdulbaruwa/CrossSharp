@@ -39,7 +39,9 @@ namespace CrossPuzzleClient.ViewModels.PuzzlesView
         {
             CurrentUser = await _userService.GetCurrentUserAsync();
             SmallImage = await _userService.LoadUserImageAsync();
-            PuzzleGroupViewModels = await GetPuzzleGroup();
+            var puzzleGroups = await Task.Run(() => _puzzleRepository.GetPuzzles(CurrentUser));
+            PuzzleGroupData = puzzleGroups;
+            PuzzleGroupViewModels = await GetPuzzleGroup(puzzleGroups);
         }
 
         public BitmapImage SmallImage
@@ -49,9 +51,8 @@ namespace CrossPuzzleClient.ViewModels.PuzzlesView
         }
 
 
-        public async Task<ObservableCollection<PuzzleGroupViewModel>> GetPuzzleGroup()
+        public async Task<ObservableCollection<PuzzleGroupViewModel>> GetPuzzleGroup(List<PuzzleGroup> puzzleGroups)
         {
-            var puzzleGroups = _puzzleRepository.GetPuzzles(CurrentUser);
             var puzzleGroupViewModels = new ObservableCollection<PuzzleGroupViewModel>();
             foreach (var puzzleGroup in puzzleGroups)
             {
