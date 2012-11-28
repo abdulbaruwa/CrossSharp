@@ -4,6 +4,7 @@ using System.Diagnostics;
 using CrossPuzzleClient.Infrastructure;
 using CrossPuzzleClient.Observables;
 using CrossPuzzleClient.ViewModels.PuzzleBoardView;
+using CrossPuzzleClient.ViewModels.PuzzlesView;
 
 namespace CrossPuzzleClient.ViewModels.DesignTime
 {
@@ -16,6 +17,7 @@ namespace CrossPuzzleClient.ViewModels.DesignTime
             Debug.WriteLine("StartPauseButtonCaption {0}", StartPauseButtonCaption);
             CurrentUser = "Abdulrahaman";
 
+            PuzzleViewModel = new PuzzleViewModel() {Group = "Science", Title = "Level One"};
             Words = _puzzlesService.GetOrdereredWordsForPuzzle(0,CurrentUser);
 
             SelectedWord = (from word in Words
@@ -34,6 +36,7 @@ namespace CrossPuzzleClient.ViewModels.DesignTime
             AddWordsToBoard();
 
         }
- 
+
+        
     }
 }

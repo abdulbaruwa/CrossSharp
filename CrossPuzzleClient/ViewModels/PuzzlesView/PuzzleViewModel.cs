@@ -5,6 +5,7 @@ namespace CrossPuzzleClient.ViewModels.PuzzlesView
     public class PuzzleViewModel
     {
         public string Title { get; set; }
+        public string Group { get; set; }
         public int PuzzleId { get; set;  }
         public List<string> Words { get; set; }
         public int GameScore { get; set; }

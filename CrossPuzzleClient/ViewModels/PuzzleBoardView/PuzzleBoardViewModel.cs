@@ -63,25 +63,26 @@ namespace CrossPuzzleClient.ViewModels.PuzzleBoardView
             _userService = userService;
             _puzzlesService = puzzlesService;
             CreateCellsForBoard();
-
         }
 
         public override async void LoadState(object navParameter, Dictionary<string, object> viewModelState)
         {
-
             var puzzleViewModelSerialized = JsonUtility.FromJson<PuzzleViewModel>(navParameter.ToString());
             var loadUserImageAsyncTask = _userService.LoadUserImageAsync();
             RegisterForMessage();
             CurrentUser = await _userService.GetCurrentUserAsync();
             CurrentGameState = new GameNotStartedState(this);
             var puzzleViewModel = puzzleViewModelSerialized as PuzzleViewModel;
-            if (puzzleViewModel != null) LoadPuzzleBoardForSelectedPuzzleId(puzzleViewModel.PuzzleId);
+            PuzzleViewModel = puzzleViewModel;
+            if (puzzleViewModel != null) LoadPuzzleBoardForSelectedPuzzleId();
             if (viewModelState != null && viewModelState.ContainsKey(CellStateName) && viewModelState.ContainsKey(WordsStateName))
             {
                 DeserializeAndUpdateWordsAndCellsData(viewModelState);
             }
             SmallImage = await loadUserImageAsyncTask;
         }
+
+        public PuzzleViewModel PuzzleViewModel { get; set; }
 
         private async void DeserializeAndUpdateWordsAndCellsData(Dictionary<string, object> viewModelState)
         {
@@ -147,6 +148,11 @@ namespace CrossPuzzleClient.ViewModels.PuzzleBoardView
             }
         }
 
+        public string DisplayTitle
+        {
+            get { return PuzzleViewModel != null ? PuzzleViewModel.Group + "-" + PuzzleViewModel.Title : string.Empty; }
+            //get { return "Puzzle"; }
+        }
 
         public BitmapImage SmallImage
         {
@@ -308,10 +314,8 @@ namespace CrossPuzzleClient.ViewModels.PuzzleBoardView
         public void FireGameCompleteMessage()
         {
             var score = Convert.ToInt32(GetGameScore());
-            Messenger.Default.Send(new GameCompleteMessage(){ScorePercentage = score, UserName= "Abdul", GameId = GameId});
+            Messenger.Default.Send(new GameCompleteMessage(){ScorePercentage = score, UserName= CurrentUser, GameId = PuzzleViewModel.PuzzleId});
         }
-
-        public int GameId { get; set; }
 
         private double GetGameScore()
         {
@@ -649,10 +653,11 @@ namespace CrossPuzzleClient.ViewModels.PuzzleBoardView
             ShowCompleteTick = SetShowCompleteTick();
         }
 
-        private void LoadPuzzleBoardForSelectedPuzzleId(int puzzleId)
+        private void LoadPuzzleBoardForSelectedPuzzleId()
         {
-            GameId = puzzleId;
-            Words = _puzzlesService.GetOrdereredWordsForPuzzle(puzzleId,CurrentUser);
+
+            //GameId = this.PuzzleViewModel.PuzzleId;
+            Words = _puzzlesService.GetOrdereredWordsForPuzzle(PuzzleViewModel.PuzzleId,CurrentUser);
             AddWordsToBoard();
         }
 

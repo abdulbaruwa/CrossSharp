@@ -15,7 +15,8 @@ namespace CrossPuzzleClient.Common
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            return (value is bool && (bool)value) ? Visibility.Visible : Visibility.Collapsed;
+            //return (value is bool && (bool)value) ? Visibility.Visible : Visibility.Collapsed;
+            return ((value is bool && (bool)value) ^ parameter != null) ? Visibility.Visible : Visibility.Collapsed;
         }
         
         public object ConvertBack(object value, Type targetType, object parameter, string language)

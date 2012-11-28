@@ -77,7 +77,7 @@ namespace CrossPuzzleClientTests.ViewModelTests
 
             var puzzleViewModel = new PuzzleViewModel() { PuzzleId = 1 };
             puzzleBoardVm.LoadState(puzzleViewModel, new Dictionary<string, object>());
-            Assert.AreEqual(puzzleViewModel.PuzzleId, puzzleBoardVm.GameId);
+            Assert.AreEqual(puzzleViewModel.PuzzleId, puzzleBoardVm.PuzzleViewModel.PuzzleId);
         }
 
         [TestMethod]
