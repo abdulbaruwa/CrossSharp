@@ -17,6 +17,11 @@ namespace CrossPuzzleClient.ViewModels.PuzzleBoardView
 {
     public class PuzzleBoardViewModel : ViewModelBase
     {
+        private const string HoursStateName = "Hours";
+        private const string MinutesStateName = "Minutes";
+        private const string SecondsStateName = "Seconds";
+        private const string CellStateName = "Cells";
+        private const string WordsStateName = "Words";
         private readonly ObservableCollection<CellEmptyViewModel> _cells;
         private int _cols;
         private int _currentWordPosition;
@@ -71,7 +76,7 @@ namespace CrossPuzzleClient.ViewModels.PuzzleBoardView
             CurrentGameState = new GameNotStartedState(this);
             var puzzleViewModel = puzzleViewModelSerialized as PuzzleViewModel;
             if (puzzleViewModel != null) LoadPuzzleBoardForSelectedPuzzleId(puzzleViewModel.PuzzleId);
-            if (viewModelState != null && viewModelState.ContainsKey("Cells") && viewModelState.ContainsKey("Words"))
+            if (viewModelState != null && viewModelState.ContainsKey(CellStateName) && viewModelState.ContainsKey(WordsStateName))
             {
                 DeserializeAndUpdateWordsAndCellsData(viewModelState);
             }
@@ -80,9 +85,12 @@ namespace CrossPuzzleClient.ViewModels.PuzzleBoardView
 
         private async void DeserializeAndUpdateWordsAndCellsData(Dictionary<string, object> viewModelState)
         {
-            var cells = await Task.Run(() =>  JsonUtility.FromJson<List<CellEmptyViewModel>>(viewModelState["Cells"].ToString()));
-            var words = await Task.Run(() => JsonUtility.FromJson<List<KeyValuePair<string,bool>>>(viewModelState["Words"].ToString()));
-            
+            var cells = await Task.Run(() =>  JsonUtility.FromJson<List<CellEmptyViewModel>>(viewModelState[CellStateName].ToString()));
+            var words = await Task.Run(() => JsonUtility.FromJson<List<KeyValuePair<string,bool>>>(viewModelState[WordsStateName].ToString()));
+            _hours = viewModelState.ContainsKey(HoursStateName) ? Convert.ToInt32(viewModelState[HoursStateName]) : 0;
+            _minutes = viewModelState.ContainsKey(MinutesStateName) ? Convert.ToInt32(viewModelState[MinutesStateName]) : 0;
+            _seconds = viewModelState.ContainsKey(SecondsStateName) ? Convert.ToInt32(viewModelState[SecondsStateName]) : 0;
+            SetGameCountDown();
             UpdateCellsAndWordCellsEnteredValuesWithValuesFrom(cells);
             await Task.Run(() =>
                                {
@@ -94,6 +102,24 @@ namespace CrossPuzzleClient.ViewModels.PuzzleBoardView
   
                                }
                 );
+        }
+
+        public override void SaveState(Dictionary<string, object> viewModelState)
+        {
+            if (viewModelState != null)
+            {
+                var cells = Cells.Select(x =>new CellEmptyViewModel(x.Col, x.Row, x.Value) {EnteredValue = x.EnteredValue}
+                    ).ToArray();
+                viewModelState[CellStateName] = JsonUtility.ToJson(cells);
+
+                var wordsEnteredOnBoard = Words.Select(x => new KeyValuePair<string, bool>(x.Word,x.EnteredValueAddedToBoard)).ToArray();
+                viewModelState[WordsStateName] = JsonUtility.ToJson(wordsEnteredOnBoard);
+
+                viewModelState[HoursStateName] = _hours;
+                viewModelState[MinutesStateName] = _minutes;
+                viewModelState[SecondsStateName] = _seconds;
+                
+            }
         }
 
         private void UpdateCellsAndWordCellsEnteredValuesWithValuesFrom(List<CellEmptyViewModel> cells)
@@ -121,19 +147,6 @@ namespace CrossPuzzleClient.ViewModels.PuzzleBoardView
             }
         }
 
-
-        public override void SaveState(Dictionary<string, object> viewModelState)
-        {
-            if (viewModelState != null)
-            {
-                var cells = Cells.Select(x =>new CellEmptyViewModel(x.Col, x.Row, x.Value) {EnteredValue = x.EnteredValue}
-                    ).ToArray();
-                viewModelState["Cells"] = JsonUtility.ToJson(cells);
-
-                var wordsEnteredOnBoard = Words.Select(x => new KeyValuePair<string, bool>(x.Word,x.EnteredValueAddedToBoard)).ToArray();
-                viewModelState["Words"] = JsonUtility.ToJson(wordsEnteredOnBoard);
-            }
-        }
 
         public BitmapImage SmallImage
         {
@@ -434,12 +447,6 @@ namespace CrossPuzzleClient.ViewModels.PuzzleBoardView
             }
         }
 
-        private void StopGame()
-        {
-           StopTime();
-           StartPauseButtonCaption = "Start";
-        }
-
         public void BeginCount()
         {
             //var scheduler = new DispatcherScheduler(Application.Current. Dispatcher);
@@ -471,12 +478,19 @@ namespace CrossPuzzleClient.ViewModels.PuzzleBoardView
                     {
                         _seconds = _seconds + 1;
                     }
-
-                    GameCountDown = ConvertIntTwoUnitStringNumber(_hours) + ":" +
-                                    ConvertIntTwoUnitStringNumber(_minutes) + ":" +
-                                    ConvertIntTwoUnitStringNumber(_seconds);
+                    SetGameCountDown();
+                    //GameCountDown = ConvertIntTwoUnitStringNumber(_hours) + ":" +
+                    //                ConvertIntTwoUnitStringNumber(_minutes) + ":" +
+                    //                ConvertIntTwoUnitStringNumber(_seconds);
                 }
                );
+        }
+
+        private void SetGameCountDown()
+        {
+            GameCountDown = ConvertIntTwoUnitStringNumber(_hours) + ":" +
+                   ConvertIntTwoUnitStringNumber(_minutes) + ":" +
+                   ConvertIntTwoUnitStringNumber(_seconds);
         }
 
         private string ConvertIntTwoUnitStringNumber(int number)
