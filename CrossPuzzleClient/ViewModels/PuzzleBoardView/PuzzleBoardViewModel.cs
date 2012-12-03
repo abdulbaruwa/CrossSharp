@@ -99,8 +99,6 @@ namespace CrossPuzzleClient.ViewModels.PuzzleBoardView
                                            from y in Words
                                            where w.Key == y.Word
                                            select y.EnteredValueAddedToBoard = w.Value).ToArray();
-
-  
                                }
                 );
         }
