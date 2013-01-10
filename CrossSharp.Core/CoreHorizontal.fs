@@ -84,12 +84,6 @@ module CoreHorizontal =
                 false
 
         checkleft && checkright
-//
-//        if((board.[row, leftcell].ToString() = emptyCell)
-//                        && (board.[row, rightcell].ToString() = emptyCell)) then 
-//            false
-//        else
-//            true     
 
     let rec CanWordBeInsertedVertically(wordchars:char[]) (board:string[,]) (colpos:int) (pos:int) = 
         if(colpos < 0) then false
@@ -166,8 +160,6 @@ module CoreHorizontal =
                     let currentcell = {matchingCell.row = startrow; matchingCell.col = colIterator; matchingCell.letterindex = letterindex}
                     cells.[letterindex] <- currentcell
 
-                    //let nextletter = letterindex + 1
-                    //let nextcol = startcol + 1
                     findHorizontalMatch wordchars board (colIterator + 1) startcell (letterindex + 1) (true, cells)
                 else
                     result
@@ -179,8 +171,16 @@ module CoreHorizontal =
             result
 
     let cellHasVertNeighbours (board:string[,]) (acell:matchingCell) = 
-            let hasAbove = board.[(acell.row - 1), (acell.col)] = emptyCell
-            let hasBelow = board.[(acell.row + 1), (acell.col)] = emptyCell
+            let hasAbove = 
+                if(acell.row - 1 >= 0) then
+                    board.[(acell.row - 1), (acell.col)] = emptyCell
+                else
+                    false
+            let hasBelow = 
+                if(acell.row + 1 <= board.GetLength(1) - 1) then
+                    board.[(acell.row + 1), (acell.col)] = emptyCell
+                else
+                    false
             hasAbove && hasBelow
 
 
