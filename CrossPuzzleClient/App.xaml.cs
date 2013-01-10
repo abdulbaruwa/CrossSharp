@@ -66,7 +66,7 @@ namespace CrossPuzzleClient
             if (args.PreviousExecutionState == ApplicationExecutionState.Terminated ||
                 args.PreviousExecutionState == ApplicationExecutionState.ClosedByUser)
             {
-                // Restore the saved session state only when appropriate
+                //Restore the saved session state only when appropriate
                 await SuspensionManager.RestoreAsync();
                 if (rootFrame.Content != null) isRestarting = true;
             }

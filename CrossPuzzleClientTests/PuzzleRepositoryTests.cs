@@ -16,7 +16,8 @@ namespace CrossPuzzleClientTests
         {
             string path = ApplicationData.Current.TemporaryFolder.Path;
             IPuzzleWebApiService puzzleWebApiService = new FakePuzzleWebApiService();
-            IGameDataService gameDataService = new GameDataService(puzzleWebApiService);
+
+            IGameDataService gameDataService = new GameDataService(puzzleWebApiService,null);
             Task resultTask = gameDataService.GetGameDataAndStoreInLocalDb(ApplicationData.Current.TemporaryFolder.Path);
             await resultTask;
 

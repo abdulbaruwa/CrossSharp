@@ -4,7 +4,7 @@ module CoreVertical =
 
     open CoreHorizontal
     open System
-
+    open System.Diagnostics
     let hasrightchar (board:string[,]) (row:int) (col:int) = 
         match col with
         | col when col < 1 -> false
@@ -35,7 +35,7 @@ module CoreVertical =
     //let rec findVerticalMatch ( wordchars:char[]) (board:string[,]) startrow startcol letterindex (result: (bool * matchingCell[])) =
     let rec findVerticalMatch (wordchars:char[]) (board:string[,]) rowIterator (startcell:(int*int)) letterindex  (result: (bool * matchingCell[])) =
         let startcol = snd startcell
-        if (letterindex < wordchars.Length && (fst startcell + wordchars.Length) < board.GetLength(1) && rowIterator < board.GetLength(1)) then
+        if (letterindex < wordchars.Length && (fst startcell + wordchars.Length) <= board.GetLength(1) && rowIterator < board.GetLength(1)) then
             match board.[rowIterator,startcol] with
             | x when x.Equals (wordchars.[letterindex].ToString(), StringComparison.OrdinalIgnoreCase) -> 
                         let noInvalidcharAbove = hastopchar board rowIterator startcol
@@ -54,14 +54,18 @@ module CoreVertical =
 
                 
     let cellHasHorizontalNeighbours (board:string[,]) (acell:matchingCell) = 
+        
         let ccol = acell.col
         let rrow = acell.row
+        let boardLength = (Array2D.length2 board)
+        //System.Diagnostics.Debug.WriteLine(ccol.ToString())
+        //System.Diagnostics.Debug.WriteLine(rrow)
         let celll = board.[rrow,ccol]
 
         match acell with
         | x when x.col = 0 -> false
-        | x when x.col >= (Array2D.length2 board) -> false
-        | x -> (board.[(x.row), (x.col - 1)] = emptyCell) && (board.[(x.row), (x.col + 1)] = emptyCell)
+        | x when x.col >= boardLength -> false
+        | x -> (board.[(x.row), (x.col - 1)] = emptyCell) &&  (if (ccol < boardLength-1) then (board.[(x.row), (x.col + 1)] = emptyCell) else true) //ignore second part if at last col
         
 
         
@@ -100,7 +104,7 @@ module CoreVertical =
             if(thefirstmatchingrow > 0 && board.[(thefirstmatchingrow - 1), firstmatchedcell.col] <> emptyCell) then
                 false
                 //Ensure cell after last matching position for word is empty.
-            elif (board.[(thefirstmatchingrow + wordchars.Length), firstmatchedcell.col] = emptyCell) then
+            elif (board.[(thefirstmatchingrow + wordchars.Length-1), firstmatchedcell.col] = emptyCell) then
                 //get position for unmatched chars on the board based on the match
                 let placeholderarray = Array.zeroCreate(wordchars.Length)
                 cells |> Array.iteri(fun i x -> 
@@ -204,9 +208,10 @@ module CoreVertical =
 
     let AddWordsAttempts (words:string[]) (board:string[,]) = 
         let firstAttempt = AddWords words board
-        //let firstresultArray = snd firstAttempt
         let getUnenteredWords (resultsArray:resultCell[]) = [|for i in 0..(resultsArray.Length-1) do 
                                                                     if resultsArray.[i].inserted = false then yield resultsArray.[i].word |]
+
+
         
         let secondAttempt = AddRemainingWords (getUnenteredWords (snd firstAttempt)) (fst firstAttempt)
         let thirdAttempt = AddRemainingWords (getUnenteredWords (snd secondAttempt)) (fst secondAttempt)

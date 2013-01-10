@@ -146,6 +146,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="CrossSharp.Core, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\CrossSharp.Core\bin\Debug\CrossSharp.Core.dll</HintPath>
+    </Reference>
     <Reference Include="FSharp.Core">
       <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\FSharp\3.0\Runtime\v4.0\FSharp.Core.dll</HintPath>
     </Reference>
@@ -175,6 +179,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Infrastructure\" />
+    <Folder Include="NewWords\" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0' ">
     <VisualStudioVersion>11.0</VisualStudioVersion>

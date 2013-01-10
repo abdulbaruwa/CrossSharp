@@ -228,6 +228,9 @@
     <Content Include="Assets\DarkGray.png" />
     <Content Include="Assets\TinyLogo.png" />
     <Content Include="Assets\ToroSoftware.png" />
+    <Content Include="NewWords\puzzledataEnglishWordsList1.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="sqlite3.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -1,4 +1,7 @@
-﻿using NUnit.Framework;
+﻿using System;
+using System.IO;
+using System.Reflection;
+using NUnit.Framework;
 using System.Diagnostics;
 using System.Linq;
 using CrossSharp.Core;
@@ -364,6 +367,112 @@ namespace CrossSharp.Tests
         }
 
 
+        [Test]
+        public void Test_a_set_of_words()
+        {
+            var packagePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "puzzledataEnglishWordsList1.txt");
+            var wordsAndHints = File.ReadLines(packagePath);
+            var wordDic = wordsAndHints.Select(fileDataInLine => fileDataInLine.Split(new[] { '|' }))
+                                 .ToDictionary(lineArray => lineArray[0], lineArray => lineArray[1]);
+
+
+            
+            var words = new List<string>();
+            //words.Add("Kettledrum");
+            //words.Add("Embezzler");
+            //words.Add("Gladioli");
+            //words.Add("Sieve");
+            //words.Add("Ewes");
+            //words.Add("Retort");
+            //words.Add("Rescuing");
+            //words.Add("Retrieve");
+
+            //words.Add("Kettledrum");
+            //words.Add("Cabaret");
+            //words.Add("words.Add(Shopping");
+            //words.Add("Embezzler");
+            //words.Add("Automatic");
+            //words.Add("Gladioli");
+            //words.Add("Competition");
+            //words.Add("Sargent");
+            //words.Add("Sieve");
+            //words.Add("Compass");
+            //words.Add("Playwright");
+            //words.Add("Trombone");
+            //words.Add("Encyclopaedia");
+            //words.Add("Ewes");
+            //words.Add("Rand");
+            //words.Add("Plotted");
+            //words.Add("Perennials");
+            //words.Add("Catapult");
+            //words.Add("Retort");
+            //words.Add("Dubbin");
+            //words.Add("Separating");
+            //words.Add("Accelerator");
+            //words.Add("Aisle");
+            //words.Add("Castanets");
+            //words.Add("Rescuing");
+            //words.Add("Retrieve");
+            //words.Add("Aphid");
+            //words.Add("Goddess");
+            //words.Add("Periscope");
+            //words.Add("Zipfastener");
+            //words.Add("Peninsula");
+            //words.Add("Glacier");
+            //words.Add("Poliomyelitis");
+            //words.Add("Transistor");
+            //words.Add("TapeMeasure");
+            //words.Add("Alligator");
+            //words.Add("Buries");
+            //words.Add("Retirement");
+            //words.Add("Dyed");
+            //words.Add("Pliers");
+            //words.Add("Suggest");
+            //words.Add("Fulfil");
+            //words.Add("Virtue");
+            //words.Add("Museum");
+            //words.Add("Salmon");
+            //words.Add("Absurd");
+            //words.Add("Warriors");
+            //words.Add("Ceremony");
+            //words.Add("Procession");
+            //words.Add("Theatre");
+            //words.Add("Issue");
+            //words.Add("Pitiful");
+            //words.Add("Succession");
+            //words.Add("Welfare");
+            //words.Add("Courageous");
+            //words.Add("Skilful");
+            //words.Add("Rescue");
+            //words.Add("Siege");
+            //words.Add("Unusual");
+            //words.Add("Egypt");
+            //words.Add("Positive");
+            //words.Add("Spaniard");
+            //words.Add("Stubborn");
+            //words.Add("Column");
+            //words.Add("Courteous");
+            //words.Add("Christian");
+            //words.Add("Appreciation"); ;
+            var board = CoreHorizontal.GetBoard(12, 12);
+            var result1 = (CoreVertical.AddWords(wordDic.Keys.ToArray(), board));
+           // var result = (CoreVertical.AddWordsAttempts(wordDic.Keys.ToArray(), board));
+            //PrintBoard(result.Item2);
+            PrintBoard(board);
+        }
+
+        [Test]
+        public void Test_Words_from_a_file()
+        {
+            var packagePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "puzzledataEnglishWordsList1.txt");
+            var wordsAndHints = File.ReadLines(packagePath);
+            var wordDic = wordsAndHints.Select(fileDataInLine => fileDataInLine.Split(new[] { '|' }))
+                                 .ToDictionary(lineArray =>  lineArray[0].Trim(), lineArray => lineArray[1].Trim());
+            var board = CoreHorizontal.GetBoard(12, 12);
+            var words = wordDic.Keys.ToArray();
+            var result1 = (CoreVertical.AddWordsAttempts(words, board));
+            PrintBoard(board);
+        }
         [Test]
         public void Given_a_set_words_should_iterate_and_apply_valid_words_starting_from_the_largest()
         {

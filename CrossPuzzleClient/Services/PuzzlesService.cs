@@ -1,3 +1,5 @@
+using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -27,6 +29,21 @@ namespace CrossPuzzleClient.Services
 
             return SortWordsByPositionOnBoard(wordviewmodels);
 
+        }
+        
+        public IList<WordViewModel> GetWordsInsertableIntoPuzzle(Dictionary<string,string> words )
+        {
+
+            try
+            {
+                var wordviewmodels = GetWordsWordviewmodels(words);
+
+                return SortWordsByPositionOnBoard(wordviewmodels);
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
         }
 
         private ObservableCollection<WordViewModel> SortWordsByPositionOnBoard(List<WordViewModel> wordviewmodels)
@@ -59,6 +76,20 @@ namespace CrossPuzzleClient.Services
             return sortedWordViewModel;
         }
 
+        public string[,] GetEmptyBoard()
+        {
+            return CoreHorizontal.GetBoard(12, 12);
+        }
+
+        private static void PrintBoard(string[,] board)
+        {
+            var result = CoreHorizontal.printboard(board);
+            foreach (var str in result)
+            {
+                Debug.WriteLine(str);
+            }
+        }
+
         public List<WordViewModel> GetWordsWordviewmodels(Dictionary<string,string> words)
         {
 
@@ -77,11 +108,12 @@ namespace CrossPuzzleClient.Services
             var board = CoreHorizontal.GetBoard(12, 12);
             //var wordKeys = words. .Select(x => x.Key).ToArray();
             var result = (CoreVertical.AddWordsAttempts(words.Keys.ToArray(), board));
-
+            PrintBoard(board);
             var wordsInserted = result.Item1.Where(x => x.inserted);
             var wordviewmodels = new List<WordViewModel>();
             foreach (var word in wordsInserted)
             {
+                Debug.WriteLine(word.word);
                 var position = (word.row * 12) + word.col;
                 CoreHorizontal.resultCell word1 = word;
                 var wordViewModel = new WordViewModel()

@@ -20,6 +20,16 @@ namespace CrossPuzzleClient.ViewModels.DesignTime
             return SortWordsByPositionOnBoard(wordviewmodels);
         }
 
+        public ObservableCollection<WordViewModel> GetWordsInsertableIntoPuzzle(Dictionary<string, string> words)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public string[,] GetEmptyBoard()
+        {
+            throw new System.NotImplementedException();
+        }
+
         private ObservableCollection<WordViewModel> SortWordsByPositionOnBoard(List<WordViewModel> wordviewmodels)
         {
             var orderedWords = wordviewmodels.OrderBy(x => x.Index).ToList();
