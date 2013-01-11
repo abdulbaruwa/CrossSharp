@@ -100,11 +100,14 @@ module CoreVertical =
 
             let firstmatchedcell =  cells |> Array.find(fun x -> x.letterindex >= 0)
             let thefirstmatchingrow = firstmatchedcell.row - firstmatchedcell.letterindex
-            //let CellAboveHasNoValues (board:string[,]) 
-            if(thefirstmatchingrow > 0 && board.[(thefirstmatchingrow - 1), firstmatchedcell.col] <> emptyCell) then
+            let thelastmatchingrow = firstmatchedcell.row + wordchars.Length - 1
+
+            if(thelastmatchingrow + 1 >= board.GetLength(1)) then
+                true
+            elif(thefirstmatchingrow > 0 && board.[(thefirstmatchingrow - 1), firstmatchedcell.col] <> emptyCell) then
                 false
                 //Ensure cell after last matching position for word is empty.
-            elif (board.[(thefirstmatchingrow + wordchars.Length-1), firstmatchedcell.col] = emptyCell) then
+            elif (board.[(thelastmatchingrow + 1), firstmatchedcell.col] = emptyCell) then
                 //get position for unmatched chars on the board based on the match
                 let placeholderarray = Array.zeroCreate(wordchars.Length)
                 cells |> Array.iteri(fun i x -> 
