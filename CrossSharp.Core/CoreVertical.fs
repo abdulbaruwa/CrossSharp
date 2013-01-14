@@ -1,4 +1,4 @@
-﻿namespace CrossSharp.Core
+namespace CrossSharp.Core
 
 module CoreVertical =
 
@@ -100,14 +100,12 @@ module CoreVertical =
 
             let firstmatchedcell =  cells |> Array.find(fun x -> x.letterindex >= 0)
             let thefirstmatchingrow = firstmatchedcell.row - firstmatchedcell.letterindex
-            let thelastmatchingrow = firstmatchedcell.row + wordchars.Length - 1
+            let thelastmatchingrow = thefirstmatchingrow + wordchars.Length - 1
 
-            if(thelastmatchingrow + 1 >= board.GetLength(1)) then
-                true
-            elif(thefirstmatchingrow > 0 && board.[(thefirstmatchingrow - 1), firstmatchedcell.col] <> emptyCell) then
+            if(thefirstmatchingrow > 0 && board.[(thefirstmatchingrow - 1), firstmatchedcell.col] <> emptyCell) then
                 false
                 //Ensure cell after last matching position for word is empty.
-            elif (board.[(thelastmatchingrow + 1), firstmatchedcell.col] = emptyCell) then
+            elif ((thelastmatchingrow + 1 < board.GetLength(1)) && board.[(thelastmatchingrow + 1), firstmatchedcell.col] = emptyCell) then
                 //get position for unmatched chars on the board based on the match
                 let placeholderarray = Array.zeroCreate(wordchars.Length)
                 cells |> Array.iteri(fun i x -> 
@@ -226,10 +224,3 @@ module CoreVertical =
         let result3 = filterInserted (snd thirdAttempt)
         let finalResult =  Array.append result1 result2
         (finalResult, fst thirdAttempt)
-
-
-
-
-
-
-
