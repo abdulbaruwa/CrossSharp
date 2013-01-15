@@ -207,12 +207,34 @@ module CoreVertical =
         else
             (board2, resultsforfirst2items)
 
+
+
+//
+//    let AddMinimumTenWords (words:string[]) (board:string[,]) = 
+//        let firstAttempt = AddWords words board
+
+
+    let AddWordsInThreeIterations (words:string[]) (board:string[,]) = 
+        let firstAttempt = AddWords words board
+        let getUnenteredWords (resultsArray:resultCell[]) = [|for i in 0..(resultsArray.Length-1) do 
+                                                                    if resultsArray.[i].inserted = false then yield resultsArray.[i].word |]
+        
+        let secondAttempt = AddRemainingWords (getUnenteredWords (snd firstAttempt)) (fst firstAttempt)
+        let thirdAttempt = AddRemainingWords (getUnenteredWords (snd secondAttempt)) (fst secondAttempt)
+        let filterInserted input =  
+            input |> Array.filter(fun x ->  x.inserted = true)
+
+        let result1 = filterInserted (snd firstAttempt)
+        let result2 = filterInserted (snd secondAttempt)  
+        let result3 = filterInserted (snd thirdAttempt)
+        let finalResult =  Array.append result1 result2 |> Array.append result3
+        (finalResult, snd thirdAttempt)
+
+
     let AddWordsAttempts (words:string[]) (board:string[,]) = 
         let firstAttempt = AddWords words board
         let getUnenteredWords (resultsArray:resultCell[]) = [|for i in 0..(resultsArray.Length-1) do 
                                                                     if resultsArray.[i].inserted = false then yield resultsArray.[i].word |]
-
-
         
         let secondAttempt = AddRemainingWords (getUnenteredWords (snd firstAttempt)) (fst firstAttempt)
         let thirdAttempt = AddRemainingWords (getUnenteredWords (snd secondAttempt)) (fst secondAttempt)
@@ -223,4 +245,5 @@ module CoreVertical =
         let result2 = filterInserted (snd secondAttempt)  
         let result3 = filterInserted (snd thirdAttempt)
         let finalResult =  Array.append result1 result2
-        (finalResult, fst thirdAttempt)
+        (finalResult, fst thirdAttempt )
+

@@ -470,7 +470,7 @@ namespace CrossSharp.Tests
                                  .ToDictionary(lineArray =>  lineArray[0].Trim(), lineArray => lineArray[1].Trim());
             var board = CoreHorizontal.GetBoard(12, 12);
             var words = wordDic.Keys.ToArray();
-            var result1 = (CoreVertical.AddWordsAttempts(words, board));
+            var result1 = (CoreVertical.AddWordsInThreeIterations(words, board));
             PrintBoard(board);
         }
         [Test]
@@ -491,6 +491,7 @@ namespace CrossSharp.Tests
 
             var board = CoreHorizontal.GetBoard(12,12);
             var result = (CoreVertical.AddWordsAttempts(words.ToArray(), board));
+            //var result2 = (CoreVertical.AddMinimumTenWords(words.ToArray(), board));
             PrintBoard(result.Item2);
             foreach (var s in result.Item1 )
             {
