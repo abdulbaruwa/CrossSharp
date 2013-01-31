@@ -5,6 +5,7 @@ module CoreVertical =
     open CoreHorizontal
     open System
     open System.Diagnostics
+
     let hasrightchar (board:string[,]) (row:int) (col:int) = 
         match col with
         | col when col < 1 -> false
@@ -180,10 +181,16 @@ module CoreVertical =
 
     let AddWords (words:string[]) (board:string[,]) =
         let sortedWords = SortWords words
-        let board2 = AddFirstWord words.[0]  board
+        let GetFirstWordOfValidLength (words:string[]) = 
+            match words |> Array.tryFind(fun word -> word.Length < 12) with
+                |Some(firstword) -> firstword //AddFirstWord firstword board
+                |None -> "" //We don't expect this to happen
+
+        let firstword = GetFirstWordOfValidLength words
+        let board2 = AddFirstWord firstword board
         let firstwordresult = {resultCell.row = 0; resultCell.col = 0; word = words.[0]; inserted = true; orientation = Orientation.horizontal}
 
-        let wordsafterfirst = words.[1..]
+        let wordsafterfirst = words |> Array.filter(fun word -> word <> firstword)
         //Add second word, loop from second in list of words
         let secondwordindex = AttempToAddSecondWord board wordsafterfirst 0 
 
@@ -208,12 +215,6 @@ module CoreVertical =
             (board2, resultsforfirst2items)
 
 
-
-//
-//    let AddMinimumTenWords (words:string[]) (board:string[,]) = 
-//        let firstAttempt = AddWords words board
-
-
     let AddWordsInThreeIterations (words:string[]) (board:string[,]) = 
         let firstAttempt = AddWords words board
         let getUnenteredWords (resultsArray:resultCell[]) = [|for i in 0..(resultsArray.Length-1) do 
@@ -227,8 +228,31 @@ module CoreVertical =
         let result1 = filterInserted (snd firstAttempt)
         let result2 = filterInserted (snd secondAttempt)  
         let result3 = filterInserted (snd thirdAttempt)
+        
         let finalResult =  Array.append result1 result2 |> Array.append result3
         (finalResult, snd thirdAttempt)
+
+
+    let AttemptAll (words:string[]) = 
+        let result = CoreHorizontal.GetBoard 12 12 |> AddWordsInThreeIterations words 
+        let wordsleft = snd result
+        wordsleft
+//        seq {
+//            while wordsleft.Length > 10 do
+//                yield AttemptAll wordsleft
+//        }
+    let getWordsFromResultCellArray (resultCells:resultCell[]) = 
+        resultCells |> Array.map (fun t -> t.word)
+
+    let rec processAll (words:string[]) = 
+            seq{
+                    let result = AttemptAll words |> Array.map(fun t -> t.word)
+                    while result.Length > 10 do
+                    if result.Length < 10 then
+                        yield result
+                    else
+                        yield! processAll result
+            }
 
 
     let AddWordsAttempts (words:string[]) (board:string[,]) = 
