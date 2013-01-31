@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Reflection;
 using NUnit.Framework;
@@ -459,8 +459,7 @@ namespace CrossSharp.Tests
            // var result = (CoreVertical.AddWordsAttempts(wordDic.Keys.ToArray(), board));
             //PrintBoard(result.Item2);
             PrintBoard(board);
-        }
-
+        } 
         [Test]
         public void Test_Words_from_a_file()
         {
@@ -471,8 +470,52 @@ namespace CrossSharp.Tests
             var board = CoreHorizontal.GetBoard(12, 12);
             var words = wordDic.Keys.ToArray();
             var result1 = (CoreVertical.AddWordsInThreeIterations(words, board));
+
+            var board2 = CoreHorizontal.GetBoard(12, 12);
+            var words2 =  result1.Item2.Select(x => x.word).ToArray();
+            var result2 = (CoreVertical.AddWordsInThreeIterations(words2, board2));
+
+            //var result2 = (CoreVertical.AddWordsInThreeIterations((result1.Item2), board));
+            var xx = CoreVertical.processAll(words);
+            xx.ToList();
+            var xxx = xx.First();
             PrintBoard(board);
+            PrintBoard(board2);
         }
+        
+        [Test]
+        public void InsertWordsTest()
+        {
+           InsertWords(); 
+        }
+
+        private void InsertWords()
+        {
+            var packagePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "puzzledataEnglishWordsList1.txt");
+            var wordsAndHints = File.ReadLines(packagePath);
+            var wordDic = wordsAndHints.Select(fileDataInLine => fileDataInLine.Split(new[] { '|' }))
+                                 .ToDictionary(lineArray =>  lineArray[0].Trim(), lineArray => lineArray[1].Trim());
+            var board = CoreHorizontal.GetBoard(12, 12);
+            var twoWords = new List<string> { "Responsibility", "Delicious" };
+
+            var words = twoWords.ToArray();// wordDic.Keys.ToArray();
+            //var words = wordDic.Keys.ToArray();
+            var result1 = (CoreVertical.AddWordsInThreeIterations(words, board));
+            PrintBoard(board);
+            var count = 0;
+            var wordSet = new List<string[]>();
+            while (true)
+            {
+                var loopResult = CoreVertical.AddWordsInThreeIterations(words, CoreHorizontal.GetBoard(12, 12));
+                var remaining = loopResult.Item2.Select(x => x.word).ToArray();
+                wordSet.Add(loopResult.Item1.Select(x => x.word).ToArray());
+                if (remaining.Count() == count) break;
+                count = remaining.Count();
+                words = remaining;
+            }
+
+        }
+ 
         [Test]
         public void Given_a_set_words_should_iterate_and_apply_valid_words_starting_from_the_largest()
         {
@@ -491,7 +534,6 @@ namespace CrossSharp.Tests
 
             var board = CoreHorizontal.GetBoard(12,12);
             var result = (CoreVertical.AddWordsAttempts(words.ToArray(), board));
-            //var result2 = (CoreVertical.AddMinimumTenWords(words.ToArray(), board));
             PrintBoard(result.Item2);
             foreach (var s in result.Item1 )
             {
